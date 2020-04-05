@@ -43,6 +43,10 @@ function calcCost(obj) {
   return Math.round(cost);
 }
 
+function generateID() {
+    return Math.random().toString(36).substring(2, 15)
+}
+
 class Player {
   constructor(name, starting_money) {
     this.name = name;
@@ -50,6 +54,7 @@ class Player {
     this.money = starting_money;
     this.facs = [];
     this.units = [];
+    this.id = generateID();
   }
   buyBlueprint(stats, name) {
     cost = Math.pow(this.blueprints.length, 2) * 10000;
@@ -57,7 +62,7 @@ class Player {
       return false;
     }
     this.money -= cost;
-    this.blueprints.push(new Blueprint(name, this.name, stats));
+    this.blueprints.push(new Blueprint(name, this.id, stats));
     return true;
   }
   buyUnit(blueprint, factory) {
@@ -72,13 +77,14 @@ class Player {
 }
 
 class Unit {
-  constructor(blueprint_name = "", stats, pos, owner_name) {
-    this.blueprint_name = blueprint_name;
+  constructor(blueprint_id = "", stats, pos, owner_id) {
+    this.blueprint_id = blueprint_id;
     this.stats = stats;
     this.pos = pos;
-    this.owner_name = owner_name;
+    this.owner_id = owner_id;
     this.move_target = null;
     this.shoot_targets = [];
+    this.id = generateID()
   }
   setMoveTarget(newpos) {
     this.move_target = newpos;
@@ -95,18 +101,20 @@ class Unit {
 }
 
 class Blueprint {
-  constructor(name, owner_name, stats) {
+  constructor(name, owner_id, stats) {
     this.name = name;
-    this.owner_name = owner_name;
+    this.owner_id = owner_id;
     this.stats = stats;
     this.unit_cost = calcCost(stats);
+    this.id = generateID()
   }
 }
 
 class Factory {
-  constructor(owner_name, pos) {
-    this.owner_name = owner_name;
+  constructor(owner_id, pos) {
+    this.owner_id = owner_id;
     this.pos = pos;
+    this.id = generateID()
   }
   createUnit(blueprint) {
     // support POS arg later
@@ -115,10 +123,10 @@ class Factory {
     success = this.owner.buyBlueprint();
     if (success) {
       return new Unit(
-        blueprint.name,
+        blueprint.id,
         blueprint.stats,
         pos + spread,
-        this.owner_name
+        this.owner_id
       );
     }
   }
@@ -144,9 +152,10 @@ class Game {
     }
     let p = candidates[0];
     let switcher = {
-      NEXT_TURN: this.nextTurn,
-      BUY_UNIT: p.buyUnit(data.blueprint, data.factory),
-      BUY_BLUEPRINT: p.buyBlueprint(data.blueprint),
+      NEXT_TURN: () => this.nextTurn,
+      BUY_UNIT: () => p.buyUnit(data.blueprint, data.factory),
+      BUY_BLUEPRINT: () => p.buyBlueprint(data.blueprint),
+      MOVE_UNIT: () => 
     };
   }
   nextTurn() {}
