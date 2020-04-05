@@ -67,6 +67,16 @@ function formatMoney(number) {
   return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
+function dispStatText(stats) {
+  let disp = "";
+  Object.keys(stats).forEach((k) => {
+    disp += k + ": " + stats[k] + "\n";
+  });
+  disp += "COST: $" + calcCost(stats);
+  //   console.log(disp);
+  return disp;
+}
+
 function dispText() {
   let disp = "";
   Object.keys(CONSTRAINTS_MAX).forEach((k) => {
@@ -109,7 +119,7 @@ function updateMaker() {
 }
 
 window.onload = function () {
-  document.getElementById("info").innerText = dispText();
+  showdefaultdetail();
   let st = "";
   Object.keys(CONSTRAINTS_MIN).forEach((k) => {
     //min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]}
@@ -126,6 +136,13 @@ window.onload = function () {
   // var start = new Point(100, 100);
   // path.moveTo(start);
   // path.lineTo(start.add([200, -50]));
+  path = new Path.Rectangle([0, 0], [1200, 900]);
+  path.fillColor = "#eee";
+  path.onMouseDown = function (e) {
+    // when clicking outside any objects
+    console.log(e.point);
+    window.selected = {};
+  };
   // view.draw();
 
   // windo;
@@ -143,37 +160,33 @@ window.onload = function () {
       // console.log("p");
       p.facs.forEach((elem) => {
         let fpos = Victor.fromObject(elem.pos);
-        if (!window.drawn[elem.id]) {
-          path = new Path.Rectangle(fpos.subtract(Victor(30, 30)).toArray(), [
-            30,
-            30,
-          ]);
-          path.strokeColor = "black";
-          path.fillColor = "white";
-          path.onMouseDown = function (e) {
-            // console.log("lol", f);
-            window.selected.fac = elem;
-            this.strokeColor = "blue";
-          };
-          window.drawn[elem.id] = path;
-        }
+        path =
+          window.drawn[elem.id] ||
+          new Path.Rectangle(fpos.subtract(Victor(30, 30)).toArray(), [30, 30]);
+        path.strokeColor = "black";
+        path.onMouseDown = function (e) {
+          // console.log("lol", f);
+          window.selected.fac = elem;
+          console.log(window.selected);
+        };
+        path.strokeColor = window.selected.fac === elem ? "blue" : "black";
+        path.fillColor = "white";
+
+        window.drawn[elem.id] = path;
       });
       p.units.forEach((elem) => {
         let pos = Victor.fromObject(elem.pos);
-        if (!window.drawn[elem.id]) {
-          path = new Path.Rectangle(pos.subtract(Victor(15, 15)).toArray(), [
-            15,
-            15,
-          ]);
-          path.strokeColor = "black";
-          path.fillColor = "white";
-          path.onMouseDown = function (e) {
-            // console.log("lol", f);
-            window.selected.fac = elem;
-            console.log(window.selected);
-            this.strokeColor = "blue";
-          };
-        }
+        path =
+          window.drawn[elem.id] ||
+          new Path.Rectangle(pos.subtract(Victor(15, 15)).toArray(), [15, 15]);
+        path.strokeColor = "black";
+        path.fillColor = "white";
+        path.onMouseDown = function (e) {
+          // console.log("lol", f);
+          window.selected.unit = elem;
+          console.log(window.selected);
+        };
+        path.strokeColor = window.selected.unit === elem ? "blue" : "black";
         window.drawn[elem.id] = path;
       });
     });
@@ -206,8 +219,18 @@ window.onload = function () {
 
 function buyBlueprint() {
   console.log("bought blueprint!");
+  let nos = getMakerObj().newobj;
+  if (
+    window.self &&
+    window.self.blueprints
+      .map((e) => JSON.stringify(e.stats))
+      .includes(JSON.stringify(nos))
+  ) {
+    alert("you cannot buy the same blueprint twice");
+    return;
+  }
   emitAction(ACTION_TYPES.BUY_BLUEPRINT, {
-    stats: getMakerObj().newobj,
+    stats: nos,
     name: "lol",
   });
 }
@@ -224,12 +247,49 @@ function emitAction(type, data) {
   });
 }
 
+// on each update...
 socket.on("game_state", (state) => {
   console.log(state);
   window.gameState = state;
-  function getSelf(socket_id, gameState) {
-    let { players, socket_player_map } = gameState;
-    return players.filter((e) => e.id == socket_player_map[socket_id]);
-  }
+
   window.self = getSelf(socket.id, gameState);
+  // console.log(window.self);
+  refreshBlueprints(window.self.blueprints);
 });
+
+function getSelf(socket_id, gameState) {
+  let { players, socket_player_map } = gameState;
+  return players.filter((e) => e.id == socket_player_map[socket_id])[0];
+}
+function getBlueprint(blueprint_id) {
+  return window.self.blueprints.filter((e) => e.id == blueprint_id)[0];
+}
+function showdetail(blueprint_id) {
+  // console.log(window.self.blueprints);
+  let stats = getBlueprint(blueprint_id).stats;
+  document.getElementById("info").innerText = dispStatText(stats);
+}
+function showdefaultdetail() {
+  document.getElementById("info").innerText = dispText();
+}
+function buyUnit(blueprint_id) {
+  let factory_id = window.selected.fac.id;
+  console.log("bought unit @ ", factory_id);
+  emitAction(ACTION_TYPES.BUY_UNIT, {
+    blueprint_id,
+    factory_id,
+  });
+}
+function refreshBlueprints(blueprints) {
+  let st = "";
+  // disabled=${window.selected.fac}
+
+  blueprints.forEach((e) => {
+    st += `<button id="${e.id}" 
+    onmouseover="showdetail('${e.id}')" 
+    onmouseleave="showdefaultdetail()"
+    onclick="buyUnit('${e.id}')"
+    >${e.name} ($${e.unit_cost})</button><br>`;
+  });
+  document.getElementById("unitselection").innerHTML = st;
+}

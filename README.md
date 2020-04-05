@@ -12,3 +12,9 @@ to run: use [live-server]()
 - two js - focuses on animation, has basic vector lib, actively developed, has scenegraph
 - pixi js - just rendering, not enough, has collision detect?
 - stage js - not actively developed, no vector lib, has scenegraph
+
+vector engines compared:
+
+- b/c paper JS's vector point stuff doesn't really work...
+- https://github.com/evanshortiss/vector2d
+- ended up using http://victorjs.org/

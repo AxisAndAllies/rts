@@ -70,15 +70,22 @@ class Player {
     return true;
   }
   buyUnit(blueprint_id, factory_id) {
-    let blueprint = blueprints.filter((b) => b.id == blueprint_id)[0];
-    let factory = facs.filter((b) => b.id == factory_id)[0];
-
+    let blueprint = this.blueprints.filter((b) => b.id == blueprint_id)[0];
+    let factory = this.facs.filter((b) => b.id == factory_id)[0];
+    // console.log(
+    //   blueprint,
+    //   factory,
+    //   blueprint_id,
+    //   factory_id,
+    //   this.blueprints,
+    //   this.facs
+    // );
     let cost = blueprint.unit_cost;
     if (this.money < cost) {
       return false;
     }
     this.money -= cost;
-    factory.createUnit(blueprint, null);
+    this.units.push(factory.createUnit(blueprint, null));
     return true;
   }
   setUnitMoveTarget(unit_id, newpos) {
@@ -143,18 +150,15 @@ class Factory {
   createUnit(blueprint) {
     // support POS arg later
     // create unit at random pos around factory
-    let spread = Victor(Math.random() * 2 - 1, math.Random() * 2 - 1).multiply(
-      Victor(200, 200)
+    let spread = Victor(Math.random() * 2 - 1, Math.random() * 2 - 1).multiply(
+      Victor(40, 40)
     );
-    let success = this.owner.buyBlueprint();
-    if (success) {
-      return new Unit(
-        blueprint.id,
-        blueprint.stats,
-        pos + spread,
-        this.owner_id
-      );
-    }
+    return new Unit(
+      blueprint.id,
+      blueprint.stats,
+      this.pos.add(spread),
+      this.owner_id
+    );
   }
   update(dt) {
     // TODO: later on, take time to create units
