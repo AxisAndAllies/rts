@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="main.css" type="text/css">
+</head>
+
+<body>
+    <h3>RTS</h3>
+    <div id='timer'>
+
+    </div>>
+    <canvas id="canvas"></canvas>
+
+    <p>
+        some info
+    </p>
+    <p class="info"></p>
+    <div id='panel'>
+        <div id="info">
+            
+        </div>
+        <br>
+        <div id='maker'>
+        
+        </div>
+        <button id='buy'></button>
+    </div>
+
+
+    <br />
+    <p>
+        <!-- Made with <a target="_blank" href="https://github.com/dissimulate/Clarity">Clarity</a>. -->
+    </p>
+
+    <!-- <script src="https://cdn.deepstream.io/js/client/latest/ds.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script> -->
+    <script src="lib/paper-full.js"></script>
+    <script>
+        // var socket = io();
+        // disable arrow key scrolling page
+        window.addEventListener("keydown", function (e) {
+            // space and arrow keys
+            if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        }, false);
+    </script>
+    <script src="main.js"></script>
+
+    <!-- <script src="index.js"></script> -->
+
+</body>
+
+</html>
