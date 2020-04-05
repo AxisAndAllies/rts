@@ -119,7 +119,7 @@ function updateMaker() {
 }
 
 window.onload = function () {
-  showdefaultdetail();
+  showDefaultDetail();
   let st = "";
   Object.keys(CONSTRAINTS_MIN).forEach((k) => {
     //min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]}
@@ -140,8 +140,15 @@ window.onload = function () {
   path.fillColor = "#eee";
   path.onMouseDown = function (e) {
     // when clicking outside any objects
-    console.log(e.point);
-    window.selected = {};
+    let btn = e.event.button;
+    if (btn == 0) {
+      window.selected = {};
+      // left click
+    } else {
+      // btn=2 is right click
+      window.selected.movetarget = e.point;
+    }
+    console.log(e.point, e.event.button);
   };
   // view.draw();
 
@@ -166,6 +173,7 @@ window.onload = function () {
           window.drawn[elem.id] || new Path.Rectangle([0, 0], [size, size]);
         path.position = pos.subtract(Victor(size / 2, size / 2)).toArray();
         path.fillColor = "white";
+        path.rotation = elem.orientation || 0;
         path.onMouseDown = function (e) {
           // console.log("lol", f);
           window.selected.fac = elem;
@@ -180,24 +188,36 @@ window.onload = function () {
         let pos = Victor.fromObject(elem.pos);
         size = 15;
         const path =
-          window.drawn[elem.id] || new Path.Rectangle([0, 0], [size, size]);
-        path.position = pos.subtract(Victor(size / 2, size / 2)).toArray();
+          window.drawn[elem.id] ||
+          new CompoundPath({
+            children: [
+              new Path.Rectangle([0, 0], [size, size]),
+              new Path.Rectangle([size / 2, size / 2], [3, size]),
+            ],
+          });
         path.fillColor = "white";
+        path.position = pos.subtract(Victor(size / 2, size / 2)).toArray();
+        path.rotation = elem.orientation || 0;
         path.onMouseDown = function (e) {
           // console.log("lol", f);
           window.selected.unit = elem;
           console.log(window.selected);
+        };
+        path.onMouseEnter = function (e) {
+          // TODO: show range on hover...
+          showUnitDetail(elem.cur_stats);
+        };
+        path.onMouseLeave = function (e) {
+          showDefaultDetail();
         };
         path.strokeColor =
           window.selected.unit === elem ? SELECTED_COLOR : unitColor(elem);
         window.drawn[elem.id] = path;
       });
     });
-    // On each frame, rotate the path by 3 degrees:
     Object.keys(window.drawn).forEach((k) => {
-      window.drawn[k].rotate(1);
+      // window.drawn[k].rotate(1);
     });
-    // path.rotate(0.25);
     view.draw();
   };
   // this.setInterval(() => {
@@ -264,15 +284,22 @@ function getSelf(socket_id, gameState) {
   let { players, socket_player_map } = gameState;
   return players.filter((e) => e.id == socket_player_map[socket_id])[0];
 }
-function getBlueprint(blueprint_id) {
-  return window.self.blueprints.filter((e) => e.id == blueprint_id)[0];
+function getPlayer(player_id) {
+  return window.gameState.players.filter((e) => e.id == player_id)[0];
 }
-function showdetail(blueprint_id) {
-  // console.log(window.self.blueprints);
-  let stats = getBlueprint(blueprint_id).stats;
+function getBlueprint(blueprint_id, player_id) {
+  return getPlayer(player_id).blueprints.filter((e) => e.id == blueprint_id)[0];
+}
+
+function showUnitDetail(stats) {
   document.getElementById("info").innerText = dispStatText(stats);
 }
-function showdefaultdetail() {
+function showBlueprintDetail(blueprint_id, player_id = window.self.id) {
+  // console.log(window.self.blueprints);
+  let stats = getBlueprint(blueprint_id, player_id).stats;
+  document.getElementById("info").innerText = dispStatText(stats);
+}
+function showDefaultDetail() {
   document.getElementById("info").innerText = dispText();
 }
 function buyUnit(blueprint_id) {
@@ -292,8 +319,8 @@ function refreshBlueprints(blueprints) {
 
   blueprints.forEach((e) => {
     st += `<button id="${e.id}" 
-    onmouseover="showdetail('${e.id}')" 
-    onmouseleave="showdefaultdetail()"
+    onmouseover="showBlueprintDetail('${e.id}')" 
+    onmouseleave="showDefaultDetail()"
     onclick="buyUnit('${e.id}')"
     >${e.name} ($${e.unit_cost})</button><br>`;
   });
