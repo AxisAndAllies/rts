@@ -1,94 +1,6 @@
 // Make the paper scope global, by injecting it into window:
 paper.install(window);
 
-const CONSTRAINTS_UNITS = {
-  dmg: "dmg/shot",
-  health: "hp",
-
-  range: "m",
-  speed: "m/sec",
-
-  //   shortReload: "sec"
-  reload: "sec",
-  turn: "deg/sec",
-};
-const CONSTRAINTS_MIN = {
-  dmg: 1,
-  health: 1,
-
-  range: 1,
-  speed: 1,
-
-  reload: 1,
-  turn: 5,
-};
-const CONSTRAINTS_MAX = {
-  dmg: 100,
-  health: 100,
-
-  range: 200,
-  speed: 30,
-
-  reload: 30,
-  turn: 360,
-};
-
-class Player {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-class Unit {
-  constructor(name = "", stats, pos, owner) {
-    this.name = name;
-    this.stats = stats;
-    this.pos = pos;
-    this.owner = owner;
-  }
-  setMove(newpos) {
-    this.move_target = newpos;
-  }
-  setShoot(pos) {
-    this.shoot_target = pos;
-  }
-}
-
-class Blueprint {
-  constructor(name, owner, stats) {
-    this.name = name;
-    this.owner = owner;
-    this.stats = stats;
-    this.unit_cost = calcCost(stats);
-  }
-}
-
-class Factory {
-  constructor(owner, pos) {
-    this.owner = owner;
-    this.pos = pos;
-  }
-  createUnit(blueprint, pos) {
-    success = this.owner.subtractCost(blueprint.cost);
-    if (success) {
-      return new Unit(blueprint.name, blueprint.stats, pos, this.owner);
-    }
-  }
-  //   takeDamage(damage){
-
-  //   }
-}
-
-class Game {
-  constructor() {
-    this.players = [];
-    this.players.push(new Player());
-    this.units = [];
-    this.facs = [];
-  }
-  update(dt) {}
-}
-
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
   let realistic_range = speed / 2 + Math.pow(range, 1.5); // b/c of kiting
@@ -101,6 +13,7 @@ function calcCost(obj) {
   cost = Math.max(cost, 100);
   return Math.round(cost);
 }
+
 function formatMoney(number) {
   return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
