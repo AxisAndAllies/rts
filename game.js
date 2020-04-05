@@ -55,6 +55,7 @@ class Player {
     this.facs = [];
     this.units = [];
     this.id = generateID();
+    this.ended_turn = false;
   }
   buyBlueprint(stats, name) {
     cost = Math.pow(this.blueprints.length, 2) * 10000;
@@ -65,7 +66,10 @@ class Player {
     this.blueprints.push(new Blueprint(name, this.id, stats));
     return true;
   }
-  buyUnit(blueprint, factory) {
+  buyUnit(blueprint_id, factory_id) {
+    blueprint = blueprints.filter(b => b.id == blueprint_id)[0]
+    factory = facs.filter(b => b.id == factory_id)[0]
+
     cost = blueprint.unit_cost;
     if (this.money < cost) {
       return false;
@@ -73,6 +77,12 @@ class Player {
     this.money -= cost;
     factory.createUnit(blueprint, null);
     return true;
+  }
+  setUnitMoveTarget(unit_id, newpos){
+      this.units.filter(u=> u.id == unit_id)[0].setMoveTarget(newpos);
+  }
+  setUnitShootTarget(unit_id, unit_ids){
+      this.units.filter(u=> u.id == unit_id)[0].setShootTargets(unit_ids);
   }
 }
 
@@ -87,12 +97,17 @@ class Unit {
     this.id = generateID()
   }
   setMoveTarget(newpos) {
+      // TODO: collision?
     this.move_target = newpos;
   }
-  setShootTargets(units) {
-    this.shoot_targets = units;
+  setShootTargets(unit_ids) {
+      // TODO: no friendly fire??
+    this.shoot_targets = unit_ids;
   }
-  update(millis) {}
+  update(millis) {
+      //move target
+      // shoot
+  }
   takeDamage(dmg) {
     this.health -= dmg;
     if (this.health < 0) {
@@ -130,6 +145,10 @@ class Factory {
       );
     }
   }
+  update(dt){
+    // TODO: later on, take time to create units
+
+  }
   //   takeDamage(damage){
 
   //   }
@@ -152,12 +171,29 @@ class Game {
     }
     let p = candidates[0];
     let switcher = {
-      NEXT_TURN: () => this.nextTurn,
+      END_TURN: () => p.ended_turn = true,
       BUY_UNIT: () => p.buyUnit(data.blueprint, data.factory),
       BUY_BLUEPRINT: () => p.buyBlueprint(data.blueprint),
-      MOVE_UNIT: () => 
+      SET_UNIT_MOVE: () => p.
     };
   }
-  nextTurn() {}
-  update(dt) {}
+  nextTurn() {
+      const everyoneReady = this.players.every(p => p.ended_turn)
+  }
+  update(dt) {
+      // each player update the
+      // each fac update them
+      this.players.forEach(p => {
+          p.facs.update(dt)
+      })
+      // each unit update them
+      this.players.forEach(p => {
+          p.units.update(dt)
+      })
+      // kill dead
+      this.players.forEach(p => {
+          p.units = p.units.filter(u=> u.health > 0)
+      })
+      // check conditions???
+  }
 }
