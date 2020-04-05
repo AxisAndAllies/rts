@@ -41,8 +41,14 @@ const ACTION_TYPES = {
   SET_UNIT_MOVE: "SET_UNIT_MOVE",
   SET_UNIT_ATTACK: "SET_UNIT_ATTACK",
 };
-
+///
 window.gameState = null;
+window.self = null;
+window.selected = {};
+
+// maps id to drawn path, ensuring each elem gets drawn exactly once
+window.drawn = {};
+//
 
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
@@ -115,12 +121,12 @@ window.onload = function () {
 
   // Setup directly from canvas id:
   paper.setup("canvas");
-  var path = new Path();
-  path.strokeColor = "black";
-  var start = new Point(100, 100);
-  path.moveTo(start);
-  path.lineTo(start.add([200, -50]));
-  view.draw();
+  // var path = new Path();
+  // path.strokeColor = "black";
+  // var start = new Point(100, 100);
+  // path.moveTo(start);
+  // path.lineTo(start.add([200, -50]));
+  // view.draw();
 
   // windo;
 
@@ -135,26 +141,52 @@ window.onload = function () {
     }
     window.gameState.players.forEach((p) => {
       // console.log("p");
-      p.facs.forEach((f) => {
-        // console.log(f.pos, Victor(f.pos).subtract(Victor(20, 20)).toArray());
-        let fpos = Victor.fromObject(f.pos);
-        // console.log(
-        //   fpos.subtract(Victor(20, 20)).toArray(),
-        //   fpos.add(Victor(20, 20)).toArray()
-        // );
-        path = new Path.Rectangle(
-          fpos.subtract(Victor(20, 20)).toArray(),
-          [20, 20]
-          // (strokeColor: "black")
-        );
-        path.strokeColor = "black";
-        // console.log(path);
+      p.facs.forEach((elem) => {
+        let fpos = Victor.fromObject(elem.pos);
+        if (!window.drawn[elem.id]) {
+          path = new Path.Rectangle(fpos.subtract(Victor(30, 30)).toArray(), [
+            30,
+            30,
+          ]);
+          path.strokeColor = "black";
+          path.fillColor = "white";
+          path.onMouseDown = function (e) {
+            // console.log("lol", f);
+            window.selected.fac = elem;
+            this.strokeColor = "blue";
+          };
+          window.drawn[elem.id] = path;
+        }
+      });
+      p.units.forEach((elem) => {
+        let pos = Victor.fromObject(elem.pos);
+        if (!window.drawn[elem.id]) {
+          path = new Path.Rectangle(pos.subtract(Victor(15, 15)).toArray(), [
+            15,
+            15,
+          ]);
+          path.strokeColor = "black";
+          path.fillColor = "white";
+          path.onMouseDown = function (e) {
+            // console.log("lol", f);
+            window.selected.fac = elem;
+            console.log(window.selected);
+            this.strokeColor = "blue";
+          };
+        }
+        window.drawn[elem.id] = path;
       });
     });
     // On each frame, rotate the path by 3 degrees:
+    Object.keys(window.drawn).forEach((k) => {
+      window.drawn[k].rotate(1);
+    });
     // path.rotate(0.25);
     view.draw();
   };
+  // this.setInterval(() => {
+  //   console.log(window.selected);
+  // }, 1000);
 
   // // Create a simple drawing tool:
   // var tool = new Tool();
@@ -191,7 +223,13 @@ function emitAction(type, data) {
     data,
   });
 }
+
 socket.on("game_state", (state) => {
   console.log(state);
   window.gameState = state;
+  function getSelf(socket_id, gameState) {
+    let { players, socket_player_map } = gameState;
+    return players.filter((e) => e.id == socket_player_map[socket_id]);
+  }
+  window.self = getSelf(socket.id, gameState);
 });
