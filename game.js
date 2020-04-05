@@ -51,12 +51,13 @@ class Player {
     this.facs = [];
     this.units = [];
   }
-  buyBlueprint() {
+  buyBlueprint(stats, name) {
     cost = Math.pow(this.blueprints.length, 2) * 10000;
     if (this.money < cost) {
       return false;
     }
     this.money -= cost;
+    this.blueprints.push(new Blueprint(name, this.name, stats));
     return true;
   }
   buyUnit(blueprint, factory) {
@@ -71,11 +72,11 @@ class Player {
 }
 
 class Unit {
-  constructor(blueprint_name = "", stats, pos, owner) {
+  constructor(blueprint_name = "", stats, pos, owner_name) {
     this.blueprint_name = blueprint_name;
     this.stats = stats;
     this.pos = pos;
-    this.owner = owner;
+    this.owner_name = owner_name;
     this.move_target = null;
     this.shoot_targets = [];
   }
@@ -94,17 +95,17 @@ class Unit {
 }
 
 class Blueprint {
-  constructor(name, owner, stats) {
+  constructor(name, owner_name, stats) {
     this.name = name;
-    this.owner = owner;
+    this.owner_name = owner_name;
     this.stats = stats;
     this.unit_cost = calcCost(stats);
   }
 }
 
 class Factory {
-  constructor(owner, pos) {
-    this.owner = owner;
+  constructor(owner_name, pos) {
+    this.owner_name = owner_name;
     this.pos = pos;
   }
   createUnit(blueprint) {
@@ -117,17 +118,13 @@ class Factory {
         blueprint.name,
         blueprint.stats,
         pos + spread,
-        this.owner
+        this.owner_name
       );
     }
   }
   //   takeDamage(damage){
 
   //   }
-}
-
-const ACTION_TYPES = {
-
 }
 
 class Game {
@@ -146,7 +143,12 @@ class Game {
       console.error("duplicate players");
     }
     let p = candidates[0];
-    if type 
+    let switcher = {
+      NEXT_TURN: this.nextTurn,
+      BUY_UNIT: p.buyUnit(data.blueprint, data.factory),
+      BUY_BLUEPRINT: p.buyBlueprint(data.blueprint),
+    };
   }
+  nextTurn() {}
   update(dt) {}
 }
