@@ -156,7 +156,7 @@ class Factory {
     return new Unit(
       blueprint.id,
       blueprint.stats,
-      this.pos.add(spread),
+      this.pos.clone().add(spread),
       this.owner_id
     );
   }
@@ -232,6 +232,7 @@ class Game {
     };
     // execute handler
     switcher[type]();
+    console.log(p);
   }
   everyoneReady() {
     return !this.players || this.players.every((p) => p.ended_turn);
@@ -250,7 +251,7 @@ class Game {
     });
     // each unit update them
     this.players.forEach((p) => {
-      p.units.forEach((u) => update(dt));
+      p.units.forEach((u) => u.update(dt));
     });
     // kill dead
     this.players.forEach((p) => {

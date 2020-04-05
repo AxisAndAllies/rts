@@ -9,6 +9,7 @@ to run: use [live-server]()
 2d engines compared:
 
 - paper js - has vector lib, lots of demos, has scenegraph, has efficient sweep+Prune collision detection https://github.com/paperjs/paper.js/issues/1737
+  - collisions - http://paperjs.org/reference/item/#intersects-item
 - two js - focuses on animation, has basic vector lib, actively developed, has scenegraph
 - pixi js - just rendering, not enough, has collision detect?
 - stage js - not actively developed, no vector lib, has scenegraph

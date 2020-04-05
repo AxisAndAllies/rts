@@ -136,7 +136,7 @@ window.onload = function () {
   // var start = new Point(100, 100);
   // path.moveTo(start);
   // path.lineTo(start.add([200, -50]));
-  path = new Path.Rectangle([0, 0], [1200, 900]);
+  const path = new Path.Rectangle([0, 0], [1200, 900]);
   path.fillColor = "#eee";
   path.onMouseDown = function (e) {
     // when clicking outside any objects
@@ -151,42 +151,45 @@ window.onload = function () {
   //   path.strokeColor = "red";
   // };
 
+  const SELECTED_COLOR = "blue";
+
   view.onFrame = function (event) {
     // console.log(this.gameState);
     if (!window.gameState) {
       return;
     }
     window.gameState.players.forEach((p) => {
-      // console.log("p");
       p.facs.forEach((elem) => {
-        let fpos = Victor.fromObject(elem.pos);
-        path =
-          window.drawn[elem.id] ||
-          new Path.Rectangle(fpos.subtract(Victor(30, 30)).toArray(), [30, 30]);
-        path.strokeColor = "black";
+        let pos = Victor.fromObject(elem.pos);
+        size = 30;
+        const path =
+          window.drawn[elem.id] || new Path.Rectangle([0, 0], [size, size]);
+        path.position = pos.subtract(Victor(size / 2, size / 2)).toArray();
+        path.fillColor = "white";
         path.onMouseDown = function (e) {
           // console.log("lol", f);
           window.selected.fac = elem;
           console.log(window.selected);
         };
-        path.strokeColor = window.selected.fac === elem ? "blue" : "black";
-        path.fillColor = "white";
+        path.strokeColor =
+          window.selected.fac === elem ? SELECTED_COLOR : unitColor(elem);
 
         window.drawn[elem.id] = path;
       });
       p.units.forEach((elem) => {
         let pos = Victor.fromObject(elem.pos);
-        path =
-          window.drawn[elem.id] ||
-          new Path.Rectangle(pos.subtract(Victor(15, 15)).toArray(), [15, 15]);
-        path.strokeColor = "black";
+        size = 15;
+        const path =
+          window.drawn[elem.id] || new Path.Rectangle([0, 0], [size, size]);
+        path.position = pos.subtract(Victor(size / 2, size / 2)).toArray();
         path.fillColor = "white";
         path.onMouseDown = function (e) {
           // console.log("lol", f);
           window.selected.unit = elem;
           console.log(window.selected);
         };
-        path.strokeColor = window.selected.unit === elem ? "blue" : "black";
+        path.strokeColor =
+          window.selected.unit === elem ? SELECTED_COLOR : unitColor(elem);
         window.drawn[elem.id] = path;
       });
     });
@@ -279,6 +282,9 @@ function buyUnit(blueprint_id) {
     blueprint_id,
     factory_id,
   });
+}
+function unitColor(e) {
+  return e.owner_id == window.self.id ? "black" : "red";
 }
 function refreshBlueprints(blueprints) {
   let st = "";
