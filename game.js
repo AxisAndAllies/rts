@@ -44,7 +44,7 @@ function calcCost(obj) {
 }
 
 function generateID() {
-    return Math.random().toString(36).substring(2, 15)
+  return Math.random().toString(36).substring(2, 15);
 }
 
 class Player {
@@ -67,8 +67,8 @@ class Player {
     return true;
   }
   buyUnit(blueprint_id, factory_id) {
-    blueprint = blueprints.filter(b => b.id == blueprint_id)[0]
-    factory = facs.filter(b => b.id == factory_id)[0]
+    blueprint = blueprints.filter((b) => b.id == blueprint_id)[0];
+    factory = facs.filter((b) => b.id == factory_id)[0];
 
     cost = blueprint.unit_cost;
     if (this.money < cost) {
@@ -78,11 +78,11 @@ class Player {
     factory.createUnit(blueprint, null);
     return true;
   }
-  setUnitMoveTarget(unit_id, newpos){
-      this.units.filter(u=> u.id == unit_id)[0].setMoveTarget(newpos);
+  setUnitMoveTarget(unit_id, newpos) {
+    this.units.filter((u) => u.id == unit_id)[0].setMoveTarget(newpos);
   }
-  setUnitShootTarget(unit_id, unit_ids){
-      this.units.filter(u=> u.id == unit_id)[0].setShootTargets(unit_ids);
+  setUnitShootTarget(unit_id, target_ids) {
+    this.units.filter((u) => u.id == unit_id)[0].setShootTargets(target_ids);
   }
 }
 
@@ -94,19 +94,19 @@ class Unit {
     this.owner_id = owner_id;
     this.move_target = null;
     this.shoot_targets = [];
-    this.id = generateID()
+    this.id = generateID();
   }
   setMoveTarget(newpos) {
-      // TODO: collision?
+    // TODO: collision?
     this.move_target = newpos;
   }
   setShootTargets(unit_ids) {
-      // TODO: no friendly fire??
+    // TODO: no friendly fire??
     this.shoot_targets = unit_ids;
   }
   update(millis) {
-      //move target
-      // shoot
+    //move target
+    // shoot
   }
   takeDamage(dmg) {
     this.health -= dmg;
@@ -121,7 +121,7 @@ class Blueprint {
     this.owner_id = owner_id;
     this.stats = stats;
     this.unit_cost = calcCost(stats);
-    this.id = generateID()
+    this.id = generateID();
   }
 }
 
@@ -129,7 +129,7 @@ class Factory {
   constructor(owner_id, pos) {
     this.owner_id = owner_id;
     this.pos = pos;
-    this.id = generateID()
+    this.id = generateID();
   }
   createUnit(blueprint) {
     // support POS arg later
@@ -145,9 +145,8 @@ class Factory {
       );
     }
   }
-  update(dt){
+  update(dt) {
     // TODO: later on, take time to create units
-
   }
   //   takeDamage(damage){
 
@@ -158,6 +157,8 @@ class Game {
   constructor() {
     this.players = [];
     this.players.push(new Player("me", 80000));
+    this.RESOLVE_TIMESPAN = 5000; // millis
+    this.cur_resolve_timespan = this.RESOLVE_TIMESPAN;
   }
   getState() {
     return {
@@ -171,29 +172,58 @@ class Game {
     }
     let p = candidates[0];
     let switcher = {
-      END_TURN: () => p.ended_turn = true,
-      BUY_UNIT: () => p.buyUnit(data.blueprint, data.factory),
-      BUY_BLUEPRINT: () => p.buyBlueprint(data.blueprint),
-      SET_UNIT_MOVE: () => p.
+      END_TURN: () => {
+        p.ended_turn = true;
+        console.log(p, " ended turn");
+      },
+      BUY_UNIT: () => {
+        p.buyUnit(data.blueprint, data.factory);
+        console.log(p, " bought unit ", data.blueprint, data.factory);
+      },
+      BUY_BLUEPRINT: () => {
+        p.buyBlueprint(data.blueprint);
+        console.log(p, " bought blueprint ", data.blueprint);
+      },
+      SET_UNIT_MOVE: () => {
+        p.setUnitMoveTarget(data.unit_id, data.newpos);
+        console.log(p, " move target ", data.unit_id, data.newpos);
+      },
+      SET_UNIT_ATTACK: () => {
+        p.setUnitMoveTarget(data.unit_id, data.target_ids);
+        console.log(p, " set attack target ", data.unit_id, data.target_ids);
+      },
     };
   }
-  nextTurn() {
-      const everyoneReady = this.players.every(p => p.ended_turn)
+  everyoneReady() {
+    return this.players.every((p) => p.ended_turn);
   }
+  //   nextTurn() {
+  //       const everyoneReady =
+  //   }
   update(dt) {
-      // each player update the
-      // each fac update them
-      this.players.forEach(p => {
-          p.facs.update(dt)
-      })
-      // each unit update them
-      this.players.forEach(p => {
-          p.units.update(dt)
-      })
-      // kill dead
-      this.players.forEach(p => {
-          p.units = p.units.filter(u=> u.health > 0)
-      })
-      // check conditions???
+    if (!everyoneReady) return;
+    //   console.log()
+    // each player update the
+    // each fac update them
+    this.players.forEach((p) => {
+      p.facs.update(dt);
+    });
+    // each unit update them
+    this.players.forEach((p) => {
+      p.units.update(dt);
+    });
+    // kill dead
+    this.players.forEach((p) => {
+      p.units = p.units.filter((u) => u.health > 0);
+    });
+    // check conditions???
+    this.cur_resolve_timespan -= dt;
+    if (this.cur_resolve_timespan < 0) {
+      console.log("finished resolving...");
+      this.cur_resolve_timespan = this.RESOLVE_TIMESPAN;
+      this.players.forEach((p) => {
+        p.ended_turn = false;
+      });
+    }
   }
 }
