@@ -1,3 +1,5 @@
+// const Victor = require("victor");
+
 // Make the paper scope global, by injecting it into window:
 paper.install(window);
 const CONSTRAINTS_UNITS = {
@@ -40,6 +42,8 @@ const ACTION_TYPES = {
   SET_UNIT_ATTACK: "SET_UNIT_ATTACK",
 };
 
+window.gameState = null;
+
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
   let realistic_range = speed / 2 + Math.pow(range, 1.5); // b/c of kiting
@@ -80,11 +84,12 @@ function getMakerObj() {
   let newobj = {};
   let invalid = false;
   Object.keys(CONSTRAINTS_MIN).forEach((k) => {
-    newobj[k] = document.getElementById(k).value;
+    newobj[k] = parseInt(document.getElementById(k).value);
     if (newobj[k] < CONSTRAINTS_MIN[k] || newobj[k] > CONSTRAINTS_MAX[k]) {
       invalid = true;
     }
   });
+  // console.log(newobj, invalid);
   return { invalid, newobj };
 }
 
@@ -110,51 +115,83 @@ window.onload = function () {
 
   // Setup directly from canvas id:
   paper.setup("canvas");
-  //   var path = new Path();
+  var path = new Path();
+  path.strokeColor = "black";
+  var start = new Point(100, 100);
+  path.moveTo(start);
+  path.lineTo(start.add([200, -50]));
+  view.draw();
+
+  // windo;
+
+  // path.onMouseDown = () => {
+  //   path.strokeColor = "red";
+  // };
+
+  view.onFrame = function (event) {
+    // console.log(this.gameState);
+    if (!window.gameState) {
+      return;
+    }
+    window.gameState.players.forEach((p) => {
+      // console.log("p");
+      p.facs.forEach((f) => {
+        // console.log(f.pos, Victor(f.pos).subtract(Victor(20, 20)).toArray());
+        let fpos = Victor.fromObject(f.pos);
+        // console.log(
+        //   fpos.subtract(Victor(20, 20)).toArray(),
+        //   fpos.add(Victor(20, 20)).toArray()
+        // );
+        path = new Path.Rectangle(
+          fpos.subtract(Victor(20, 20)).toArray(),
+          [20, 20]
+          // (strokeColor: "black")
+        );
+        path.strokeColor = "black";
+        // console.log(path);
+      });
+    });
+    // On each frame, rotate the path by 3 degrees:
+    // path.rotate(0.25);
+    view.draw();
+  };
+
+  // // Create a simple drawing tool:
+  // var tool = new Tool();
+  // var path;
+
+  // // Define a mousedown and mousedrag handler
+  // tool.onMouseDown = function (event) {
+  //   path = new Path();
   //   path.strokeColor = "black";
-  //   var start = new Point(100, 100);
-  //   path.moveTo(start);
-  //   path.lineTo(start.add([200, -50]));
-  //   view.draw();
+  //   path.add(event.point);
+  // };
 
-  //   var path = new Path.Rectangle([75, 75], [100, 100]);
-  //   path.strokeColor = "black";
-
-  //   view.onFrame = function (event) {
-  //     // On each frame, rotate the path by 3 degrees:
-  //     path.rotate(3);
-  //   };
-
-  //   // Create a simple drawing tool:
-  //   var tool = new Tool();
-  //   var path;
-
-  //   // Define a mousedown and mousedrag handler
-  //   tool.onMouseDown = function (event) {
-  //     path = new Path();
-  //     path.strokeColor = "black";
-  //     path.add(event.point);
-  //   };
-
-  //   tool.onMouseDrag = function (event) {
-  //     path.add(event.point);
-  //   };
+  // tool.onMouseDrag = function (event) {
+  //   path.add(event.point);
+  // };
 };
 
 function buyBlueprint() {
   console.log("bought blueprint!");
-  socket.emit("action", {
-    type: ACTION_TYPES.BUY_BLUEPRINT,
-    data: {
-      newobj: getMakerObj().newobj,
-      name: "lol",
-    },
+  emitAction(ACTION_TYPES.BUY_BLUEPRINT, {
+    stats: getMakerObj().newobj,
+    name: "lol",
   });
 }
 
 function endTurn() {
-  //
+  console.log("ended turn");
+  emitAction(ACTION_TYPES.END_TURN);
+}
+
+function emitAction(type, data) {
+  socket.emit("action", {
+    type,
+    data,
+  });
 }
 socket.on("game_state", (state) => {
   console.log(state);
+  window.gameState = state;
 });

@@ -40,7 +40,7 @@ function calcCost(obj) {
   // speed^2 to correct for value of moving fast
   // dps * health = damage output over lifespan
   // sqrt(turn) b/c difference between 5 and 10 deg way more valuable than 180 to 360 deg.
-  cost = realistic_range * dps * health * Math.sqrt(turn) + speed * speed;
+  let cost = realistic_range * dps * health * Math.sqrt(turn) + speed * speed;
   cost = Math.max(cost, 100);
   return Math.round(cost);
 }
@@ -61,7 +61,7 @@ class Player {
     this.ended_turn = false;
   }
   buyBlueprint(stats, name) {
-    cost = Math.pow(this.blueprints.length, 2) * 10000;
+    let cost = Math.pow(this.blueprints.length, 2) * 10000;
     if (this.money < cost) {
       return false;
     }
@@ -70,10 +70,10 @@ class Player {
     return true;
   }
   buyUnit(blueprint_id, factory_id) {
-    blueprint = blueprints.filter((b) => b.id == blueprint_id)[0];
-    factory = facs.filter((b) => b.id == factory_id)[0];
+    let blueprint = blueprints.filter((b) => b.id == blueprint_id)[0];
+    let factory = facs.filter((b) => b.id == factory_id)[0];
 
-    cost = blueprint.unit_cost;
+    let cost = blueprint.unit_cost;
     if (this.money < cost) {
       return false;
     }
@@ -92,8 +92,14 @@ class Player {
 class Unit {
   constructor(blueprint_id = "", stats, pos, owner_id) {
     this.blueprint_id = blueprint_id;
-    this.stats = stats;
+    //
+    this.base_stats = stats;
+    this.cur_stats = stats;
+    //
     this.pos = pos;
+    this.orientation = 0;
+    //
+
     this.owner_id = owner_id;
     this.move_target = null;
     this.shoot_targets = [];
@@ -137,8 +143,10 @@ class Factory {
   createUnit(blueprint) {
     // support POS arg later
     // create unit at random pos around factory
-    spread = Victor(Math.random() * 2 - 1, math.Random() * 2 - 1) * 200;
-    success = this.owner.buyBlueprint();
+    let spread = Victor(Math.random() * 2 - 1, math.Random() * 2 - 1).multiply(
+      Victor(200, 200)
+    );
+    let success = this.owner.buyBlueprint();
     if (success) {
       return new Unit(
         blueprint.id,
@@ -184,34 +192,38 @@ class Game {
   getState() {
     return {
       players: this.players,
+      socket_player_map: this.socket_player_map,
+      cur_resolve_timespan: this.cur_resolve_timespan,
     };
   }
-  handlePlayerAction(type, id, data) {
-    let candidates = players.filter((e) => e.id == id);
-    if (candidates.length != 1) {
+  handlePlayerAction(type, socket_id, data) {
+    const player_id = this.socket_player_map[socket_id];
+    let candidates = this.players.filter((e) => e.id == player_id);
+    if (candidates.length > 1) {
       console.error("duplicate players");
     }
     let p = candidates[0];
     let switcher = {
       END_TURN: () => {
         p.ended_turn = true;
-        console.log(p, " ended turn");
+        console.log(p.id, " ended turn");
       },
       BUY_UNIT: () => {
         p.buyUnit(data.blueprint_id, data.factory_id);
-        console.log(p, " bought unit ", data.blueprint_id, data.factory_id);
+        console.log(p.id, " bought unit ", data.blueprint_id, data.factory_id);
       },
       BUY_BLUEPRINT: () => {
+        // data.stats[k];
         p.buyBlueprint(data.stats, data.name);
-        console.log(p, " bought blueprint ", data.stats, data.name);
+        console.log(p.id, " bought blueprint ", data.stats, data.name);
       },
       SET_UNIT_MOVE: () => {
         p.setUnitMoveTarget(data.unit_id, data.newpos);
-        console.log(p, " move target ", data.unit_id, data.newpos);
+        console.log(p.id, " move target ", data.unit_id, data.newpos);
       },
       SET_UNIT_ATTACK: () => {
         p.setUnitMoveTarget(data.unit_id, data.target_ids);
-        console.log(p, " set attack target ", data.unit_id, data.target_ids);
+        console.log(p.id, " set attack target ", data.unit_id, data.target_ids);
       },
     };
     // execute handler
@@ -229,12 +241,12 @@ class Game {
     // each player update the
     // each fac update them
     this.players.forEach((p) => {
-      p.facs.update(dt);
+      p.facs.forEach((f) => f.update(dt));
       // console.log(p.ended_turn);
     });
     // each unit update them
     this.players.forEach((p) => {
-      p.units.update(dt);
+      p.units.forEach((u) => update(dt));
     });
     // kill dead
     this.players.forEach((p) => {
