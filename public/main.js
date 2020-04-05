@@ -33,6 +33,62 @@ const CONSTRAINTS_MAX = {
   turn: 360,
 };
 
+class Player {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Unit {
+  constructor(name = "", stats, pos, owner) {
+    this.name = name;
+    this.stats = stats;
+    this.pos = pos;
+    this.owner = owner;
+  }
+  setMove(newpos) {
+    this.move_target = newpos;
+  }
+  setShoot(pos) {
+    this.shoot_target = pos;
+  }
+}
+
+class Blueprint {
+  constructor(name, owner, stats) {
+    this.name = name;
+    this.owner = owner;
+    this.stats = stats;
+    this.unit_cost = calcCost(stats);
+  }
+}
+
+class Factory {
+  constructor(owner, pos) {
+    this.owner = owner;
+    this.pos = pos;
+  }
+  createUnit(blueprint, pos) {
+    success = this.owner.subtractCost(blueprint.cost);
+    if (success) {
+      return new Unit(blueprint.name, blueprint.stats, pos, this.owner);
+    }
+  }
+  //   takeDamage(damage){
+
+  //   }
+}
+
+class Game {
+  constructor() {
+    this.players = [];
+    this.players.push(new Player());
+    this.units = [];
+    this.facs = [];
+  }
+  update(dt) {}
+}
+
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
   let realistic_range = speed / 2 + Math.pow(range, 1.5); // b/c of kiting
@@ -42,6 +98,7 @@ function calcCost(obj) {
   // dps * health = damage output over lifespan
   // sqrt(turn) b/c difference between 5 and 10 deg way more valuable than 180 to 360 deg.
   cost = realistic_range * dps * health * Math.sqrt(turn) + speed * speed;
+  cost = Math.max(cost, 100);
   return Math.round(cost);
 }
 function formatMoney(number) {
@@ -92,6 +149,7 @@ window.onload = function () {
   });
   console.log(st);
   document.getElementById("maker").innerHTML = st;
+  updateMaker();
 
   // Setup directly from canvas id:
   paper.setup("canvas");
