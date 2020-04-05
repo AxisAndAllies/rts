@@ -30,6 +30,8 @@
 //   turn: 360,
 // };
 
+const Victor = require("victor");
+
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
   let realistic_range = speed / 2 + Math.pow(range, 1.5); // b/c of kiting
@@ -44,6 +46,7 @@ function calcCost(obj) {
 }
 
 function generateID() {
+  // adapted from https://gist.github.com/6174/6062387
   return Math.random().toString(36).substring(2, 15);
 }
 
@@ -134,7 +137,7 @@ class Factory {
   createUnit(blueprint) {
     // support POS arg later
     // create unit at random pos around factory
-    spread = new Point(Math.random() * 2 - 1, math.Random() * 2 - 1) * 200;
+    spread = Victor(Math.random() * 2 - 1, math.Random() * 2 - 1) * 200;
     success = this.owner.buyBlueprint();
     if (success) {
       return new Unit(
@@ -156,9 +159,27 @@ class Factory {
 class Game {
   constructor() {
     this.players = [];
-    this.players.push(new Player("me", 80000));
     this.RESOLVE_TIMESPAN = 5000; // millis
     this.cur_resolve_timespan = this.RESOLVE_TIMESPAN;
+    this.socket_player_map = {}; // maps socket_id to player_id
+  }
+  addNewPlayer(socket_id) {
+    // TODO: add name support later
+    let newp = new Player("player " + socket_id, 80000);
+    // let loc = Victor(Math.random(), Math.random());
+
+    // let newloc = loc * Victor(800, 800);
+    let loc = Victor().randomize(Victor(0, 0), Victor(900, 900));
+
+    newp.facs.push(new Factory(newp.id, loc));
+    this.players.push(newp);
+    this.socket_player_map[socket_id] = newp.id;
+    console.log("new player added ", newp);
+  }
+  removePlayer(socket_id) {
+    this.players = this.players.filter(
+      (e) => e.id != this.socket_player_map[socket_id]
+    );
   }
   getState() {
     return {
@@ -177,12 +198,12 @@ class Game {
         console.log(p, " ended turn");
       },
       BUY_UNIT: () => {
-        p.buyUnit(data.blueprint, data.factory);
-        console.log(p, " bought unit ", data.blueprint, data.factory);
+        p.buyUnit(data.blueprint_id, data.factory_id);
+        console.log(p, " bought unit ", data.blueprint_id, data.factory_id);
       },
       BUY_BLUEPRINT: () => {
-        p.buyBlueprint(data.blueprint);
-        console.log(p, " bought blueprint ", data.blueprint);
+        p.buyBlueprint(data.stats, data.name);
+        console.log(p, " bought blueprint ", data.stats, data.name);
       },
       SET_UNIT_MOVE: () => {
         p.setUnitMoveTarget(data.unit_id, data.newpos);
@@ -193,20 +214,23 @@ class Game {
         console.log(p, " set attack target ", data.unit_id, data.target_ids);
       },
     };
+    // execute handler
+    switcher[type]();
   }
   everyoneReady() {
-    return this.players.every((p) => p.ended_turn);
+    return !this.players || this.players.every((p) => p.ended_turn);
   }
   //   nextTurn() {
   //       const everyoneReady =
   //   }
   update(dt) {
-    if (!everyoneReady) return;
-    //   console.log()
+    if (!this.everyoneReady()) return;
+    // console.log("o");
     // each player update the
     // each fac update them
     this.players.forEach((p) => {
       p.facs.update(dt);
+      // console.log(p.ended_turn);
     });
     // each unit update them
     this.players.forEach((p) => {
@@ -219,7 +243,7 @@ class Game {
     // check conditions???
     this.cur_resolve_timespan -= dt;
     if (this.cur_resolve_timespan < 0) {
-      console.log("finished resolving...");
+      console.log("finished resolving.", this.getState());
       this.cur_resolve_timespan = this.RESOLVE_TIMESPAN;
       this.players.forEach((p) => {
         p.ended_turn = false;
@@ -227,3 +251,5 @@ class Game {
     }
   }
 }
+
+module.exports = Game;

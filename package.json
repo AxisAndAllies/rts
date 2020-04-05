@@ -6,8 +6,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "live-server": "^1.2.1",
-    "paper": "^0.12.4",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "victor": "^1.1.0"
   },
   "devDependencies": {},
   "scripts": {

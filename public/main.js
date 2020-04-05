@@ -32,6 +32,14 @@ const CONSTRAINTS_MAX = {
   turn: 360,
 };
 
+const ACTION_TYPES = {
+  END_TURN: "END_TURN",
+  BUY_UNIT: "BUY_UNIT",
+  BUY_BLUEPRINT: "BUY_BLUEPRINT",
+  SET_UNIT_MOVE: "SET_UNIT_MOVE",
+  SET_UNIT_ATTACK: "SET_UNIT_ATTACK",
+};
+
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
   let realistic_range = speed / 2 + Math.pow(range, 1.5); // b/c of kiting
@@ -68,7 +76,7 @@ function dispText() {
   return disp;
 }
 
-function updateMaker() {
+function getMakerObj() {
   let newobj = {};
   let invalid = false;
   Object.keys(CONSTRAINTS_MIN).forEach((k) => {
@@ -77,6 +85,11 @@ function updateMaker() {
       invalid = true;
     }
   });
+  return { invalid, newobj };
+}
+
+function updateMaker() {
+  let { invalid, newobj } = getMakerObj();
   //   console.log(newobj);
   document.getElementById("maker");
   document.getElementById("buy").disabled = invalid;
@@ -127,3 +140,21 @@ window.onload = function () {
   //     path.add(event.point);
   //   };
 };
+
+function buyBlueprint() {
+  console.log("bought blueprint!");
+  socket.emit("action", {
+    type: ACTION_TYPES.BUY_BLUEPRINT,
+    data: {
+      newobj: getMakerObj().newobj,
+      name: "lol",
+    },
+  });
+}
+
+function endTurn() {
+  //
+}
+socket.on("game_state", (state) => {
+  console.log(state);
+});

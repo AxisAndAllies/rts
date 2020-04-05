@@ -1,7 +1,8 @@
-var express = require("express");
-var app = express();
-var http = require("http").createServer(app);
-var io = require("socket.io")(http);
+const express = require("express");
+const app = express();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+const Game = require("./game");
 const path = require("path");
 
 app.use(express.static("public"));
@@ -14,7 +15,7 @@ app.get("/", function (req, res) {
 //   res.sendFile(path.join(__dirname, "/public/debugger.html"));
 // });
 
-players = [];
+users = [];
 pauseTime = 0;
 game = new Game();
 
@@ -24,21 +25,27 @@ see https://socket.io/docs/emit-cheatsheet/
 
 io.on("connection", function (socket) {
   console.log("a user connected", socket.id);
-  players.push({ id: socket.id });
+  if (!users.map((u) => u.id).includes(socket.id)) {
+    // don't add again on reconnect...
+    users.push({ id: socket.id });
+    game.addNewPlayer(socket.id);
+  }
   socket.on("disconnect", function () {
     console.log("user disconnected");
-    players = players.filter((e) => e.id != socket.id);
+    game.removePlayer(socket.id);
+    users = users.filter((e) => e.id != socket.id);
   });
   socket.on("action", function (msg) {
-    // players.filter((e) => e.id == socket.id)[0].pos = msg;
-    // console.log(players);
-    game.handlePlayerAction(msg.type, msg.id, msg.data);
+    // users.filter((e) => e.id == socket.id)[0].pos = msg;
+    // console.log(users);
+    console.log("Handing action ", msg);
+    game.handlePlayerAction(msg.type, socket.id, msg.data);
 
     socket.broadcast.emit("game_state", game.getState());
     socket.emit("game_state", game.getState());
   });
   //   socket.on("pause", function (msg) {
-  //     // when any player sends a pause event, pause for all players
+  //     // when any player sends a pause event, pause for all users
   //     pauseTime = 5000;
 
   //     socket.emit("pause", { time: pauseTime });
