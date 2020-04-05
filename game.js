@@ -1,34 +1,34 @@
-const CONSTRAINTS_UNITS = {
-  dmg: "dmg/shot",
-  health: "hp",
+// const CONSTRAINTS_UNITS = {
+//   dmg: "dmg/shot",
+//   health: "hp",
 
-  range: "m",
-  speed: "m/sec",
+//   range: "m",
+//   speed: "m/sec",
 
-  //   shortReload: "sec"
-  reload: "sec",
-  turn: "deg/sec",
-};
-const CONSTRAINTS_MIN = {
-  dmg: 1,
-  health: 1,
+//   //   shortReload: "sec"
+//   reload: "sec",
+//   turn: "deg/sec",
+// };
+// const CONSTRAINTS_MIN = {
+//   dmg: 1,
+//   health: 1,
 
-  range: 1,
-  speed: 1,
+//   range: 1,
+//   speed: 1,
 
-  reload: 1,
-  turn: 5,
-};
-const CONSTRAINTS_MAX = {
-  dmg: 100,
-  health: 100,
+//   reload: 1,
+//   turn: 5,
+// };
+// const CONSTRAINTS_MAX = {
+//   dmg: 100,
+//   health: 100,
 
-  range: 200,
-  speed: 30,
+//   range: 200,
+//   speed: 30,
 
-  reload: 30,
-  turn: 360,
-};
+//   reload: 30,
+//   turn: 360,
+// };
 
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
@@ -126,10 +126,27 @@ class Factory {
   //   }
 }
 
+const ACTION_TYPES = {
+
+}
+
 class Game {
   constructor() {
     this.players = [];
     this.players.push(new Player("me", 80000));
+  }
+  getState() {
+    return {
+      players: this.players,
+    };
+  }
+  handlePlayerAction(type, id, data) {
+    let candidates = players.filter((e) => e.id == id);
+    if (candidates.length != 1) {
+      console.error("duplicate players");
+    }
+    let p = candidates[0];
+    if type 
   }
   update(dt) {}
 }

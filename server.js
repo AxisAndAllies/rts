@@ -16,6 +16,7 @@ app.get("/", function (req, res) {
 
 players = [];
 pauseTime = 0;
+game = new Game();
 
 /*
 see https://socket.io/docs/emit-cheatsheet/
@@ -28,22 +29,24 @@ io.on("connection", function (socket) {
     console.log("user disconnected");
     players = players.filter((e) => e.id != socket.id);
   });
-  socket.on("player_pos", function (msg) {
-    players.filter((e) => e.id == socket.id)[0].pos = msg;
+  socket.on("action", function (msg) {
+    // players.filter((e) => e.id == socket.id)[0].pos = msg;
     // console.log(players);
+    game.handlePlayerAction(msg.type, msg.id, msg.data);
 
-    socket.broadcast.emit("other_player_pos", { id: socket.id, pos: msg });
+    socket.broadcast.emit("game_state", game.getState());
+    socket.emit("game_state", game.getState());
   });
-  socket.on("pause", function (msg) {
-    // when any player sends a pause event, pause for all players
-    pauseTime = 5000;
+  //   socket.on("pause", function (msg) {
+  //     // when any player sends a pause event, pause for all players
+  //     pauseTime = 5000;
 
-    socket.emit("pause", { time: pauseTime });
-    socket.broadcast.emit("pause", { time: pauseTime });
-    // setInterval(function() {
-    //   pauseTime = 0;
-    // }, pauseTime);
-  });
+  //     socket.emit("pause", { time: pauseTime });
+  //     socket.broadcast.emit("pause", { time: pauseTime });
+  //     // setInterval(function() {
+  //     //   pauseTime = 0;
+  //     // }, pauseTime);
+  //   });
 });
 
 http.listen(process.env.PORT || 8080, function () {

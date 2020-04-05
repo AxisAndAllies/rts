@@ -1,5 +1,36 @@
 // Make the paper scope global, by injecting it into window:
 paper.install(window);
+const CONSTRAINTS_UNITS = {
+  dmg: "dmg/shot",
+  health: "hp",
+
+  range: "m",
+  speed: "m/sec",
+
+  //   shortReload: "sec"
+  reload: "sec",
+  turn: "deg/sec",
+};
+const CONSTRAINTS_MIN = {
+  dmg: 1,
+  health: 1,
+
+  range: 1,
+  speed: 1,
+
+  reload: 1,
+  turn: 5,
+};
+const CONSTRAINTS_MAX = {
+  dmg: 100,
+  health: 100,
+
+  range: 200,
+  speed: 30,
+
+  reload: 30,
+  turn: 360,
+};
 
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
