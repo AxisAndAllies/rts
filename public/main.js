@@ -146,7 +146,12 @@ window.onload = function () {
       // left click
     } else {
       // btn=2 is right click
-      window.selected.movetarget = e.point;
+      // window.selected.movetarget = e.point;
+      let { x, y } = e.point;
+      emitAction(ACTION_TYPES.SET_UNIT_MOVE, {
+        unit_id: window.selected.unit.id,
+        newpos: { x, y },
+      });
     }
     console.log(e.point, e.event.button);
   };
@@ -186,39 +191,76 @@ window.onload = function () {
       });
       p.units.forEach((elem) => {
         let pos = Victor.fromObject(elem.pos);
-        size = 15;
+        let size = 15;
+        let midpt = [size / 2, size / 2];
         const path =
           window.drawn[elem.id] ||
+          // NOTE: compound path only accepts one parent style, child styles no effect
           new CompoundPath({
             children: [
-              new Path.Rectangle([0, 0], [size, size]),
-              new Path.Rectangle([size / 2, size / 2], [3, size]),
+              new Path.Rectangle({
+                point: [0, 0],
+                size: [size, size],
+                // fillColor: "white",
+              }),
+              new Path.Rectangle(midpt, [3, size]),
+              new Path.Line(midpt, [0, 0]),
+              new Path.Line(midpt, [0, 0]),
+              new Path.Circle({
+                center: midpt,
+                radius: elem.cur_stats.range,
+                // strokeColor: "#cdc",
+                visible: false,
+              }),
             ],
           });
-        path.fillColor = "white";
+
         path.position = pos.subtract(Victor(size / 2, size / 2)).toArray();
         path.rotation = elem.orientation || 0;
         path.onMouseDown = function (e) {
           // console.log("lol", f);
-          window.selected.unit = elem;
-          console.log(window.selected);
+          let btn = e.event.button;
+          if (btn == 0) {
+            // can only select your own units
+            if (elem.owner_id == window.self.id) window.selected.unit = elem;
+          } else {
+            // right click
+            if (elem.owner_id != window.self.id) {
+              window.selected.unit.target_ids.push(e.id);
+              emitAction(ACTION_TYPES.SET_UNIT_ATTACK, {
+                unit_id: e.id,
+                target_ids: window.selected.unit.target_ids,
+              });
+            }
+          }
+          console.log(elem);
         };
         path.onMouseEnter = function (e) {
           // TODO: show range on hover...
           showUnitDetail(elem.cur_stats);
+          // path.fillColor.alpha = 0.3;
+          path.children[4].visible = true;
         };
         path.onMouseLeave = function (e) {
+          // path.fillColor.alpha = 0.3;
+          path.children[4].visible = false;
           showDefaultDetail();
         };
         path.strokeColor =
           window.selected.unit === elem ? SELECTED_COLOR : unitColor(elem);
+        path.children[2].to = elem.move_target || path.position;
+        path.children[3].to = elem.shoot_targets[0] || path.position;
+        // path.children[3].strokeColor = "#cdc";
+        path.fillColor = "white";
+        path.fillColor.alpha = 0.3;
+        path.visible = true;
         window.drawn[elem.id] = path;
       });
     });
     Object.keys(window.drawn).forEach((k) => {
       // window.drawn[k].rotate(1);
     });
-    view.draw();
+    // view.draw();
   };
   // this.setInterval(() => {
   //   console.log(window.selected);
@@ -264,6 +306,11 @@ function endTurn() {
 }
 
 function emitAction(type, data) {
+  if (window.self && window.self.ended_turn) {
+    // can't make actions while game is resolving :)
+    console.log("can't make actions while game is resolving :)");
+    return;
+  }
   socket.emit("action", {
     type,
     data,

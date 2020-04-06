@@ -18,13 +18,14 @@ app.get("/", function (req, res) {
 users = [];
 pauseTime = 0;
 game = new Game();
-
+hostSocket = null;
 /*
 see https://socket.io/docs/emit-cheatsheet/
 */
 
 io.on("connection", function (socket) {
   console.log("a user connected", socket.id);
+  hostSocket = socket;
   if (!users.map((u) => u.id).includes(socket.id)) {
     // don't add again on reconnect...
     users.push({ id: socket.id });
@@ -59,5 +60,16 @@ io.on("connection", function (socket) {
 http.listen(process.env.PORT || 8080, function () {
   console.log("listening on *:8080");
   // TODO: make this more accurate, finer...
-  setInterval(() => game.update(100), 100);
+  setInterval(() => {
+    // a hack lol, hostSocket can be disconnected...
+    if (!hostSocket) {
+      console.error("host socket does not exist");
+      return;
+    }
+    const updated = game.update(100);
+    if (updated) {
+      hostSocket.broadcast.emit("game_state", game.getState());
+      hostSocket.emit("game_state", game.getState());
+    }
+  }, 100);
 });

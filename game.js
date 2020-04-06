@@ -114,7 +114,7 @@ class Unit {
   }
   setMoveTarget(newpos) {
     // TODO: collision?
-    this.move_target = newpos;
+    this.move_target = Victor.fromObject(newpos).clone();
   }
   setShootTargets(unit_ids) {
     // TODO: no friendly fire??
@@ -123,6 +123,15 @@ class Unit {
   update(millis) {
     //move target
     // shoot
+    let dir = Victor.fromObject(this.move_target)
+      .clone()
+      .subtract(this.pos.clone())
+      .normalize();
+    let speed = (this.cur_stats.speed * millis) / 1000;
+    let dv = dir.multiply(Victor(speed, speed));
+    // console.log(JSON.stringify(dv));
+    this.pos.add(dv);
+    // console.log(this.pos);
   }
   takeDamage(dmg) {
     this.health -= dmg;
@@ -235,13 +244,14 @@ class Game {
     console.log(p);
   }
   everyoneReady() {
-    return !this.players || this.players.every((p) => p.ended_turn);
+    return this.players.length && this.players.every((p) => p.ended_turn);
   }
   //   nextTurn() {
   //       const everyoneReady =
   //   }
   update(dt) {
-    if (!this.everyoneReady()) return;
+    // returns whether game updated
+    if (!this.everyoneReady()) return false;
     // console.log("o");
     // each player update the
     // each fac update them
@@ -251,14 +261,17 @@ class Game {
     });
     // each unit update them
     this.players.forEach((p) => {
+      // console.log(p.id, " player's units updating");
       p.units.forEach((u) => u.update(dt));
     });
     // kill dead
     this.players.forEach((p) => {
-      p.units = p.units.filter((u) => u.health > 0);
+      p.units = p.units.filter((u) => u.cur_stats.health > 0);
+      // TODO: remove from all other unit's shoot_targets??? --> or handle when processing targets...
     });
     // check conditions???
     this.cur_resolve_timespan -= dt;
+    // console.log(this.cur_resolve_timespan);
     if (this.cur_resolve_timespan < 0) {
       console.log("finished resolving.", this.getState());
       this.cur_resolve_timespan = this.RESOLVE_TIMESPAN;
@@ -266,6 +279,7 @@ class Game {
         p.ended_turn = false;
       });
     }
+    return true;
   }
 }
 
