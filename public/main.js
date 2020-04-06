@@ -13,6 +13,16 @@ const CONSTRAINTS_UNITS = {
   reload: "sec",
   turn: "deg/sec",
 };
+const CONSTRAINTS_TESTING = {
+  dmg: 1,
+  health: 4,
+
+  range: 100,
+  speed: 30,
+
+  reload: 1,
+  turn: 20,
+};
 const CONSTRAINTS_MIN = {
   dmg: 1,
   health: 1,
@@ -123,7 +133,8 @@ window.onload = function () {
   let st = "";
   Object.keys(CONSTRAINTS_MIN).forEach((k) => {
     //min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]}
-    st += `<span>${k}: </span><input type="text" value="${CONSTRAINTS_MIN[k]}" id="${k}" oninput="updateMaker()"</input><br>`;
+    // set to CONSTRAINTS_MIN
+    st += `<span>${k}: </span><input type="text" value="${CONSTRAINTS_TESTING[k]}" id="${k}" oninput="updateMaker()"</input><br>`;
   });
   console.log(st);
   document.getElementById("maker").innerHTML = st;
@@ -146,7 +157,11 @@ window.onload = function () {
       // left click
     } else {
       // btn=2 is right click
-      // window.selected.movetarget = e.point;
+
+      // can't move enemy units
+      if (window.selected.unit.owner_id != window.self.id) {
+        return;
+      }
       let { x, y } = e.point;
       emitAction(ACTION_TYPES.SET_UNIT_MOVE, {
         unit_id: window.selected.unit.id,
@@ -180,7 +195,10 @@ window.onload = function () {
         path.fillColor = "white";
         path.rotation = elem.orientation || 0;
         path.onMouseDown = function (e) {
-          // console.log("lol", f);
+          // can't select enemy fac
+          if (elem.owner_id != window.self.id) {
+            return;
+          }
           window.selected.fac = elem;
           console.log(window.selected);
         };
@@ -225,13 +243,15 @@ window.onload = function () {
             if (elem.owner_id == window.self.id) window.selected.unit = elem;
           } else {
             // right click
-            if (elem.owner_id != window.self.id) {
-              window.selected.unit.target_ids.push(e.id);
-              emitAction(ACTION_TYPES.SET_UNIT_ATTACK, {
-                unit_id: e.id,
-                target_ids: window.selected.unit.target_ids,
-              });
+            // can't attack yourself
+            if (elem.owner_id == window.self.id) {
+              return;
             }
+            window.selected.unit.shoot_targets.push(elem.id);
+            emitAction(ACTION_TYPES.SET_UNIT_ATTACK, {
+              unit_id: window.selected.unit.id,
+              shoot_targets: window.selected.unit.shoot_targets,
+            });
           }
           console.log(elem);
         };
@@ -311,6 +331,7 @@ function emitAction(type, data) {
     console.log("can't make actions while game is resolving :)");
     return;
   }
+  console.log("acttion emitted: ", type, data);
   socket.emit("action", {
     type,
     data,

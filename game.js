@@ -91,8 +91,8 @@ class Player {
   setUnitMoveTarget(unit_id, newpos) {
     this.units.filter((u) => u.id == unit_id)[0].setMoveTarget(newpos);
   }
-  setUnitShootTarget(unit_id, target_ids) {
-    this.units.filter((u) => u.id == unit_id)[0].setShootTargets(target_ids);
+  setUnitShootTarget(unit_id, shoot_targets) {
+    this.units.filter((u) => u.id == unit_id)[0].setShootTargets(shoot_targets);
   }
 }
 
@@ -102,6 +102,9 @@ class Unit {
     //
     this.base_stats = stats;
     this.cur_stats = stats;
+
+    // spawn ready to fire :)
+    this.cur_stats.reload = 0;
     //
     this.pos = pos;
     this.orientation = 0;
@@ -110,7 +113,7 @@ class Unit {
     this.owner_id = owner_id;
     this.move_target = null;
     this.shoot_targets = [];
-    this.id = generateID();
+    this.id = this.owner_id + "_" + generateID();
   }
   setMoveTarget(newpos) {
     // TODO: collision?
@@ -120,9 +123,19 @@ class Unit {
     // TODO: no friendly fire??
     this.shoot_targets = unit_ids;
   }
-  update(millis) {
-    //move target
-    // shoot
+  shoot(targ, cb) {
+    let ang = Victor.fromObject(targ).subtract(this.pos.clone()).angleDeg();
+    if (Math.abs(angle - targ) < 0.01) {
+      // enemy take damage...
+      cb(targ, this.cur_stats.dmg);
+      // reset reloading...
+      this.cur_stats.reload = this.base_stats.reload;
+    }
+  }
+  update(millis, cb) {
+    // reduce reload time
+    this.cur_stats.reload = Math.max(this.cur_stats.reload - millis, 0);
+    //move
     let dir = Victor.fromObject(this.move_target)
       .clone()
       .subtract(this.pos.clone())
@@ -132,11 +145,30 @@ class Unit {
     // console.log(JSON.stringify(dv));
     this.pos.add(dv);
     // console.log(this.pos);
+
+    // rotate if necessary
+    if (this.shoot_targets.length == 0) {
+      return;
+    }
+    let targ = this.shoot_targets[0];
+    let ang = Victor.fromObject(targ).subtract(this.pos.clone()).angleDeg();
+    if (this.orientation < ang) {
+      this.orientation = Math.min(
+        this.orientation + (this.cur_stats.turn * millis) / 1000,
+        ang
+      );
+    } else if (this.orientation > ang) {
+      this.orientation = Math.max(
+        this.orientation - (this.cur_stats.turn * millis) / 1000,
+        ang
+      );
+    }
+    // shoot if aligned
+    this.shoot(targ, cb);
   }
   takeDamage(dmg) {
-    this.health -= dmg;
-    if (this.health < 0) {
-    }
+    this.cur_stats.health -= dmg;
+    console.log(`${this.id} took ${dmg} damage`);
   }
 }
 
@@ -146,7 +178,7 @@ class Blueprint {
     this.owner_id = owner_id;
     this.stats = stats;
     this.unit_cost = calcCost(stats);
-    this.id = generateID();
+    this.id = this.owner_id + "_" + generateID();
   }
 }
 
@@ -154,7 +186,7 @@ class Factory {
   constructor(owner_id, pos) {
     this.owner_id = owner_id;
     this.pos = pos;
-    this.id = generateID();
+    this.id = this.owner_id + "_" + generateID();
   }
   createUnit(blueprint) {
     // support POS arg later
@@ -235,13 +267,27 @@ class Game {
         console.log(p.id, " move target ", data.unit_id, data.newpos);
       },
       SET_UNIT_ATTACK: () => {
-        p.setUnitMoveTarget(data.unit_id, data.target_ids);
-        console.log(p.id, " set attack target ", data.unit_id, data.target_ids);
+        p.setUnitMoveTarget(data.unit_id, data.shoot_targets);
+        console.log(
+          p.id,
+          " set attack target ",
+          data.unit_id,
+          data.shoot_targets
+        );
       },
     };
     // execute handler
     switcher[type]();
     console.log(p);
+  }
+  getUnitById(id) {
+    let res = null;
+    this.players.forEach((p) => {
+      p.units.forEach((u) => {
+        if (u.id == id) res = u;
+      });
+    });
+    return res;
   }
   everyoneReady() {
     return this.players.length && this.players.every((p) => p.ended_turn);
@@ -259,15 +305,38 @@ class Game {
       p.facs.forEach((f) => f.update(dt));
       // console.log(p.ended_turn);
     });
+
     // each unit update them
+    function dealDamage(target_id, dmg) {
+      this.getUnitById(target_id).takeDamage(dmg);
+    }
     this.players.forEach((p) => {
       // console.log(p.id, " player's units updating");
-      p.units.forEach((u) => u.update(dt));
+      p.units.forEach((u) => {
+        u.update(dt, dealDamage);
+      });
     });
-    // kill dead
+
+    // tally up dead
+    let dead_unit_ids = [];
+    this.players.forEach((p) => {
+      dead_unit_ids.concat(
+        p.units.filter((u) => u.cur_stats.health <= 0).map((u) => u.id)
+      );
+    });
+    if (dead_unit_ids.length) {
+      console.log(JSON.stringify(dead_unit_ids), " died.");
+    }
+
+    // remove dead
     this.players.forEach((p) => {
       p.units = p.units.filter((u) => u.cur_stats.health > 0);
-      // TODO: remove from all other unit's shoot_targets??? --> or handle when processing targets...
+      // remove dead units from targets
+      p.units.forEach((u) => {
+        u.shoot_targets = u.shoot_targets.filter(
+          (id) => !dead_unit_ids.includes(id)
+        );
+      });
     });
     // check conditions???
     this.cur_resolve_timespan -= dt;

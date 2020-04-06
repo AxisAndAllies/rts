@@ -6,6 +6,10 @@ to run: use [live-server]()
 
 - uses [paper.js](http://paperjs.org/about/)
 
+### main todos
+
+- use more backend validation instead of frontend validation
+
 ### NOTES:
 
 - Victor.js is mutable, modifies vector directly unless you use `.clone()`
