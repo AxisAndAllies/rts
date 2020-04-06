@@ -91,7 +91,7 @@ class Player {
   setUnitMoveTarget(unit_id, newpos) {
     this.units.filter((u) => u.id == unit_id)[0].setMoveTarget(newpos);
   }
-  setUnitShootTarget(unit_id, shoot_targets) {
+  setUnitShootTargets(unit_id, shoot_targets) {
     this.units.filter((u) => u.id == unit_id)[0].setShootTargets(shoot_targets);
   }
 }
@@ -120,51 +120,62 @@ class Unit {
     this.move_target = Victor.fromObject(newpos).clone();
   }
   setShootTargets(unit_ids) {
-    // TODO: no friendly fire??
+    // TODO: no friendly fire check on BE
+    console.log(this.id, "set targets to ", unit_ids);
     this.shoot_targets = unit_ids;
   }
   shoot(targ, cb) {
-    let ang = Victor.fromObject(targ).subtract(this.pos.clone()).angleDeg();
-    if (Math.abs(angle - targ) < 0.01) {
-      // enemy take damage...
-      cb(targ, this.cur_stats.dmg);
-      // reset reloading...
-      this.cur_stats.reload = this.base_stats.reload;
-    }
+    // enemy take damage...
+    cb(targ, this.cur_stats.dmg);
+    // reset reloading...
+    this.cur_stats.reload = this.base_stats.reload;
   }
-  update(millis, cb) {
+  update(millis, dealDamageFn, getUnitPosFn) {
     // reduce reload time
     this.cur_stats.reload = Math.max(this.cur_stats.reload - millis, 0);
     //move
-    let dir = Victor.fromObject(this.move_target)
-      .clone()
-      .subtract(this.pos.clone())
-      .normalize();
-    let speed = (this.cur_stats.speed * millis) / 1000;
-    let dv = dir.multiply(Victor(speed, speed));
-    // console.log(JSON.stringify(dv));
-    this.pos.add(dv);
-    // console.log(this.pos);
+    if (this.move_target) {
+      let dir = Victor.fromObject(this.move_target)
+        .clone()
+        .subtract(this.pos.clone())
+        .normalize();
+      let speed = (this.cur_stats.speed * millis) / 1000;
+      let dv = dir.multiply(Victor(speed, speed));
+      // console.log(JSON.stringify(dv));
+      this.pos.add(dv);
+      // console.log(this.pos);
+    }
 
     // rotate if necessary
     if (this.shoot_targets.length == 0) {
       return;
     }
     let targ = this.shoot_targets[0];
-    let ang = Victor.fromObject(targ).subtract(this.pos.clone()).angleDeg();
-    if (this.orientation < ang) {
+    let tempvec = Victor.fromObject(getUnitPosFn(targ)).subtract(
+      this.pos.clone()
+    );
+    let ang = tempvec.angleDeg();
+    console.log(ang, this.orientation);
+    let cur_ang = this.orientation;
+    if (cur_ang < ang) {
       this.orientation = Math.min(
-        this.orientation + (this.cur_stats.turn * millis) / 1000,
+        cur_ang + (this.cur_stats.turn * millis) / 1000,
         ang
       );
-    } else if (this.orientation > ang) {
+    } else if (cur_ang > ang) {
       this.orientation = Math.max(
-        this.orientation - (this.cur_stats.turn * millis) / 1000,
+        cur_ang - (this.cur_stats.turn * millis) / 1000,
         ang
       );
     }
-    // shoot if aligned
-    this.shoot(targ, cb);
+    // shoot if aligned + in range
+    if (
+      Math.abs(ang - this.orientation) < 0.01 &&
+      tempvec.length() < this.cur_stats.range
+    ) {
+      console.log(this.id, " fired a shot at ", targ);
+      this.shoot(targ, dealDamageFn);
+    }
   }
   takeDamage(dmg) {
     this.cur_stats.health -= dmg;
@@ -267,7 +278,7 @@ class Game {
         console.log(p.id, " move target ", data.unit_id, data.newpos);
       },
       SET_UNIT_ATTACK: () => {
-        p.setUnitMoveTarget(data.unit_id, data.shoot_targets);
+        p.setUnitShootTargets(data.unit_id, data.shoot_targets);
         console.log(
           p.id,
           " set attack target ",
@@ -310,10 +321,14 @@ class Game {
     function dealDamage(target_id, dmg) {
       this.getUnitById(target_id).takeDamage(dmg);
     }
+    function getUnitPosFn(id) {
+      let unit = this.getUnitById(id);
+      return unit.pos;
+    }
     this.players.forEach((p) => {
       // console.log(p.id, " player's units updating");
       p.units.forEach((u) => {
-        u.update(dt, dealDamage);
+        u.update(dt, dealDamage.bind(this), getUnitPosFn.bind(this));
       });
     });
 

@@ -160,6 +160,7 @@ window.onload = function () {
 
       // can't move enemy units
       if (window.selected.unit.owner_id != window.self.id) {
+        window.selected.unit = null; // deselects
         return;
       }
       let { x, y } = e.point;
@@ -231,10 +232,12 @@ window.onload = function () {
                 visible: false,
               }),
             ],
+            applyMatrix: false,
           });
 
         path.position = pos.subtract(Victor(size / 2, size / 2)).toArray();
         path.rotation = elem.orientation || 0;
+        if (path.rotation) console.log(path.rotation);
         path.onMouseDown = function (e) {
           // console.log("lol", f);
           let btn = e.event.button;
@@ -245,6 +248,7 @@ window.onload = function () {
             // right click
             // can't attack yourself
             if (elem.owner_id == window.self.id) {
+              window.selected.unit = null; // deselects
               return;
             }
             window.selected.unit.shoot_targets.push(elem.id);
