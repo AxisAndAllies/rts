@@ -59,6 +59,13 @@ class Game {
     this.socket_player_map[socket_id] = newp.id;
     console.log("new player added ", newp);
   }
+  updatePlayerSocket(old_socket_id, new_socket_id) {
+    this.socket_player_map[new_socket_id] = this.socket_player_map[
+      old_socket_id
+    ];
+    delete this.socket_player_map[old_socket_id];
+    console.log("updated player socket", old_socket_id, new_socket_id);
+  }
   removePlayer(socket_id) {
     this.players = this.players.filter(
       (e) => e.id != this.socket_player_map[socket_id]
@@ -202,24 +209,26 @@ class Game {
 
 let game = new Game();
 
-if (module.hot) {
-  // Reload this module and its dependencies, when they change (optional)
-  module.hot.accept();
+if (process.env.NODE_ENV !== "production") {
+  if (module.hot) {
+    // Reload this module and its dependencies, when they change (optional)
+    module.hot.accept();
 
-  // Gets called before reload (optional)
-  module.hot.store((stash) => {
-    console.log("reloading...");
-    // stash.game = game;
-  });
+    // Gets called before reload (optional)
+    module.hot.store((stash) => {
+      console.log("reloading...");
+      // stash.game = game;
+    });
 
-  // Gets called after reload, if there was a store (optional)
-  module.hot.restore((stash) => {
-    console.log("reloaded.");
-    // game = stash.game;
-  });
+    // Gets called after reload, if there was a store (optional)
+    module.hot.restore((stash) => {
+      console.log("reloaded.");
+      // game = stash.game;
+    });
 
-  // Replaces class methods and accessors (optional)
-  module.hot.patch(Game);
+    // Replaces class methods and accessors (optional)
+    module.hot.patch(Game);
+  }
 }
 
 module.exports = game;

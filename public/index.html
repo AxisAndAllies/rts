@@ -1,60 +1,41 @@
-<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="main.css" type="text/css" />
+  </head>
 
-<head>
-    <link rel="stylesheet" href="main.css" type="text/css">
-</head>
-
-<body>
+  <body>
     <h3>RTS</h3>
-    <div id='timer'>
-
-    </div>>
-     <!-- prevent default right click menu -->
+    <div id="timer"></div>
+    <!-- prevent default right click menu -->
     <canvas id="canvas" oncontextmenu="return false;"></canvas>
 
     <p>
-        some info
+      some info
     </p>
     <p class="info"></p>
-    <div id='panel'>
-        <div id='unitselection'>
-
-        </div>
-        <div id="info">
-            
-        </div>
-        <br>
-        <div id='maker'>
-        
-        </div>
-        <button id='buy' onclick='buyBlueprint()'>$100</button>
-        <button id='endturn' onclick='endTurn()'>End Turn</button>
+    <div id="panel">
+      <div id="unitselection"></div>
+      <div id="info"></div>
+      <br />
+      <div id="maker"></div>
+      <button id="buy" onclick="buyBlueprint()">$100</button>
+      <button id="endturn" onclick="endTurn()">End Turn</button>
     </div>
-
 
     <br />
     <p>
-        <!-- Made with <a target="_blank" href="https://github.com/dissimulate/Clarity">Clarity</a>. -->
+      <!-- Made with <a target="_blank" href="https://github.com/dissimulate/Clarity">Clarity</a>. -->
     </p>
 
     <!-- <script src="https://cdn.deepstream.io/js/client/latest/ds.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-    <script src="lib/paper-full.js"></script>
-    <script src="lib/victor.min.js"></script>
-    <script>
-        var socket = io();
-        // disable arrow key scrolling page
-        window.addEventListener("keydown", function (e) {
-            // space and arrow keys
-            if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                e.preventDefault();
-            }
-        }, false);
-    </script>
-    <script src="main.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"
+    ></script>
+    <script type="text/javascript" src="lib/paper-full.js"></script>
+    <script type="text/javascript" src="lib/victor.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
 
     <!-- <script src="index.js"></script> -->
-
-</body>
-
+  </body>
 </html>

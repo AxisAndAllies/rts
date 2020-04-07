@@ -1,6 +1,21 @@
 // const Victor = require("victor");
 
 // Make the paper scope global, by injecting it into window:
+// import paper from "./lib/paper-full";
+
+var socket = io();
+// disable arrow key scrolling page
+window.addEventListener(
+  "keydown",
+  function (e) {
+    // space and arrow keys
+    if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+      e.preventDefault();
+    }
+  },
+  false
+);
+
 paper.install(window);
 const CONSTRAINTS_UNITS = {
   dmg: "dmg/shot",
@@ -69,7 +84,7 @@ function calcCost(obj) {
   // speed^2 to correct for value of moving fast
   // dps * health = damage output over lifespan
   // sqrt(turn) b/c difference between 5 and 10 deg way more valuable than 180 to 360 deg.
-  cost = realistic_range * dps * health * Math.sqrt(turn) + speed * speed;
+  let cost = realistic_range * dps * health * Math.sqrt(turn) + speed * speed;
   cost = Math.max(cost, 100);
   return Math.round(cost);
 }
@@ -102,7 +117,7 @@ function dispText() {
       "\n";
   });
   disp +=
-    "COST: $" + calcCost(CONSTRAINTS_MIN) + " - $" + calcCost(CONSTRAINTS_MAX);
+    "COST: $" + calcCost(CONSTRAINTS_MIN) + " -  $" + calcCost(CONSTRAINTS_MAX);
   //   console.log(disp);
   return disp;
 }
@@ -354,7 +369,7 @@ window.onload = function () {
   // };
 };
 
-function buyBlueprint() {
+window.buyBlueprint = () => {
   console.log("bought blueprint!");
   let nos = getMakerObj().newobj;
   if (
@@ -370,12 +385,12 @@ function buyBlueprint() {
     stats: nos,
     name: "lol",
   });
-}
+};
 
-function endTurn() {
+window.endTurn = () => {
   console.log("ended turn");
   emitAction(ACTION_TYPES.END_TURN);
-}
+};
 
 function emitAction(type, data) {
   if (window.self && window.self.ended_turn) {
@@ -459,3 +474,11 @@ function refreshBlueprints(blueprints) {
   });
   document.getElementById("unitselection").innerHTML = st;
 }
+
+// webpack hot reloading...
+// if (module.hot) {
+//   module.hot.accept();
+//   module.hot.dispose(function () {
+//     clearInterval(timer);
+//   });
+// }
