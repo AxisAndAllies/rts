@@ -21,7 +21,7 @@ const CONSTRAINTS_TESTING = {
   speed: 30,
 
   reload: 1,
-  turn: 20,
+  turn: 40,
 };
 const CONSTRAINTS_MIN = {
   dmg: 1,
@@ -58,6 +58,7 @@ window.selected = {};
 
 // maps id to drawn path, ensuring each elem gets drawn exactly once
 window.drawn = {};
+window.drawn_shots = [];
 //
 
 function calcCost(obj) {
@@ -181,11 +182,49 @@ window.onload = function () {
 
   const SELECTED_COLOR = "blue";
 
+  // let _path = new Path.Line({
+  //   from: [0, 0],
+  //   to: [200, 200],
+  //   strokeColor: "red",
+  //   strokeWidth: 3,
+  //   opacity: 0.3,
+  // });
+  // // _path.strokeColor.opacity = 0.3;
+  // var circle2 = new Path.Circle({
+  //   center: new Point(120, 50),
+  //   radius: 35,
+  //   fillColor: "blue",
+  //   strokeColor: "blue",
+  //   strokeWidth: 10,
+  //   opacity: 0.3,
+  // });
+
   view.onFrame = function (event) {
     // console.log(this.gameState);
     if (!window.gameState) {
       return;
     }
+
+    // draw shots
+    // window.drawn_shots = [];
+    // add TTL for shots??
+
+    window.gameState.cur_shots.forEach(({ shooter_id, target_id, dmg }) => {
+      let shooter = getUnitById(shooter_id);
+      let targ = getUnitById(target_id);
+      // TODO: use dmg to influence how strong laser looks...
+      let laser = new Path.Line({
+        from: Victor.fromObject(shooter.pos).toArray(),
+        to: Victor.fromObject(targ.pos).toArray(),
+        strokeColor: unitColor(shooter),
+        strokeWidth: 3,
+        opacity: 0.5,
+      });
+      // console.log("drew shot", laser.from, laser.to);
+      window.drawn_shots.push(laser);
+      // path.path.opacity = 0.5;
+    });
+
     window.gameState.players.forEach((p) => {
       p.facs.forEach((elem) => {
         let pos = Victor.fromObject(elem.pos);
@@ -236,8 +275,13 @@ window.onload = function () {
           });
 
         path.position = pos.subtract(Victor(size / 2, size / 2)).toArray();
+
+        // small hack to not display dead things...
+        if (elem.cur_stats.health <= 0) {
+          // path.position = Victor(-50, -50).toArray();
+        }
         path.rotation = elem.orientation || 0;
-        if (path.rotation) console.log(path.rotation);
+        // if (path.rotation) console.log(path.rotation);
         path.onMouseDown = function (e) {
           // console.log("lol", f);
           let btn = e.event.button;
@@ -272,6 +316,10 @@ window.onload = function () {
         };
         path.strokeColor =
           window.selected.unit === elem ? SELECTED_COLOR : unitColor(elem);
+        if (elem.cur_stats.health <= 0) {
+          path.strokeColor = "#555";
+          // path.position = Victor(-50, -50).toArray();
+        }
         path.children[2].to = elem.move_target || path.position;
         path.children[3].to = elem.shoot_targets[0] || path.position;
         // path.children[3].strokeColor = "#cdc";
@@ -348,6 +396,9 @@ socket.on("game_state", (state) => {
   window.gameState = state;
 
   window.self = getSelf(socket.id, gameState);
+
+  // clear shots on game update
+  window.drawn_shots = [];
   // console.log(window.self);
   refreshBlueprints(window.self.blueprints);
 });
@@ -381,6 +432,16 @@ function buyUnit(blueprint_id) {
     blueprint_id,
     factory_id,
   });
+}
+// isomorphic
+function getUnitById(id) {
+  let res = null;
+  window.gameState.players.forEach((p) => {
+    p.units.forEach((u) => {
+      if (u.id == id) res = u;
+    });
+  });
+  return res;
 }
 function unitColor(e) {
   return e.owner_id == window.self.id ? "black" : "red";

@@ -9,6 +9,7 @@ to run: use [live-server]()
 ### main todos
 
 - use more backend validation instead of frontend validation
+- make some way to clear `shoot_targets` or reprioritize...
 
 ### NOTES:
 
