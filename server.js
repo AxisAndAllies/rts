@@ -9,76 +9,21 @@ require("node-hot")
   // Globally configure node-hot (optional)
   .configure({
     // Disable logging (default: false)
-    silent: true,
+    silent: false,
 
     // Automatically patch all exported classes (default: false)
     patchExports: true,
 
     // Exclude patterns (default: node_modules)
-    exclude: [
-      /[\/\\]node_modules[\/\\]/,
-      /[\/\\]bower_components[\/\\]/,
-      /[\/\\]jspm_packages[\/\\]/,
-    ],
+    exclude: [/[\/\\]node_modules[\/\\]/],
   });
+/**
+ * can't simply roll-your-own hot reload like https://blog.cloudboost.io/reloading-the-express-server-without-nodemon-e7fa69294a96
+ * b/c that doesn't take into account changes in dep tree, too naive
+ */
 
 // Main/entry module can't be reloaded, hence the extra file
 const game = require("./game/game");
-
-// let { enableHotReload, hotRequire } = require("@hediet/node-reload");
-
-// // Call `enableHotReload` to track dependencies and watch for file changes.
-// enableHotReload();
-
-// hot reloading black magic :)
-// from https://codeburst.io/dont-use-nodemon-there-are-better-ways-fc016b50b45e
-
-// more comprehensive soln https://blog.cloudboost.io/reloading-the-express-server-without-nodemon-e7fa69294a96
-// let production = process.env.NODE_ENV === "production";
-// if (!production) {
-//   let chokidar = require("chokidar");
-//   // let watcher = chokidar.watch("./dist");
-//   const watcher = chokidar.watch("./game");
-//   function pathCheck(id) {
-//     return (
-//       // id.startsWith(path.join(__dirname, 'routes')) ||
-//       id.startsWith(path.join(__dirname, "game"))
-//     );
-//   }
-//   watcher.on("ready", function () {
-//     watcher.on("all", function () {
-//       console.log("Clearing module cache from server");
-//       let files = [];
-//       Object.keys(require.cache).forEach((id) => {
-//         if (pathCheck(id)) {
-//           // delete selectively
-//           console.log("Reloading", id);
-//           files.push(id);
-//           delete require.cache[id];
-//         }
-//       });
-//       Object.keys(require.cache).forEach(function (id) {
-//         if (/[\/\\]dist[\/\\]/.test(id)) delete require.cache[id];
-//       });
-//       files.forEach((id) => {
-//         let a = require(id);
-//         try {
-//           console.log(new a());
-//         } catch (err) {
-//           console.log("error constructing ", a);
-//         }
-//       });
-//       // game.printStub();
-//       // gotta require() again...
-//       // key is to keep GameState and Game separate?
-//       // or patch current Game funcs...
-//       let state = game.state;
-//       let refreshedGame = require("./game/game");
-//       console.log("transferring state...", state);
-//       game = new refreshedGame(state);
-//     });
-//   });
-// }
 
 app.use(express.static("public"));
 

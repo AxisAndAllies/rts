@@ -209,15 +209,13 @@ if (module.hot) {
   // Gets called before reload (optional)
   module.hot.store((stash) => {
     console.log("reloading...");
-    stash.game = game;
-    console.log(game.state);
+    // stash.game = game;
   });
 
   // Gets called after reload, if there was a store (optional)
   module.hot.restore((stash) => {
     console.log("reloaded.");
-    game = stash.game;
-    console.log(game.state);
+    // game = stash.game;
   });
 
   // Replaces class methods and accessors (optional)
