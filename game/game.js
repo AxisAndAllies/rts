@@ -52,7 +52,7 @@ class Game {
     // actual
     // let loc = Victor().randomize(Victor(0, 0), Victor(900, 900));
     // testing
-    let loc = Victor().randomize(Victor(400, 400), Victor(600, 600));
+    let loc = Victor().randomize(Victor(50, 50), Victor(900, 900));
 
     newp.facs.push(new Factory(newp.id, loc));
     this.players.push(newp);

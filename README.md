@@ -2,9 +2,9 @@
 
 ---
 
-to run: use [live-server]()
+to run: `npm start` (starts BE and also serves FE)
 
-- uses [paper.js](http://paperjs.org/about/)
+- uses [paper.js](http://paperjs.org/about/) and socket.io
 
 ### main todos
 
@@ -15,13 +15,11 @@ to run: use [live-server]()
 
 - Victor.js is mutable, modifies vector directly unless you use `.clone()`
 - uses [node-hot](https://github.com/mihe/node-hot) for hot-reloading file changes in `./game` without restarting server. Incredibly useful for development!
-- FE hot-reload uses [webpack-hot-middleware](https://github.com/webpack-contrib/webpack-hot-middleware/tree/master/example)
+- FE doesn't use hot-reload per-se, but preserves state across reloads because of custom server-side socket.io reconnect logic
+- ~~FE hot-reload uses [webpack-hot-middleware](https://github.com/webpack-contrib/webpack-hot-middleware/tree/master/example)~~
   - can't use Parcel for FE b/c v1 [trips on sourcemaps](https://github.com/parcel-bundler/parcel/pull/2427) so can't import `paper`
 
-
-- parcel2 issues [here](https://github.com/parcel-bundler/parcel/issues/3377)
-
-
+* parcel2 issues [here](https://github.com/parcel-bundler/parcel/issues/3377)
 
 ### 2d engines compared:
 
