@@ -94,6 +94,12 @@ const hoveredRange = new Path.Circle({
   center: [0, 0],
   radius: 1,
   strokeColor: "#888",
+  dashArray: [4, 8],
+});
+const hoveredMoveTarget = new Path.Rectangle({
+  center: [0, 0],
+  size: [10, 10],
+  strokeColor: "green",
 });
 function resetHoveredRange() {
   hoveredRange.position = Victor(0, 0);
@@ -108,14 +114,15 @@ view.onFrame = function (event) {
     return;
   }
 
-  const hoveredUnit = window.hovered.unit;
-  if (hoveredUnit) {
-    showUnitDetail(hoveredUnit.cur_stats);
-    hoveredRange.position = hoveredUnit.pos;
+  const focusedUnit = window.hovered.unit || window.selected.unit;
+  if (focusedUnit) {
+    showUnitDetail(focusedUnit.cur_stats);
+    hoveredRange.position = focusedUnit.pos;
     // can't set radius directly so this hack instead
     hoveredRange.scale(
-      hoveredUnit.cur_stats.range / (hoveredRange.bounds.width / 2)
+      focusedUnit.cur_stats.range / (hoveredRange.bounds.width / 2)
     );
+    hoveredRange.rotate(0.5);
   } else {
     showDefaultDetail();
     resetHoveredRange();
