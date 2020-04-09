@@ -320,6 +320,9 @@ socket.on("game_state", (state) => {
   window.drawn_shots.forEach((ds) => ds.path.remove());
   // console.log(window.self);
   refreshBlueprints(window.self.blueprints);
+  if (state.cur_resolve_timespan == 5000) {
+    console.log(`$` + window.self.money);
+  }
 });
 
 // webpack hot reloading...

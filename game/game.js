@@ -24,7 +24,7 @@ class Game {
     ];
     cps.forEach((pos) => {
       this.control_points.push(
-        new ControlPoint(pos, this.getPlayerById, this.getUnitById)
+        new ControlPoint(pos, this.addPlayerMoney.bind(this))
       );
     });
   }
@@ -116,8 +116,12 @@ class Game {
     });
     return res;
   }
+  addPlayerMoney(id, amount) {
+    this.getPlayerById(id).addMoney(amount);
+  }
   getPlayerById(id) {
-    return this.players.filter((p) => p.id == id);
+    let p = this.players.filter((p) => p.id == id)[0];
+    return p;
   }
   everyoneReady() {
     return this.players.length && this.players.every((p) => p.ended_turn);

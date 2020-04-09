@@ -4,8 +4,7 @@ class ControlPoint {
   static MAX_OWNERSHIP_LEVEL = 100;
   constructor(
     pos,
-    getPlayerById,
-    getUnitById,
+    addPlayerMoney,
     baseResourcesPerSecond = 2000,
     captureRange = 50
   ) {
@@ -13,8 +12,7 @@ class ControlPoint {
     this.pos = pos;
     this.ownershipLevel = 0;
     this.baseResourcesPerSecond = baseResourcesPerSecond;
-    this.getPlayerById = getPlayerById;
-    this.getUnitById = getUnitById;
+    this.addPlayerMoney = addPlayerMoney;
     this.captureRange = captureRange;
     this.id = this.owner_id + "_" + generateID();
   }
@@ -68,9 +66,8 @@ class ControlPoint {
     console.log(
       `*** control point ${this.id} adding money to owner: ${this.owner_id}`
     );
-    this.getPlayerById(this.owner_id).addMoney(
-      this.baseResourcesPerSecond * dt
-    );
+    let amount = (this.baseResourcesPerSecond * dt) / 1000;
+    this.addPlayerMoney(this.owner_id, amount);
   }
   //   takeDamage(damage){
 
