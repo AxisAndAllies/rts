@@ -168,8 +168,23 @@ http.listen(process.env.PORT || 8080, function () {
   runGame();
 });
 
-process.on("uncaughtException", function (err) {
-  console.trace(err.stack);
-  clearInterval(gameLoop);
-  runGame();
-});
+// enables server to keep state even on errors, prevent crashes no matter what
+if (process.env.NODE_ENV !== "production") {
+  const readline = require("readline");
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  process.on("uncaughtException", function (err) {
+    console.log(
+      "Unhandled Exception: Please fix the error below and press ENTER to continue :)"
+    );
+    console.trace(err.stack);
+    clearInterval(gameLoop);
+
+    rl.on("line", () => {
+      console.log("game resuming ", game.state);
+      runGame();
+    });
+  });
+}
