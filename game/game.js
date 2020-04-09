@@ -105,7 +105,7 @@ class Game {
     };
     // execute handler
     switcher[type]();
-    console.log(p);
+    // console.log(p);
   }
   getUnitById(id) {
     let res = null;

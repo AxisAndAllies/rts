@@ -63,10 +63,11 @@ class ControlPoint {
 
     // owner resources gain
     if (!this.owner_id) return;
-    console.log(
-      `*** control point ${this.id} adding money to owner: ${this.owner_id}`
-    );
+
     let amount = (this.baseResourcesPerSecond * dt) / 1000;
+    console.log(
+      `*** control point ${this.id} adding ${amount} money to owner: ${this.owner_id}`
+    );
     this.addPlayerMoney(this.owner_id, amount);
   }
   //   takeDamage(damage){

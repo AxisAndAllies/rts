@@ -190,7 +190,7 @@ view.onFrame = function (event) {
     });
     renderedControlPoint.strokeColor = !cp.owner_id
       ? "#aaa"
-      : cp.owner_id == window.self.owner_id
+      : cp.owner_id == window.self.id
       ? "black"
       : "red";
     // renderedControlPoint.fillColor = "blue";
@@ -277,7 +277,8 @@ function renderUnit(p, elem) {
         window.selected.unit = null; // deselects
         return;
       }
-      window.selected.unit.shoot_targets.push(elem.id);
+      // add newest target to FRONT of attack queue
+      window.selected.unit.shoot_targets.unshift(elem.id);
       emitAction(ACTION_TYPES.SET_UNIT_ATTACK, {
         unit_id: window.selected.unit.id,
         shoot_targets: window.selected.unit.shoot_targets,
