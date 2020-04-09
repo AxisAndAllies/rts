@@ -5,12 +5,24 @@
 to run: `npm start` (starts BE and also serves FE)
 
 - uses [paper.js](http://paperjs.org/about/) and socket.io
-
+### known bugs
+  - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
+  - can't hover over blueprint buttons when some unit selected?
 ### main todos
 - high priority
-  - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
-  - different unit displays based on type of unit (artillery, tanky, raider, scout)
+  - need to show cur stats + base stats on hover
+  - show your current $ + projected amount gained per turn
+  - controlPoints to show capture progress
+  - units to show healthbars
+  - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - [ongoing] unit balance :)
+    - maybe different pricing formulas based on unit class?
+  - more unit stats
+    - sight radius?
+    - AOE
+    - short/long reload...
+    - accuracy (% to hit)
+    - healing per turn
   - write state to file, load from file...
 - low priority
   - use more backend validation instead of frontend validation
