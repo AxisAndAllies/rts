@@ -31,7 +31,7 @@ to run: `npm start` (starts BE and also serves FE)
   - enable placing more factories
   - larger playing field (enable map pan/zoom)
   - more control points
-  - unit build times
+  - unit build times + factory queue to build one at a time
   - initial control point capture time
   - make factories destructable
   
