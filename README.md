@@ -7,9 +7,13 @@ to run: `npm start` (starts BE and also serves FE)
 - uses [paper.js](http://paperjs.org/about/) and socket.io
 
 ### main todos
-
-- use more backend validation instead of frontend validation
-- make some way to clear `shoot_targets` or reprioritize...
+- high priority
+  - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
+  - different unit displays based on type of unit (artillery, tanky, raider, scout)
+  - [ongoing] unit balance :)
+  - write state to file, load from file...
+- low priority
+  - use more backend validation instead of frontend validation
 
 ### NOTES:
 
