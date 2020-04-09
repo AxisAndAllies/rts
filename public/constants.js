@@ -23,7 +23,7 @@ const CONSTRAINTS_MIN = {
   dmg: 1,
   health: 1,
 
-  range: 1,
+  range: 5,
   speed: 1,
 
   reload: 1,
