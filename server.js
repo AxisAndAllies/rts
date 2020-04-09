@@ -143,19 +143,33 @@ io.on("connection", function (socket) {
 // Pass the Parcel bundler into Express as middleware
 // app.use(bundler.middleware());
 
-http.listen(process.env.PORT || 8080, function () {
-  console.log("listening on *:8080");
+let gameLoop = null;
+
+function runGame() {
   // TODO: make this more accurate, finer...
-  setInterval(() => {
+
+  gameLoop = setInterval(() => {
     // a hack lol, hostSocket can be disconnected...
     if (!hostSocket) {
       console.error("host socket does not exist");
       return;
     }
-    const updated = game.update(100);
+    let updated = game.update(100);
     if (updated) {
       hostSocket.broadcast.emit("game_state", game.state);
       hostSocket.emit("game_state", game.state);
     }
   }, 100);
+}
+
+http.listen(process.env.PORT || 8080, function () {
+  console.log("listening on *:8080");
+
+  runGame();
+});
+
+process.on("uncaughtException", function (err) {
+  console.trace(err.stack);
+  clearInterval(gameLoop);
+  runGame();
 });

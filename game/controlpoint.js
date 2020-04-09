@@ -20,7 +20,8 @@ class ControlPoint {
   }
   capture(capturer_id, numUnits, dt) {
     // 1 unit captures a control point in 10 sec
-    const shift = (((numUnits * dt) / 1000) * MAX_OWNERSHIP_LEVEL) / 10;
+    const shift =
+      (((numUnits * dt) / 1000) * ControlPoint.MAX_OWNERSHIP_LEVEL) / 10;
     if (capturer_id == this.owner_id) {
       // reinforce owner's ownership level if needed
       this.ownershipLevel = Math.min(
@@ -52,11 +53,15 @@ class ControlPoint {
     // const owners = units.map((u) => u.owner_id);
     // if (owners.)
   }
-  update(capturer_id, numUnits, dt) {
+  update(capturers, dt) {
     //TODO: make fairer capture + get resources in same turn situation (ban or lessen)...
 
     // capture progress
-    this.capture(capturer_id, numUnits, dt);
+    if (capturers.length == 1) {
+      // only capture if not contested
+      let { player_id, numUnits } = capturers[0];
+      this.capture(player_id, numUnits, dt);
+    }
 
     // owner resources gain
     if (!this.owner_id) return;

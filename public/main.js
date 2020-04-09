@@ -8,9 +8,13 @@ paper.install(window);
 window.addEventListener(
   "keydown",
   function (e) {
-    // space and arrow keys
-    if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    // space and arrow keys, enter key
+    if ([32, 37, 38, 39, 40, 13].indexOf(e.keyCode) > -1) {
       e.preventDefault();
+    }
+    if (e.keyCode == 13) {
+      // press Enter to end turn.
+      window.endTurn();
     }
   },
   false
@@ -25,7 +29,6 @@ window.hovered = {};
 // maps id to drawn path, ensuring each elem gets drawn exactly once
 window.drawn = {};
 
-// TODO: add TTL for shots?
 window.drawn_shots = [];
 //
 
@@ -170,14 +173,29 @@ view.onFrame = function (event) {
       to: Victor.fromObject(targ.pos).toArray(),
       strokeColor: unitColor(shooter),
       strokeWidth: 3,
-      opacity: 0.5,
+      opacity: 0.3,
     });
     // console.log("drew shot", laser.from, laser.to);
-    window.drawn_shots.push(laser);
+    window.drawn_shots.push({ path: laser, createdAt: Date.now() });
     // path.path.opacity = 0.5;
   });
 
-  window.gameState.control_points.forEach((cp) => {});
+  window.gameState.control_points.forEach((cp) => {
+    let renderedControlPoint = new Path.RegularPolygon({
+      center: cp.pos,
+      sides: 8,
+      radius: cp.captureRange,
+      // fillColor: "blue",
+      // opacity: 0.3,
+    });
+    renderedControlPoint.strokeColor = !cp.owner_id
+      ? "#aaa"
+      : cp.owner_id == window.self.owner_id
+      ? "black"
+      : "red";
+    // renderedControlPoint.fillColor = "blue";
+    // renderedControlPoint.opacity = 0.3;
+  });
 
   window.gameState.players.forEach((p) => {
     p.facs.forEach((elem) => {
@@ -299,7 +317,7 @@ socket.on("game_state", (state) => {
   window.self = getSelf(socket.id, gameState);
 
   // clear shots on game update
-  window.drawn_shots = [];
+  window.drawn_shots.forEach((ds) => ds.path.remove());
   // console.log(window.self);
   refreshBlueprints(window.self.blueprints);
 });

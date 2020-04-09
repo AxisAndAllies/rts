@@ -127,7 +127,11 @@ class Game {
   //   }
   update(dt) {
     // returns whether game updated
-    if (!this.everyoneReady()) return false;
+    if (
+      !this.everyoneReady() &&
+      this.cur_resolve_timespan == Game.RESOLVE_TIMESPAN
+    )
+      return false;
     // console.log("bro2");
     // clear shots :)
     this.cur_shots = [];
@@ -179,6 +183,22 @@ class Game {
         // gotta bind, always gotta bind
         u.update(dt, dealDamage.bind(this), getUnitPosFn.bind(this));
       });
+    });
+
+    // capturing
+    this.control_points.forEach((cp) => {
+      let capturers = [];
+      this.players.forEach((p) => {
+        // console.log(p.id, " player's units updating");
+        let n = p.units.filter(
+          (u) =>
+            Victor.fromObject(u.pos).subtract(cp.pos.clone()).length() <=
+            cp.captureRange
+        ).length;
+        if (n > 0) capturers.push({ player_id: p.id, numUnits: n });
+      });
+      // console.log(capturers);
+      cp.update(capturers, dt);
     });
 
     // check conditions???
