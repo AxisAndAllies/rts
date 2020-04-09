@@ -1,47 +1,32 @@
-// const CONSTRAINTS_UNITS = {
-//   dmg: "dmg/shot",
-//   health: "hp",
-
-//   range: "m",
-//   speed: "m/sec",
-
-//   //   shortReload: "sec"
-//   reload: "sec",
-//   turn: "deg/sec",
-// };
-// const CONSTRAINTS_MIN = {
-//   dmg: 1,
-//   health: 1,
-
-//   range: 1,
-//   speed: 1,
-
-//   reload: 1,
-//   turn: 5,
-// };
-// const CONSTRAINTS_MAX = {
-//   dmg: 100,
-//   health: 100,
-
-//   range: 200,
-//   speed: 30,
-
-//   reload: 30,
-//   turn: 360,
-// };
-
 const Victor = require("victor");
 const Player = require("./player");
 const Factory = require("./factory");
+const ControlPoint = require("./controlpoint");
 
 class Game {
   static RESOLVE_TIMESPAN = 5000;
+  static MAP_SIZE = 900;
   constructor(initial_state) {
     this.players = [];
+    this.control_points = [];
     this.cur_resolve_timespan = Game.RESOLVE_TIMESPAN;
     this.socket_player_map = {}; // maps socket_id to player_id
     this.cur_shots = [];
     Object.assign(this, initial_state);
+
+    // initialize control points
+    let mapSize = Game.MAP_SIZE;
+    let cps = [
+      Victor(200, 200),
+      Victor(mapSize - 200, mapSize - 200),
+      Victor(mapSize - 200, 200),
+      Victor(200, mapSize - 200),
+    ];
+    cps.forEach((pos) => {
+      this.control_points.push(
+        new ControlPoint(pos, this.getPlayerById, this.getUnitById)
+      );
+    });
   }
   addNewPlayer(socket_id) {
     // TODO: add name support later
@@ -52,7 +37,10 @@ class Game {
     // actual
     // let loc = Victor().randomize(Victor(0, 0), Victor(900, 900));
     // testing
-    let loc = Victor().randomize(Victor(50, 50), Victor(900, 900));
+    let loc = Victor().randomize(
+      Victor(50, 50),
+      Victor(Game.MAP_SIZE, Game.MAP_SIZE)
+    );
 
     newp.facs.push(new Factory(newp.id, loc));
     this.players.push(newp);
@@ -77,6 +65,7 @@ class Game {
       socket_player_map: this.socket_player_map,
       cur_resolve_timespan: this.cur_resolve_timespan,
       cur_shots: this.cur_shots,
+      control_points: this.control_points,
     };
   }
   handlePlayerAction(type, socket_id, data) {
@@ -126,6 +115,9 @@ class Game {
       });
     });
     return res;
+  }
+  getPlayerById(id) {
+    return this.players.filter((p) => p.id == id);
   }
   everyoneReady() {
     return this.players.length && this.players.every((p) => p.ended_turn);
@@ -193,7 +185,8 @@ class Game {
     this.cur_resolve_timespan -= dt;
     // console.log(this.cur_resolve_timespan, dt);
     if (this.cur_resolve_timespan < 0) {
-      console.log("finished resolving", this.state);
+      // console.log("finished resolving", this.state);
+      console.log(`*** FINISHED RESOLVING.`);
       this.cur_resolve_timespan = Game.RESOLVE_TIMESPAN;
       this.players.forEach((p) => {
         p.ended_turn = false;
@@ -203,7 +196,7 @@ class Game {
   }
   printStub() {
     // prints random things for debugging, can be called anywhere :)
-    console.log("whtisgg");
+    // console.log("whtisgg");
   }
 }
 

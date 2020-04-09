@@ -11,13 +11,20 @@ class Player {
     this.ended_turn = false;
   }
   buyBlueprint(stats, name) {
-    let cost = Math.pow(this.blueprints.length, 2) * 10000;
+    const cost = this.blueprintCost;
     if (this.money < cost) {
       return false;
     }
     this.money -= cost;
     this.blueprints.push(new Blueprint(name, this.id, stats));
     return true;
+  }
+  get blueprintCost() {
+    // return Math.pow(this.blueprints.length, 2) * 10000;
+    return this.blueprints.length * 10000;
+  }
+  addMoney(amount) {
+    this.money += amount;
   }
   buyUnit(blueprint_id, factory_id) {
     let blueprint = this.blueprints.filter((b) => b.id == blueprint_id)[0];
