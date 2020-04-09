@@ -80,9 +80,9 @@ see https://socket.io/docs/emit-cheatsheet/
 */
 
 setInterval(() => {
-  // clear stale disconnects (>4sec disconnects)
+  // clear stale disconnects (>10 sec disconnects)
   let stale_users = recently_disconnected_users
-    .filter((u) => Date.now() - u.ts > 4 * 1000)
+    .filter((u) => Date.now() - u.ts > 10 * 1000)
     .map((u) => u.id);
 
   stale_users.forEach((id) => {

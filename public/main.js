@@ -90,20 +90,35 @@ background.onMouseDown = function (e) {
   console.log(e.point, e.event.button);
 };
 
+const outOfBounds = Victor(0, 0);
+
 const hoveredRange = new Path.Circle({
-  center: [0, 0],
+  center: outOfBounds,
   radius: 1,
   strokeColor: "#888",
   dashArray: [4, 8],
 });
 const hoveredMoveTarget = new Path.Rectangle({
-  center: [0, 0],
+  center: outOfBounds,
   size: [10, 10],
   strokeColor: "green",
 });
+const hoveredAttackTarget = new Path.Rectangle({
+  center: outOfBounds,
+  size: [15, 15],
+  strokeWidth: 2,
+  strokeColor: "maroon",
+  rotation: 45,
+});
 function resetHoveredRange() {
-  hoveredRange.position = Victor(0, 0);
+  hoveredRange.position = outOfBounds;
   hoveredRange.scale(1 / (hoveredRange.bounds.width / 2));
+}
+function resetHoveredMoveTarget() {
+  hoveredMoveTarget.position = outOfBounds;
+}
+function resetHoveredAttackTarget() {
+  hoveredAttackTarget.position = outOfBounds;
 }
 
 const SELECTED_COLOR = "blue";
@@ -114,7 +129,14 @@ view.onFrame = function (event) {
     return;
   }
 
-  const focusedUnit = window.hovered.unit || window.selected.unit;
+  // do this to "refresh" units
+  const hoveredUnit = window.hovered.unit
+    ? getUnitById(window.hovered.unit.id)
+    : null;
+  const selectedUnit = window.selected.unit
+    ? getUnitById(window.selected.unit.id)
+    : null;
+  const focusedUnit = hoveredUnit || selectedUnit;
   if (focusedUnit) {
     showUnitDetail(focusedUnit.cur_stats);
     hoveredRange.position = focusedUnit.pos;
@@ -128,8 +150,17 @@ view.onFrame = function (event) {
     resetHoveredRange();
   }
 
-  // draw shots
+  if (focusedUnit) {
+    hoveredMoveTarget.position = focusedUnit.move_target || outOfBounds;
+    hoveredAttackTarget.position = focusedUnit.shoot_targets.length
+      ? getUnitById(focusedUnit.shoot_targets[0]).pos
+      : outOfBounds;
+  } else {
+    resetHoveredMoveTarget();
+    resetHoveredAttackTarget();
+  }
 
+  // draw shots
   window.gameState.cur_shots.forEach(({ shooter_id, target_id, dmg }) => {
     let shooter = getUnitById(shooter_id);
     let targ = getUnitById(target_id);
@@ -210,7 +241,7 @@ function renderUnit(p, elem) {
   if (elem.cur_stats.health <= 0) {
     // path.position = Victor(-50, -50).toArray();
   }
-  renderedUnit.rotation = elem.orientation || 0;
+  renderedUnit.rotation = -elem.orientation || 0;
   // if (path.rotation) console.log(path.rotation);
   renderedUnit.onMouseDown = function (e) {
     // console.log("lol", f);
@@ -218,6 +249,9 @@ function renderUnit(p, elem) {
     if (btn == 0) {
       // can only select your own units
       if (elem.owner_id == window.self.id) window.selected.unit = elem;
+      else {
+        alert("Cannot select enemy units.");
+      }
     } else {
       // right click
       // can't attack yourself

@@ -81,7 +81,7 @@ class Unit {
     } else if (angdiff < 0) {
       this.orientation += minturn;
     }
-    console.log("then... ", this.orientation);
+    // console.log("then... ", this.orientation);
     // shoot if aligned + in range
     if (
       Math.abs(ang - this.orientation) < 0.01 &&

@@ -14,6 +14,7 @@ function emitAction(type, data) {
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn } = obj;
   let realistic_range = speed / 2 + Math.pow(range, 1.5); // b/c of kiting
+  realistic_range /= 2; // scaling factor
   let dps = dmg / reload;
 
   // speed^2 to correct for value of moving fast
