@@ -1,16 +1,17 @@
 ## rts
 
----
-
 to run: `npm start` (starts BE and also serves FE)
 
 - uses [paper.js](http://paperjs.org/about/) and socket.io
+
 ### known bugs
   - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
   - can't hover over blueprint buttons when some unit selected?
   - prevent seeing enemy move plans
+  
 ### main todos
-- high priority
+
+- HIGH priority
   - need to show cur stats + base stats on hover
   - show your current $ + projected amount gained per turn
   - controlPoints to show capture progress
@@ -25,7 +26,16 @@ to run: `npm start` (starts BE and also serves FE)
     - accuracy (% to hit)
     - healing per turn
   - write state to file, load from file...
-- low priority
+  
+- MID priority
+  - enable placing more factories
+  - larger playing field (enable map pan/zoom)
+  - more control points
+  - unit build times
+  - initial control point capture time
+  - make factories destructable
+  
+- LOW priority
   - use more backend validation instead of frontend validation
 
 ### NOTES:
