@@ -6,7 +6,7 @@ to run: `npm start` (starts BE and also serves FE)
 
 ### known bugs
   - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
-  - can't hover over blueprint buttons when some unit selected?
+  - can't hover over blueprint buttons when some unit selected? --> make only show range on hover
   - prevent seeing enemy move plans
   
 ### main todos
@@ -36,6 +36,8 @@ to run: `npm start` (starts BE and also serves FE)
   - make factories destructable
   
 - LOW priority
+  - factory upgrade build speed, build radius
+    - factory choose where to build unit
   - use more backend validation instead of frontend validation
 
 ### NOTES:
