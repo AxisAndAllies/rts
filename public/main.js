@@ -36,8 +36,7 @@ window.buyBlueprint = () => {
   console.log("bought blueprint!");
   let nos = getMakerObj().newobj;
   if (
-    window.self &&
-    window.self.blueprints
+    window.self?.blueprints
       .map((e) => JSON.stringify(e.stats))
       .includes(JSON.stringify(nos))
   ) {
@@ -60,11 +59,10 @@ let st = "";
 Object.keys(CONSTRAINTS_MIN).forEach((k) => {
   //min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]}
   // set to CONSTRAINTS_MIN
-  st += `<span>${k}: </span><input type="text" value="${CONSTRAINTS_TESTING[k]}" id="${k}" oninput="updateMaker()"</input><br>`;
+  st += `<span>${k}: </span><input type="text" value="${CONSTRAINTS_TESTING[k]}" id="${k}"</input><br>`;
 });
 console.log(st);
 document.getElementById("maker").innerHTML = st;
-updateMaker();
 
 // Setup directly from canvas id:
 paper.setup("canvas");
@@ -140,6 +138,16 @@ view.onFrame = function (event) {
     return;
   }
 
+  const income = window.gameState?.control_points
+    .filter((cp) => cp.owner_id == window.self.id)
+    .reduce((a, v) => a + v.baseResourcesPerSecond * 5, 0);
+  document.getElementById(
+    "money"
+  ).innerText = `$${window.self?.money} (+ $${income})`;
+
+  document.getElementById("name").innerText = `${window.self?.name}`;
+  updateMakerText();
+
   // do this to "refresh" units
   const hoveredUnit = window.hovered.unit
     ? getUnitById(window.hovered.unit.id)
@@ -149,7 +157,7 @@ view.onFrame = function (event) {
     : null;
   const focusedUnit = hoveredUnit || selectedUnit;
   if (focusedUnit) {
-    showUnitDetail(focusedUnit.cur_stats);
+    showUnitDetail(focusedUnit);
     hoveredRange.position = focusedUnit.pos;
     // can't set radius directly so this hack instead
     hoveredRange.scale(

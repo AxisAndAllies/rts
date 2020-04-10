@@ -1,10 +1,10 @@
 function emitAction(type, data) {
-  if (window.self && window.self.ended_turn) {
+  if (window.self?.ended_turn) {
     // can't make actions while game is resolving :)
     console.log("can't make actions while game is resolving :)");
     return;
   }
-  console.log("acttion emitted: ", type, data);
+  console.log("action emitted: ", type, data);
   socket.emit("action", {
     type,
     data,
@@ -23,6 +23,11 @@ function calcCost(obj) {
   let cost = realistic_range * dps * health * Math.sqrt(turn) + speed * speed;
   cost = Math.max(cost, 100);
   return Math.round(cost);
+}
+
+// needs to be synced w/ backend player field
+function newBlueprintCost() {
+  return window.self?.blueprints.length * 10000 || 0;
 }
 
 function formatMoney(number) {
@@ -71,13 +76,17 @@ function getMakerObj() {
   return { invalid, newobj };
 }
 
-function updateMaker() {
+function updateMakerText() {
   let { invalid, newobj } = getMakerObj();
   //   console.log(newobj);
   document.getElementById("maker");
   document.getElementById("buy").disabled = invalid;
 
-  document.getElementById("buy").innerText = formatMoney(calcCost(newobj));
+  document.getElementById(
+    "buy"
+  ).innerText = `$${newBlueprintCost()} (unit cost: ${formatMoney(
+    calcCost(newobj)
+  )})`;
 }
 
 // isomorphic
@@ -118,8 +127,9 @@ function getBlueprint(blueprint_id, player_id) {
   return getPlayer(player_id).blueprints.filter((e) => e.id == blueprint_id)[0];
 }
 
-function showUnitDetail(stats) {
-  document.getElementById("info").innerText = dispStatText(stats);
+function showUnitDetail({ base_stats, cur_stats }) {
+  // TODO: show base stats also
+  document.getElementById("info").innerText = dispStatText(cur_stats);
 }
 function showBlueprintDetail(blueprint_id, player_id = window.self.id) {
   // console.log(window.self.blueprints);

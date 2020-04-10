@@ -7,7 +7,7 @@ to run: `npm start` (starts BE and also serves FE)
 ### known bugs
 
 - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
-- can't hover over blueprint buttons when some unit selected? --> make only show range on hover
+- [x] can't hover over blueprint buttons when some unit selected?
 - [x] prevent seeing enemy move plans
 
 ### main todos
@@ -15,8 +15,8 @@ to run: `npm start` (starts BE and also serves FE)
 - HIGH priority
 
   - need to show cur stats + base stats on hover
-  - show your current \$ + projected amount gained per turn
-  - show blueprint cost...
+  - [x] show your current \$ + projected amount gained per turn
+  - [x] show blueprint cost...
   - controlPoints to show capture progress
   - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - [ongoing] unit balance :)
@@ -38,11 +38,13 @@ to run: `npm start` (starts BE and also serves FE)
   - initial control point capture time
   - all units to show healthbars
   - make factories destructable
+  - add ability to unlock higher limits for certain stats?? (like researching tech)
 
 - LOW priority
   - factory upgrade build speed, build radius
     - factory choose where to build unit
   - use more backend validation instead of frontend validation
+  - rectangle select + smarter auto spread out?
 
 ### NOTES:
 
