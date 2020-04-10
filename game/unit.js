@@ -30,7 +30,12 @@ class Unit {
   }
   shoot(targ, cb) {
     // enemy take damage
-    cb(this.id, targ, this.cur_stats.dmg);
+    if (Math.random() * 100 < this.cur_stats.accuracy) {
+      cb(this.id, targ, this.cur_stats.dmg);
+      console.log(`${this.id} hit ${targ} for ${this.cur_stats.dmg}!`);
+    } else {
+      console.log(`${this.id} missed ${targ}!`);
+    }
     // reset reloading
     this.cur_stats.reload = this.base_stats.reload;
   }
