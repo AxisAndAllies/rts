@@ -113,6 +113,11 @@ const hoveredAttackTarget = new Path.Rectangle({
   strokeColor: "maroon",
   rotation: 45,
 });
+const hoveredHealthBar = new Path.Line({
+  from: outOfBounds,
+  to: [20, 20],
+  strokeColor: "green",
+});
 function resetHoveredRange() {
   hoveredRange.position = outOfBounds;
   hoveredRange.scale(1 / (hoveredRange.bounds.width / 2));
@@ -122,6 +127,9 @@ function resetHoveredMoveTarget() {
 }
 function resetHoveredAttackTarget() {
   hoveredAttackTarget.position = outOfBounds;
+}
+function resetHoveredHealth() {
+  hoveredHealthBar.segments = [outOfBounds, [20, 20]];
 }
 
 const SELECTED_COLOR = "blue";
@@ -148,16 +156,29 @@ view.onFrame = function (event) {
       focusedUnit.cur_stats.range / (hoveredRange.bounds.width / 2)
     );
     hoveredRange.rotate(0.5);
+
+    // show healthbar
+    let healthbarLen = Math.sqrt(focusedUnit.cur_stats.health) * 4 + 5;
+    let size = focusedUnit.size || 15;
+    let { pos } = focusedUnit;
+    hoveredHealthBar.segments = [
+      [-healthbarLen / 2 + pos.x, -size / 2 - 9 + pos.y],
+      [healthbarLen / 2 + pos.x, -size / 2 - 9 + pos.y],
+    ];
   } else {
-    showDefaultDetail();
+    showUnitDetail({});
     resetHoveredRange();
+    resetHoveredHealth();
   }
 
   if (focusedUnit) {
-    hoveredMoveTarget.position = focusedUnit.move_target || outOfBounds;
-    hoveredAttackTarget.position = focusedUnit.shoot_targets.length
-      ? getUnitById(focusedUnit.shoot_targets[0]).pos
-      : outOfBounds;
+    // only show if unit belongs to owner
+    if (focusedUnit.owner_id == window.self.id) {
+      hoveredMoveTarget.position = focusedUnit.move_target || outOfBounds;
+      hoveredAttackTarget.position = focusedUnit.shoot_targets.length
+        ? getUnitById(focusedUnit.shoot_targets[0]).pos
+        : outOfBounds;
+    }
   } else {
     resetHoveredMoveTarget();
     resetHoveredAttackTarget();
@@ -247,8 +268,7 @@ function renderUnit(p, elem) {
           // fillColor: "white",
         }),
         new Path.Rectangle(midpt, [3, size]),
-        new Path.Line(midpt, [0, 0]),
-        new Path.Line(midpt, [0, 0]),
+        // new Path.Line([0, 0], [0, 0]),
       ],
       applyMatrix: false,
     });
@@ -295,11 +315,14 @@ function renderUnit(p, elem) {
   renderedUnit.strokeColor =
     window.selected.unit === elem ? SELECTED_COLOR : unitColor(elem);
   if (elem.cur_stats.health <= 0) {
-    renderedUnit.strokeColor = "#555";
+    renderedUnit.strokeColor = "#555"; // dead
     // renderedUnit.position = Victor(-50, -50).toArray();
   }
-  renderedUnit.children[2].to = elem.move_target || renderedUnit.position;
-  renderedUnit.children[3].to = elem.shoot_targets[0] || renderedUnit.position;
+  // let healthbarLen = Math.sqrt(elem.cur_stats.health) * 4 + 5;
+  // renderedUnit.children[2].segments = [
+  //   [-healthbarLen / 2, -size / 2 - 9],
+  //   [healthbarLen / 2, -size / 2 - 9],
+  // ];
   // renderedUnit.children[3].strokeColor = "#cdc";
   renderedUnit.fillColor = "white";
   renderedUnit.fillColor.alpha = 0.3;

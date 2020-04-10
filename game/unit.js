@@ -75,7 +75,6 @@ class Unit {
     if (angdiff <= -180) angdiff += 360;
 
     let minturn = Math.min(Math.abs(angdiff), turn);
-    console.log(ang, this.orientation, angdiff, minturn);
     if (angdiff > 0) {
       this.orientation -= minturn;
     } else if (angdiff < 0) {

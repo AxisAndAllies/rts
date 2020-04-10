@@ -124,10 +124,10 @@ function showUnitDetail(stats) {
 function showBlueprintDetail(blueprint_id, player_id = window.self.id) {
   // console.log(window.self.blueprints);
   let stats = getBlueprint(blueprint_id, player_id).stats;
-  document.getElementById("info").innerText = dispStatText(stats);
+  document.getElementById("blueprintInfo").innerText = dispStatText(stats);
 }
 function showDefaultDetail() {
-  document.getElementById("info").innerText = dispText();
+  document.getElementById("blueprintInfo").innerText = dispText();
 }
 function buyUnit(blueprint_id) {
   let factory_id = window.selected.fac.id;

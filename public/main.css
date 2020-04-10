@@ -43,8 +43,17 @@ a {
   user-select: none;
 }
 
+#newblueprintbox {
+  top: 280px;
+  position: fixed;
+}
+
 #maker > input {
   width: 4em;
+}
+
+#unitselection > button {
+  margin-top: 10px;
 }
 
 a {

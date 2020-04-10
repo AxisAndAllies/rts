@@ -5,17 +5,19 @@ to run: `npm start` (starts BE and also serves FE)
 - uses [paper.js](http://paperjs.org/about/) and socket.io
 
 ### known bugs
-  - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
-  - can't hover over blueprint buttons when some unit selected? --> make only show range on hover
-  - prevent seeing enemy move plans
-  
+
+- fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
+- can't hover over blueprint buttons when some unit selected? --> make only show range on hover
+- [x] prevent seeing enemy move plans
+
 ### main todos
 
 - HIGH priority
+
   - need to show cur stats + base stats on hover
-  - show your current $ + projected amount gained per turn
+  - show your current \$ + projected amount gained per turn
+  - show blueprint cost...
   - controlPoints to show capture progress
-  - units to show healthbars
   - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?
@@ -26,15 +28,17 @@ to run: `npm start` (starts BE and also serves FE)
     - accuracy (% to hit)
     - healing per turn
   - write state to file, load from file...
-  
+
 - MID priority
+
   - enable placing more factories
   - larger playing field (enable map pan/zoom)
   - more control points
   - unit build times + factory queue to build one at a time
   - initial control point capture time
+  - all units to show healthbars
   - make factories destructable
-  
+
 - LOW priority
   - factory upgrade build speed, build radius
     - factory choose where to build unit
