@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const Victor = require("victor");
 const Player = require("./player");
 const Factory = require("./factory");
@@ -5,14 +7,13 @@ const ControlPoint = require("./controlpoint");
 
 class Game {
   static RESOLVE_TIMESPAN = 5000;
-  static MAP_SIZE = 900;
+  static MAP_SIZE = 1200;
   constructor(initial_state) {
     this.players = [];
     this.control_points = [];
     this.cur_resolve_timespan = Game.RESOLVE_TIMESPAN;
     this.socket_player_map = {}; // maps socket_id to player_id
     this.cur_shots = [];
-    Object.assign(this, initial_state);
 
     // initialize control points
     let mapSize = Game.MAP_SIZE;
@@ -27,16 +28,17 @@ class Game {
         new ControlPoint(pos, this.addPlayerMoney.bind(this))
       );
     });
+    this.control_points.push(
+      new ControlPoint(
+        Victor(mapSize / 2, mapSize / 2, this.addNewPlayer.bind(this))
+      )
+    );
+    Object.assign(this, initial_state);
   }
   addNewPlayer(socket_id) {
     // TODO: add name support later
     let newp = new Player("player " + socket_id, 80000);
-    // let loc = Victor(Math.random(), Math.random());
 
-    // let newloc = loc * Victor(800, 800);
-    // actual
-    // let loc = Victor().randomize(Victor(0, 0), Victor(900, 900));
-    // testing
     let loc = Victor().randomize(
       Victor(50, 50),
       Victor(Game.MAP_SIZE, Game.MAP_SIZE)
@@ -216,6 +218,13 @@ class Game {
         p.ended_turn = false;
       });
     }
+
+    // save game to file
+    let data = JSON.stringify(this.state, null, 2);
+    fs.writeFile("./gameState.json", data, (err) => {
+      if (err) throw err;
+      // console.log("Data written to file");
+    });
     return true;
   }
   printStub() {
@@ -223,8 +232,6 @@ class Game {
     // console.log("whtisgg");
   }
 }
-
-let game = new Game();
 
 if (process.env.NODE_ENV !== "production") {
   if (module.hot) {
@@ -248,4 +255,4 @@ if (process.env.NODE_ENV !== "production") {
   }
 }
 
-module.exports = game;
+module.exports = Game;

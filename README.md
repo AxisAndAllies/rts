@@ -17,7 +17,7 @@ to run: `npm start` (starts BE and also serves FE)
   - [x] need to show cur stats + base stats on hover
   - [x] show your current \$ + projected amount gained per turn
   - [x] show blueprint cost...
-  - controlPoints to show capture progress
+  - [x] controlPoints to show capture progress
   - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?

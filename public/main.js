@@ -66,7 +66,7 @@ document.getElementById("maker").innerHTML = st;
 
 // Setup directly from canvas id:
 paper.setup("canvas");
-const background = new Path.Rectangle([0, 0], [1200, 900]);
+const background = new Path.Rectangle([0, 0], [1200, 1200]);
 background.fillColor = "#eee";
 background.onMouseDown = function (e) {
   // when clicking outside any objects
@@ -212,13 +212,25 @@ view.onFrame = function (event) {
   window.gameState.control_points.forEach((elem) => {
     let renderedControlPoint =
       window.drawn[elem.id] ||
-      new Path.RegularPolygon({
-        center: elem.pos,
-        sides: 8,
-        radius: elem.captureRange,
-        // fillColor: "blue",
-        // opacity: 0.3,
+      new CompoundPath({
+        children: [
+          new Path.RegularPolygon({
+            center: elem.pos,
+            sides: 8,
+            radius: elem.captureRange,
+            // fillColor: "blue",
+            // opacity: 0.3,
+          }),
+          new Path.Circle({
+            center: elem.pos,
+            radius: elem.captureRange,
+          }),
+        ],
       });
+    let newrad = (elem.ownershipLevel / 100) * elem.captureRange || 0.00001;
+    renderedControlPoint.children[1].scale(
+      newrad / (renderedControlPoint.children[1].bounds.width / 2 || 0.00001)
+    );
     renderedControlPoint.strokeColor = !elem.owner_id
       ? "#aaa"
       : elem.owner_id == window.self.id

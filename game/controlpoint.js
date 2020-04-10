@@ -28,8 +28,8 @@ class ControlPoint {
         ControlPoint.MAX_OWNERSHIP_LEVEL
       );
     } else {
-      const remainder = this.ownershipLevel - shift;
-      this.ownershipLevel = remainder;
+      // console.log(`${shift}, capturing...`);
+      this.ownershipLevel -= shift;
       if (this.ownershipLevel <= 0) {
         this.ownershipLevel *= -1;
         // if you've got leftover forces, shift to reinforcing ownership level
@@ -66,9 +66,9 @@ class ControlPoint {
     if (!this.owner_id) return;
 
     let amount = (this.baseResourcesPerSecond * dt) / 1000;
-    console.log(
-      `*** control point ${this.id} adding ${amount} money to owner: ${this.owner_id}`
-    );
+    // console.log(
+    //   `*** control point ${this.id} adding ${amount} money to owner: ${this.owner_id}`
+    // );
     this.addPlayerMoney(this.owner_id, amount);
   }
   //   takeDamage(damage){

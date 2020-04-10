@@ -3,6 +3,7 @@ const app = express();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const path = require("path");
+const fs = require("fs");
 
 // const Bundler = require("parcel");
 
@@ -56,7 +57,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Main/entry module can't be reloaded, hence the extra file
-const game = require("./game/game");
+const game = new (require("./game/game"))(loadGameStateFromFile());
 
 app.use(express.static("public"));
 
@@ -68,13 +69,46 @@ app.get("/", function (req, res) {
 //   res.sendFile(path.join(__dirname, "/public/debugger.html"));
 // });
 
-active_sockets = [];
-pauseTime = 0;
-hostSocket = null;
+let active_sockets = [];
+let pauseTime = 0;
+let hostSocket = null;
 
 // hack :)
-recently_disconnected_users = [];
+var recently_disconnected_users = [];
 
+function loadGameStateFromFile() {
+  let raw = "{}";
+  try {
+    raw = fs.readFileSync("./gameState.json");
+  } catch (err) {
+    console.error(err);
+  }
+  let state = JSON.parse(raw);
+  // allow all players to reconnect :)
+  if (Object.keys(state).length > 0) {
+    recently_disconnected_users = Object.keys(state.socket_player_map).map(
+      (id) => ({
+        id: id,
+        ts: Date.now(),
+      })
+    );
+    console.log(recently_disconnected_users);
+  }
+  return state;
+}
+
+function checkReconnect(new_socket_id) {
+  if (recently_disconnected_users.length) {
+    // hacky reconnect XD using FILA (like a stack)
+    // TODO: use actually good auth/fingerprinting/sessions
+    let old_socket = recently_disconnected_users.pop();
+    game.updatePlayerSocket(old_socket.id, new_socket_id);
+  } else {
+    // actually new player
+    console.log("new player", new_socket_id);
+    game.addNewPlayer(new_socket_id);
+  }
+}
 /*
 see https://socket.io/docs/emit-cheatsheet/
 */
@@ -99,16 +133,7 @@ io.on("connection", function (socket) {
   hostSocket = socket;
   if (!active_sockets.includes(socket.id)) {
     active_sockets.push(socket.id);
-    if (recently_disconnected_users.length) {
-      // hacky reconnect XD using FILA (like a stack)
-      // TODO: use actually good auth/fingerprinting/sessions
-      let old_socket = recently_disconnected_users.pop();
-      game.updatePlayerSocket(old_socket.id, socket.id);
-    } else {
-      // actually new player
-      console.log("new player", socket.id);
-      game.addNewPlayer(socket.id);
-    }
+    checkReconnect(socket.id);
 
     // send client initial game state :)
     socket.emit("game_state", game.state);
