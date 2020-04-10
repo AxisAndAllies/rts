@@ -1,5 +1,5 @@
 const Victor = require("victor");
-const { calcCost, generateID } = require("./util");
+const { generateID } = require("./util");
 class ControlPoint {
   static MAX_OWNERSHIP_LEVEL = 100;
   constructor(
@@ -53,8 +53,6 @@ class ControlPoint {
     // if (owners.)
   }
   update(capturers, dt) {
-    //TODO: make fairer capture + get resources in same turn situation (ban or lessen)...
-
     // capture progress
     if (capturers.length == 1) {
       // only capture if not contested
@@ -71,9 +69,6 @@ class ControlPoint {
     // );
     this.addPlayerMoney(this.owner_id, amount);
   }
-  //   takeDamage(damage){
-
-  //   }
 }
 
 module.exports = ControlPoint;

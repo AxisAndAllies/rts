@@ -128,9 +128,7 @@ class Game {
   everyoneReady() {
     return this.players.length && this.players.every((p) => p.ended_turn);
   }
-  //   nextTurn() {
-  //       const everyoneReady =
-  //   }
+
   update(dt) {
     // returns whether game updated
     if (
@@ -138,8 +136,7 @@ class Game {
       this.cur_resolve_timespan == Game.RESOLVE_TIMESPAN
     )
       return false;
-    // console.log("bro2");
-    // clear shots :)
+    // clear all shots :)
     this.cur_shots = [];
 
     // tally up dead
@@ -168,7 +165,9 @@ class Game {
     // each player update the
     // each fac update them
     this.players.forEach((p) => {
-      p.facs.forEach((f) => f.update(dt));
+      p.facs.forEach((f) => {
+        p.units.push(...f.update(dt));
+      });
       // console.log(p.ended_turn);
     });
 
@@ -220,11 +219,10 @@ class Game {
     }
 
     // save game to file
-    let data = JSON.stringify(this.state, null, 2);
-    fs.writeFile("./gameState.json", data, (err) => {
-      if (err) throw err;
-      // console.log("Data written to file");
-    });
+    // let data = JSON.stringify(this.state, null, 2);
+    // fs.writeFile("./gameState.json", data, (err) => {
+    //   if (err) throw err;
+    // });
     return true;
   }
   printStub() {

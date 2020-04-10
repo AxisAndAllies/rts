@@ -56,8 +56,16 @@ if (process.env.NODE_ENV !== "production") {
    */
 }
 
+let active_sockets = [];
+let pauseTime = 0;
+let hostSocket = null;
+
+// hack :)
+recently_disconnected_users = [];
+
 // Main/entry module can't be reloaded, hence the extra file
-const game = new (require("./game/game"))(loadGameStateFromFile());
+// const game = new (require("./game/game"))(loadGameStateFromFile());
+const game = new (require("./game/game"))();
 
 app.use(express.static("public"));
 
@@ -65,18 +73,8 @@ app.get("/", function (req, res) {
   res.sendFile("/index.html");
 });
 
-// app.get("/debug", function (req, res) {
-//   res.sendFile(path.join(__dirname, "/public/debugger.html"));
-// });
-
-let active_sockets = [];
-let pauseTime = 0;
-let hostSocket = null;
-
-// hack :)
-var recently_disconnected_users = [];
-
 function loadGameStateFromFile() {
+  // TODO: use https://github.com/typestack/class-transformer to convert POJO --> actual class instances
   let raw = "{}";
   try {
     raw = fs.readFileSync("./gameState.json");
@@ -86,8 +84,8 @@ function loadGameStateFromFile() {
   let state = JSON.parse(raw);
   // allow all players to reconnect :)
   if (Object.keys(state).length > 0) {
-    recently_disconnected_users = Object.keys(state.socket_player_map).map(
-      (id) => ({
+    Object.keys(state.socket_player_map).forEach((id) =>
+      recently_disconnected_users.push({
         id: id,
         ts: Date.now(),
       })

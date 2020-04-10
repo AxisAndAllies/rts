@@ -1,3 +1,10 @@
+/**
+ * NOTE: to ADD a new unit attribute:
+ * 1. simply add it to the consts below
+ * 2. update the `calcCost` function on both backend and frontend
+ * 3. implement its behavior
+ */
+
 const CONSTRAINTS_UNITS = {
   dmg: "dmg/shot",
   health: "hp",
@@ -8,16 +15,18 @@ const CONSTRAINTS_UNITS = {
   //   shortReload: "sec"
   reload: "sec",
   turn: "deg/sec",
+  accuracy: "%",
 };
 const CONSTRAINTS_TESTING = {
   dmg: 1,
   health: 4,
 
-  range: 100,
+  range: 80,
   speed: 30,
 
   reload: 1,
-  turn: 40,
+  turn: 30,
+  accuracy: 50,
 };
 const CONSTRAINTS_MIN = {
   dmg: 1,
@@ -28,6 +37,7 @@ const CONSTRAINTS_MIN = {
 
   reload: 1,
   turn: 5,
+  accuracy: 10,
 };
 const CONSTRAINTS_MAX = {
   dmg: 100,
@@ -38,6 +48,7 @@ const CONSTRAINTS_MAX = {
 
   reload: 30,
   turn: 360,
+  accuracy: 100,
 };
 
 const ACTION_TYPES = {

@@ -56,6 +56,15 @@ a {
   margin-top: 10px;
 }
 
+#facQueue,
+#blueprintInfo,
+#maker,
+#info {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
+}
+
 a {
   color: #3377ee;
 }

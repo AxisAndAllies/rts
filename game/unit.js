@@ -1,5 +1,5 @@
 const Victor = require("victor");
-const { calcCost, generateID } = require("./util");
+const { generateID } = require("./util");
 class Unit {
   constructor(blueprint_id = "", stats, pos, owner_id) {
     this.blueprint_id = blueprint_id;

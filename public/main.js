@@ -147,6 +147,28 @@ view.onFrame = function (event) {
 
   document.getElementById("name").innerText = `${window.self?.name}`;
   updateMakerText();
+  // console.log(window.selected.fac);
+  if (window.self?.facs) {
+    document.getElementById("facQueue").innerText = "";
+    window.self.facs.forEach((fac) => {
+      let q = fac.buildQueue;
+      let text = `Fac ${fac.id.split("_")[1]}:\n`;
+      if (q.length) {
+        text +=
+          `${q[0].remaining / fac.buildSpeed} secs...\n` +
+          q.map(
+            ({ blueprint }) => `${blueprint.name} ($${blueprint.unit_cost})\n`
+          );
+      } else {
+        text += "Nothing queued to build.";
+      }
+      document.getElementById("facQueue").innerText += text;
+    });
+  } else {
+    document.getElementById(
+      "facQueue"
+    ).innerText = `Select a fac to view build queue.`;
+  }
 
   // do this to "refresh" units
   const hoveredUnit = window.hovered.unit
@@ -268,7 +290,7 @@ function renderFac(p, elem) {
       return;
     }
     window.selected.fac = elem;
-    console.log(window.selected);
+    console.log(window.selected.fac);
   };
   renderedFactory.strokeColor =
     window.selected.fac === elem ? SELECTED_COLOR : unitColor(elem);
@@ -305,7 +327,6 @@ function renderUnit(p, elem) {
   renderedUnit.rotation = -elem.orientation || 0;
   // if (path.rotation) console.log(path.rotation);
   renderedUnit.onMouseDown = function (e) {
-    // console.log("lol", f);
     let btn = e.event.button;
     if (btn == 0) {
       // can only select your own units
@@ -365,11 +386,7 @@ socket.on("game_state", (state) => {
 
   // clear shots on game update
   window.drawn_shots.forEach((ds) => ds.path.remove());
-  // console.log(window.self);
   refreshBlueprints(window.self.blueprints);
-  if (state.cur_resolve_timespan == 5000) {
-    console.log(`$` + window.self.money);
-  }
 });
 
 // webpack hot reloading...

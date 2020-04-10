@@ -1,4 +1,4 @@
-const { calcCost, generateID } = require("./util");
+const { generateID } = require("./util");
 const Blueprint = require("./blueprint");
 class Player {
   constructor(name, starting_money) {
@@ -42,7 +42,8 @@ class Player {
       return false;
     }
     this.money -= cost;
-    this.units.push(factory.createUnit(blueprint, null));
+    factory.queueUnit(blueprint);
+    console.log(`queued unit ${blueprint.name}`);
     return true;
   }
   setUnitMoveTarget(unit_id, newpos) {

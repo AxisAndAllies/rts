@@ -4,9 +4,11 @@
   "description": "---",
   "main": "game.js",
   "dependencies": {
+    "class-transformer": "^0.2.3",
     "express": "^4.17.1",
     "paper": "^0.12.4",
     "preact": "^10.3.4",
+    "reflect-metadata": "^0.1.13",
     "socket.io": "^2.3.0",
     "victor": "^1.1.0"
   },
