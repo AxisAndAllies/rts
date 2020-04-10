@@ -34,6 +34,17 @@ function formatMoney(number) {
   return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
+function dispUnitStatText(base_stats, cur_stats) {
+  let disp = "";
+  if (!base_stats || !cur_stats) return disp;
+  Object.keys(cur_stats).forEach((k) => {
+    disp += `${k}: ${base_stats[k]} (${cur_stats[k]})\n`;
+  });
+  disp += "COST: $" + calcCost(base_stats);
+  //   console.log(disp);
+  return disp;
+}
+
 function dispStatText(stats) {
   let disp = "";
   Object.keys(stats).forEach((k) => {
@@ -129,7 +140,10 @@ function getBlueprint(blueprint_id, player_id) {
 
 function showUnitDetail({ base_stats, cur_stats }) {
   // TODO: show base stats also
-  document.getElementById("info").innerText = dispStatText(cur_stats);
+  document.getElementById("info").innerText = dispUnitStatText(
+    base_stats,
+    cur_stats
+  );
 }
 function showBlueprintDetail(blueprint_id, player_id = window.self.id) {
   // console.log(window.self.blueprints);

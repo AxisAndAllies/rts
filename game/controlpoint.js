@@ -10,7 +10,8 @@ class ControlPoint {
   ) {
     this.owner_id = null;
     this.pos = pos;
-    this.ownershipLevel = 0;
+    // initial capture time
+    this.ownershipLevel = 100;
     this.baseResourcesPerSecond = baseResourcesPerSecond;
     this.addPlayerMoney = addPlayerMoney;
     this.captureRange = captureRange;

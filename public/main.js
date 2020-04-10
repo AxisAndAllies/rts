@@ -209,21 +209,24 @@ view.onFrame = function (event) {
     // path.path.opacity = 0.5;
   });
 
-  window.gameState.control_points.forEach((cp) => {
-    let renderedControlPoint = new Path.RegularPolygon({
-      center: cp.pos,
-      sides: 8,
-      radius: cp.captureRange,
-      // fillColor: "blue",
-      // opacity: 0.3,
-    });
-    renderedControlPoint.strokeColor = !cp.owner_id
+  window.gameState.control_points.forEach((elem) => {
+    let renderedControlPoint =
+      window.drawn[elem.id] ||
+      new Path.RegularPolygon({
+        center: elem.pos,
+        sides: 8,
+        radius: elem.captureRange,
+        // fillColor: "blue",
+        // opacity: 0.3,
+      });
+    renderedControlPoint.strokeColor = !elem.owner_id
       ? "#aaa"
-      : cp.owner_id == window.self.id
+      : elem.owner_id == window.self.id
       ? "black"
       : "red";
     // renderedControlPoint.fillColor = "blue";
     // renderedControlPoint.opacity = 0.3;
+    window.drawn[elem.id] = renderedControlPoint;
   });
 
   window.gameState.players.forEach((p) => {

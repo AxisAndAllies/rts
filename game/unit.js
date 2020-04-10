@@ -41,18 +41,16 @@ class Unit {
     if (this.move_target) {
       let dir = Victor.fromObject(this.move_target)
         .clone()
-        .subtract(this.pos.clone())
-        .normalize();
-      // this.cur_stats.speed = this.base_stats.speed;
-      this.cur_stats.speed = 30;
-      // console.log(this.cur_stats.speed, this.base_stats.speed);
-      let speed = (this.cur_stats.speed * millis) / 1000;
-      let dv = dir.multiply(Victor(speed, speed));
-      // console.log(JSON.stringify(dv));
+        .subtract(this.pos.clone());
 
-      // TODO: fix jittery movement by moving min(dist, speed) instead of max-speed
+      // slow down if necessary to not overshoot target
+      let speed = Math.min(
+        (this.cur_stats.speed * millis) / 1000,
+        dir.length()
+      );
+      let dv = dir.normalize().multiply(Victor(speed, speed));
+
       this.pos.add(dv);
-      // console.log(this.pos);
     }
 
     // rotate if necessary

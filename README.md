@@ -14,7 +14,7 @@ to run: `npm start` (starts BE and also serves FE)
 
 - HIGH priority
 
-  - need to show cur stats + base stats on hover
+  - [x] need to show cur stats + base stats on hover
   - [x] show your current \$ + projected amount gained per turn
   - [x] show blueprint cost...
   - controlPoints to show capture progress
@@ -28,6 +28,7 @@ to run: `npm start` (starts BE and also serves FE)
     - accuracy (% to hit)
     - healing per turn
   - write state to file, load from file...
+  - [x] fix unit wiggle on move (slow down if going to overshoot move target)
 
 - MID priority
 
