@@ -41,7 +41,7 @@ class Unit {
   }
   update(millis, dealDamageFn, getUnitPosFn) {
     // reduce reload time
-    this.cur_stats.reload = Math.max(this.cur_stats.reload - millis, 0);
+    this.cur_stats.reload = Math.max(this.cur_stats.reload - millis / 1000, 0);
     //move
     if (this.move_target) {
       let dir = Victor.fromObject(this.move_target)

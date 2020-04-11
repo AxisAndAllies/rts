@@ -7,6 +7,7 @@ to run: `npm start` (starts BE and also serves FE)
 ### known bugs
 
 - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
+  - not able to repro 4/10
 - [x] can't hover over blueprint buttons when some unit selected?
 - [x] prevent seeing enemy move plans
 
@@ -19,14 +20,9 @@ to run: `npm start` (starts BE and also serves FE)
   - [x] show blueprint cost...
   - [x] controlPoints to show capture progress
   - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
+  - auto-target mode
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?
-  - more unit stats
-    - sight radius?
-    - AOE
-    - short/long reload...
-    - [x] accuracy (% to hit)
-    - healing per sec
   - write state to file, load from file...
   - [x] fix unit wiggle on move (slow down if going to overshoot move target)
 
@@ -41,6 +37,12 @@ to run: `npm start` (starts BE and also serves FE)
   - add ability to unlock higher limits for certain stats?? (like researching tech)
 
 - LOW priority
+  - more unit stats
+    - sight radius?
+    - AOE
+    - short/long reload...
+    - [x] accuracy (% to hit)
+    - healing per sec
   - all units to show healthbars
   - factory upgrade build speed, build radius
     - factory choose where to build unit

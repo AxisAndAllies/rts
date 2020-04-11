@@ -30,12 +30,17 @@ class Game {
     });
     this.control_points.push(
       new ControlPoint(
-        Victor(mapSize / 2, mapSize / 2, this.addNewPlayer.bind(this))
+        Victor(mapSize / 2, mapSize / 2),
+        this.addPlayerMoney.bind(this)
       )
     );
     Object.assign(this, initial_state);
   }
   addNewPlayer(socket_id) {
+    if (Object.keys(this.socket_player_map).includes(socket_id)) {
+      console.log(`duplicate player ${socket_id}, failed to add.`);
+      return;
+    }
     // TODO: add name support later
     let newp = new Player("player " + socket_id, 80000);
 
@@ -47,14 +52,14 @@ class Game {
     newp.facs.push(new Factory(newp.id, loc));
     this.players.push(newp);
     this.socket_player_map[socket_id] = newp.id;
-    console.log("new player added ", newp);
+    console.log(`new player ${newp.name}: added on socket ${socket_id}`);
   }
   updatePlayerSocket(old_socket_id, new_socket_id) {
     this.socket_player_map[new_socket_id] = this.socket_player_map[
       old_socket_id
     ];
     delete this.socket_player_map[old_socket_id];
-    console.log("updated player socket", old_socket_id, new_socket_id);
+    console.log(`updated player socket ${old_socket_id} --> ${new_socket_id}`);
   }
   removePlayer(socket_id) {
     this.players = this.players.filter(
