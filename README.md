@@ -15,24 +15,23 @@ to run: `npm start` (starts BE and also serves FE)
 
 - HIGH priority
 
-  - [x] need to show cur stats + base stats on hover
-  - [x] show your current \$ + projected amount gained per turn
-  - [x] show blueprint cost...
-  - [x] controlPoints to show capture progress
   - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
-  - auto-target mode
+  - set unit to auto-target mode (closest, highest-value)
+    - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
+  - rectangle select units
+    - select rectangle to randomly move into...
+    - select a target to make them ALL target that
+  - min 3s to build each unit to balance swarming...
+  - make units spread out a bit???
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?
   - write state to file, load from file...
-  - [x] fix unit wiggle on move (slow down if going to overshoot move target)
 
 - MID priority
 
   - enable placing more factories
   - larger playing field (enable map pan/zoom)
   - more map types {height, width, control points}
-  - [x] unit build times + factory queue to build one at a time
-  - [x] initial control point capture time
   - make factories destructable
   - add ability to unlock higher limits for certain stats?? (like researching tech)
 
@@ -41,7 +40,6 @@ to run: `npm start` (starts BE and also serves FE)
     - sight radius?
     - AOE
     - short/long reload...
-    - [x] accuracy (% to hit)
     - healing per sec
   - all units to show healthbars
   - factory upgrade build speed, build radius
