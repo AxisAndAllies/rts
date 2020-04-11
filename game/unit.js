@@ -55,6 +55,7 @@ class Unit {
       cb(this.id, targ, this.cur_stats.dmg);
       console.log(`${this.id} hit ${targ} for ${this.cur_stats.dmg}!`);
     } else {
+      cb(this.id, targ, 0);
       console.log(`${this.id} missed ${targ}!`);
     }
     // reset reloading
@@ -97,10 +98,11 @@ class Unit {
     let ang = tempvec.verticalAngleDeg();
     this.turnTowards(ang, millis);
 
-    // shoot if aligned + in range
+    // shoot if aligned + in range + reloaded
     if (
       Math.abs(ang - this.orientation) < 0.01 &&
-      tempvec.length() < this.cur_stats.range
+      tempvec.length() < this.cur_stats.range &&
+      this.cur_stats.reload <= 0
     ) {
       // console.log(this.id, " fired a shot at ", targ);
       this.shoot(targ, dealDamageFn);

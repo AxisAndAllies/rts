@@ -330,7 +330,7 @@ view.onFrame = function (event) {
     let laser = new Path.Line({
       from: Victor.fromObject(shooter.pos).toArray(),
       to: Victor.fromObject(targ.pos).toArray(),
-      strokeColor: unitColor(shooter),
+      strokeColor: dmg > 0 ? unitColor(shooter) : "white",
       strokeWidth: 3,
       opacity: 0.3,
     });

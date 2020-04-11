@@ -1,6 +1,6 @@
 //@ts-check
 "use strict";
-const shortid = require("shortid");
+// const shortid = require("shortid");
 const animals = require("./lib/animals");
 
 // needs to be synced w/ frontend
@@ -27,7 +27,10 @@ function generateFriendlyID() {
 
 function generateID() {
   // maybe use https://www.npmjs.com/package/human-id for funny unit names?
-  return shortid.generate().substring(0, 5);
+  // return shortid.generate().substring(0, 5);
+
+  // thanks to: https://gist.github.com/6174/6062387
+  return Math.random().toString(36).substring(2, 7);
 }
 
 function randomBetween(min, max, numTimes = 1) {
