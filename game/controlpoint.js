@@ -21,8 +21,10 @@ class ControlPoint {
   }
   capture(capturer_id, numUnits, dt) {
     // 1 unit captures a control point in 10 sec
+    // diminishing gain for additional units
     const shift =
-      (((numUnits * dt) / 1000) * ControlPoint.MAX_OWNERSHIP_LEVEL) / 10;
+      (((Math.sqrt(numUnits) * dt) / 1000) * ControlPoint.MAX_OWNERSHIP_LEVEL) /
+      10;
     if (capturer_id == this.owner_id) {
       // reinforce owner's ownership level if needed
       this.ownershipLevel = Math.min(

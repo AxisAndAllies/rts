@@ -49,6 +49,17 @@ window.buyBlueprint = () => {
   });
 };
 
+window.setAutoTarget = (e) => {
+  if (!window.selected?.unit) {
+    return;
+  }
+  console.log(`set autotarget to !${event.target.value}`);
+  emitAction(ACTION_TYPES.SET_AUTOTARGET, {
+    unit_id: window.selected?.unit.id,
+    algorithm: event.target.value,
+  });
+};
+
 window.endTurn = () => {
   console.log("ended turn");
   emitAction(ACTION_TYPES.END_TURN);
@@ -208,8 +219,11 @@ view.onFrame = function (event) {
       hoveredAttackTarget.position = focusedUnit.shoot_targets.length
         ? getUnitById(focusedUnit.shoot_targets[0]).pos
         : outOfBounds;
+
+      document.getElementById("autotarget").style.visibility = "visible";
     }
   } else {
+    document.getElementById("autotarget").style.visibility = "hidden";
     resetHoveredMoveTarget();
     resetHoveredAttackTarget();
   }

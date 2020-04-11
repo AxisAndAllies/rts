@@ -8,6 +8,7 @@ to run: `npm start` (starts BE and also serves FE)
 
 - fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
   - not able to repro 4/10
+- bug where units killed on last iteration of game resolution phase don't get removed...
 - [x] can't hover over blueprint buttons when some unit selected?
 - [x] prevent seeing enemy move plans
 
@@ -16,8 +17,7 @@ to run: `npm start` (starts BE and also serves FE)
 - HIGH priority
 
   - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
-  - set unit to auto-target mode (closest, highest-value)
-    - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
+  - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
   - rectangle select units
     - select rectangle to randomly move into...
     - select a target to make them ALL target that

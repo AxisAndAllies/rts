@@ -16,7 +16,15 @@
     <div id="panel">
       <strong><p id="name"></p></strong>
       <strong><p id="money"></p></strong>
-      <div id="info"></div>
+      <div id="unitdetail">
+        <div id="info"></div>
+        <select id="autotarget" onchange="setAutoTarget()">
+          <option value="closest">closest</option>
+          <option value="leastRotation">leastRotation</option>
+          <option value="mostValue">mostValue</option>
+          <option value="none">none</option>
+        </select>
+      </div>
       <div id="newblueprintbox">
         <div id="maker"></div>
         <button id="buy" onclick="buyBlueprint()">$100</button>

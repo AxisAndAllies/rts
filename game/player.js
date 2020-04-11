@@ -48,11 +48,17 @@ class Player {
     console.log(`queued unit ${blueprint.name}`);
     return true;
   }
+  getMyUnitById(unit_id) {
+    return this.units.filter((u) => u.id == unit_id)[0];
+  }
+  setUnitAutoTarget(unit_id, algorithm) {
+    this.getMyUnitById(unit_id).setAutoTarget(algorithm);
+  }
   setUnitMoveTarget(unit_id, newpos) {
-    this.units.filter((u) => u.id == unit_id)[0].setMoveTarget(newpos);
+    this.getMyUnitById(unit_id).setMoveTarget(newpos);
   }
   setUnitShootTargets(unit_id, shoot_targets) {
-    this.units.filter((u) => u.id == unit_id)[0].setShootTargets(shoot_targets);
+    this.getMyUnitById(unit_id).setShootTargets(shoot_targets);
   }
 }
 

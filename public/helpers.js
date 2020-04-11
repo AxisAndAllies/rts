@@ -49,13 +49,22 @@ function formatMoney(number) {
   return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
-function dispUnitStatText(base_stats, cur_stats) {
+function dispUnitStatText({ base_stats, cur_stats, autoTarget, owner_id }) {
   let disp = "";
   if (!base_stats || !cur_stats) return disp;
   Object.keys(cur_stats).forEach((k) => {
-    disp += `${k}: ${base_stats[k]} (${cur_stats[k]})\n`;
+    if (owner_id == window.self.id)
+      disp += `${k}: ${base_stats[k]} (${cur_stats[k]})\n`;
+    else {
+      // obfuscate enemy unit stats :)
+      let rem = base_stats[k] - cur_stats[k];
+      disp += `${k}: ${"/".repeat(base_stats[k])}${".".repeat(rem)}\n`;
+    }
   });
   disp += "COST: $" + calcCost(base_stats);
+  if (owner_id == window.self.id) {
+    disp += `\nAI: <${autoTarget.algorithm}>`;
+  }
   //   console.log(disp);
   return disp;
 }
@@ -153,12 +162,9 @@ function getBlueprint(blueprint_id, player_id) {
   return getPlayer(player_id).blueprints.filter((e) => e.id == blueprint_id)[0];
 }
 
-function showUnitDetail({ base_stats, cur_stats }) {
+function showUnitDetail(unit) {
   // TODO: show base stats also
-  document.getElementById("info").innerText = dispUnitStatText(
-    base_stats,
-    cur_stats
-  );
+  document.getElementById("info").innerText = dispUnitStatText(unit);
 }
 function showBlueprintDetail(blueprint_id, player_id = window.self.id) {
   let stats = getBlueprint(blueprint_id, player_id).stats;

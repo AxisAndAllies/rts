@@ -1,5 +1,6 @@
 //@ts-check
 "use strict";
+const shortid = require("shortid");
 
 // needs to be synced w/ frontend
 // function calcCost(obj) {
@@ -32,8 +33,8 @@ function calcCost(obj) {
 }
 
 function generateID() {
-  // adapted from https://gist.github.com/6174/6062387
-  return Math.random().toString(36).substring(2, 15);
+  // maybe use https://www.npmjs.com/package/human-id for funny unit names?
+  return shortid.generate();
 }
 
 module.exports = {

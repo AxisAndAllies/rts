@@ -29,7 +29,7 @@ class Unit {
 
     // default
     this.autoTarget = {
-      algorithm: Unit.AUTO_TARGET.closest,
+      algorithm: Unit.AUTO_TARGET.leastRotation,
       // prioritizeThreats: true,
     };
   }
@@ -41,6 +41,13 @@ class Unit {
     // TODO: no friendly fire check on BE
     console.log(this.id, "set targets to ", unit_ids);
     this.shoot_targets = unit_ids;
+  }
+  setAutoTarget(algorithm) {
+    if (!Object.keys(Unit.AUTO_TARGET).includes(algorithm)) {
+      console.log(`Error: ${algorithm} is unrecognized.`);
+      return;
+    }
+    this.autoTarget.algorithm = algorithm;
   }
   shoot(targ, cb) {
     // enemy take damage

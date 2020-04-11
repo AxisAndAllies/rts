@@ -9,6 +9,7 @@
     "paper": "^0.12.4",
     "preact": "^10.3.4",
     "reflect-metadata": "^0.1.13",
+    "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
     "victor": "^1.1.0"
   },

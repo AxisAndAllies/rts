@@ -8,6 +8,7 @@ const Player = require("./player");
 const Unit = require("./unit");
 const Factory = require("./factory");
 const ControlPoint = require("./controlpoint");
+const { calcCost } = require("./util");
 
 class Game {
   static RESOLVE_TIMESPAN = 5000;
@@ -46,7 +47,8 @@ class Game {
       return;
     }
     // TODO: add name support later
-    let newp = new Player("player " + socket_id, 80000);
+    let randname = Math.round(Math.random() * 10000);
+    let newp = new Player(`Player${randname}`, 80000);
 
     // @ts-ignore
     let loc = new Victor().randomize(
@@ -113,6 +115,9 @@ class Game {
           data.unit_id,
           data.shoot_targets
         );
+      },
+      SET_AUTOTARGET: () => {
+        p.setUnitAutoTarget(data.unit_id, data.algorithm);
       },
     };
     // execute handler
@@ -210,7 +215,11 @@ class Game {
           return Math.abs(u.orientation - tempvec.verticalAngleDeg());
         };
         let range = u.cur_stats.range;
-        let in_range = enemies.filter((e) => dist(e) < range);
+
+        // check any unit that could concievably get in range
+        let in_range = enemies.filter(
+          (e) => dist(e) < range + u.cur_stats.speed + e.cur_stats.speed
+        );
         let algo = u.autoTarget.algorithm;
         if (algo != Unit.AUTO_TARGET.none) {
           let targs = [];
@@ -230,8 +239,8 @@ class Game {
               break;
           }
           if (targs.length) {
-            console.log(`${u.id} using "${algo}" algo ---> targs`);
-            u.setShootTargets(targs);
+            console.log(`${u.id} using "${algo}" algo:`);
+            u.setShootTargets(targs.map((t) => t.id));
           }
         }
         // gotta bind, always gotta bind
