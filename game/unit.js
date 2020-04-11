@@ -39,7 +39,7 @@ class Unit {
   }
   setShootTargets(unit_ids) {
     // TODO: no friendly fire check on BE
-    console.log(this.id, "set targets to ", unit_ids);
+    // console.log(this.id, "set targets to ", unit_ids);
     this.shoot_targets = unit_ids;
   }
   setAutoTarget(algorithm) {
@@ -84,7 +84,15 @@ class Unit {
       return;
     }
     let targ = this.shoot_targets[0];
-    let tempvec = Victor.fromObject(getUnitPosFn(targ)).subtract(this.pos);
+    let targobj = null;
+    try {
+      targobj = getUnitPosFn(targ);
+    } catch (err) {
+      console.log(`${this.id} turning toward ${targ}`);
+      console.error(err);
+      // return;
+    }
+    let tempvec = Victor.fromObject(targobj).subtract(this.pos);
     // use vertical angle b/c that's the way paperJS does rotation
     let ang = tempvec.verticalAngleDeg();
     this.turnTowards(ang, millis);
@@ -94,7 +102,7 @@ class Unit {
       Math.abs(ang - this.orientation) < 0.01 &&
       tempvec.length() < this.cur_stats.range
     ) {
-      console.log(this.id, " fired a shot at ", targ);
+      // console.log(this.id, " fired a shot at ", targ);
       this.shoot(targ, dealDamageFn);
     }
   }

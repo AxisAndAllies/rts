@@ -1,7 +1,6 @@
 function emitAction(type, data) {
   if (window.self?.ended_turn) {
-    // can't make actions while game is resolving :)
-    console.log("can't make actions while game is resolving :)");
+    alert("can't make actions while game is resolving :)");
     return;
   }
   console.log("action emitted: ", type, data);

@@ -6,25 +6,22 @@ to run: `npm start` (starts BE and also serves FE)
 
 ### known bugs
 
-- fix bug on shoot_targets[0] of dead targets?? (not being cleared??)
-  - not able to repro 4/10
-- bug where units killed on last iteration of game resolution phase don't get removed...
-- [x] can't hover over blueprint buttons when some unit selected?
-- [x] prevent seeing enemy move plans
+- bug where units killed on last iteration of game resolution phase don't get removed visually...
 
 ### main todos
 
 - HIGH priority
 
-  - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
   - make units spread out a bit???
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?
   - write state to file, load from file...
+  - add unit lifetime stats (kill count, dmg, dmg taken, dist moved, birth date)
 
 - MID priority
 
+  - better unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - enable placing more factories
   - more map types {height, width, control points}
   - make factories destructable

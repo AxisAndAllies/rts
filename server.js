@@ -170,6 +170,7 @@ let gameLoop = null;
 
 function runGame() {
   // TODO: make this more accurate, finer...
+  clearInterval(gameLoop);
 
   gameLoop = setInterval(() => {
     // a hack lol, hostSocket can be disconnected...
@@ -193,12 +194,12 @@ http.listen(process.env.PORT || 8080, function () {
 
 // enables server to keep state even on errors, prevent crashes no matter what
 if (process.env.NODE_ENV !== "production") {
-  const readline = require("readline");
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
   process.on("uncaughtException", function (err) {
+    const readline = require("readline");
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
     console.log(
       "Unhandled Exception: Please fix the error below and press ENTER to continue :)"
     );

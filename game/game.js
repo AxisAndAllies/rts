@@ -8,7 +8,7 @@ const Player = require("./player");
 const Unit = require("./unit");
 const Factory = require("./factory");
 const ControlPoint = require("./controlpoint");
-const { calcCost, randomBetween } = require("./util");
+const { calcCost, randomBetween, generateFriendlyID } = require("./util");
 
 class Game {
   static RESOLVE_TIMESPAN = 5000;
@@ -47,8 +47,7 @@ class Game {
       return;
     }
     // TODO: add name support later
-    let randname = Math.round(Math.random() * 10000);
-    let newp = new Player(`Player${randname}`, 80000);
+    let newp = new Player(`${generateFriendlyID()}`, 80000);
 
     // @ts-ignore
     let loc = new Victor().randomize(
@@ -106,10 +105,14 @@ class Game {
       SET_UNIT_MOVE: () => {
         let { minX, maxX, minY, maxY } = data.to;
         let unit_ids = data.unit_ids || [data.unit_id];
+        let randX = randomBetween(minX, maxX, unit_ids.length);
+        let randY = randomBetween(minY, maxY, unit_ids.length);
         unit_ids.forEach((unit_id) => {
           p.setUnitMoveTarget(unit_id, {
-            x: randomBetween(minX, maxX),
-            y: randomBetween(minY, maxY),
+            // x: randomBetween(minX, maxX),
+            // y: randomBetween(minY, maxY),
+            x: randX.pop(),
+            y: randY.pop(),
           });
         });
         console.log(p.id, " move target ");
@@ -171,28 +174,6 @@ class Game {
     // clear all shots :)
     this.cur_shots = [];
 
-    // tally up dead
-    let dead_unit_ids = [];
-    this.players.forEach((p) => {
-      dead_unit_ids = dead_unit_ids.concat(
-        p.units.filter((u) => u.cur_stats.health <= 0).map((u) => u.id)
-      );
-    });
-    if (dead_unit_ids.length) {
-      console.log(JSON.stringify(dead_unit_ids), " died.");
-    }
-
-    // remove dead
-    this.players.forEach((p) => {
-      p.units = p.units.filter((u) => u.cur_stats.health > 0);
-      // remove dead units from targets
-      p.units.forEach((u) => {
-        u.shoot_targets = u.shoot_targets.filter(
-          (id) => !dead_unit_ids.includes(id)
-        );
-      });
-    });
-
     // each fac update them
     this.players.forEach((p) => {
       p.facs.forEach((f) => {
@@ -247,7 +228,7 @@ class Game {
               break;
           }
           if (targs.length) {
-            console.log(`${u.id} using "${algo}" algo:`);
+            // console.log(`${u.id} using "${algo}" algo:`);
             u.setShootTargets(targs.map((t) => t.id));
           }
         }
@@ -283,6 +264,28 @@ class Game {
         p.ended_turn = false;
       });
     }
+
+    // tally up dead
+    let dead_unit_ids = [];
+    this.players.forEach((p) => {
+      dead_unit_ids = dead_unit_ids.concat(
+        p.units.filter((u) => u.cur_stats.health <= 0).map((u) => u.id)
+      );
+    });
+    if (dead_unit_ids.length) {
+      console.log(JSON.stringify(dead_unit_ids), " died.");
+    }
+
+    // remove dead
+    this.players.forEach((p) => {
+      // remove dead units from targets
+      p.units.forEach((u) => {
+        u.shoot_targets = u.shoot_targets.filter(
+          (id) => !dead_unit_ids.includes(id)
+        );
+      });
+      p.units = p.units.filter((u) => u.cur_stats.health > 0);
+    });
 
     // save game to file
     // let data = JSON.stringify(this.state, null, 2);

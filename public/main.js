@@ -15,6 +15,7 @@ window.addEventListener(
     if (e.keyCode == 13) {
       // press Enter to end turn.
       window.endTurn();
+      this.alert("Turn ended.");
     }
   },
   false
@@ -86,7 +87,7 @@ document.getElementById("maker").innerHTML = st;
 paper.setup("canvas");
 
 const background = new Path.Rectangle([0, 0], [1200, 1200]);
-background.fillColor = "#eee";
+background.fillColor = "#e7e7e7";
 
 const outOfBounds = Victor(0, 0);
 
@@ -307,6 +308,7 @@ view.onFrame = function (event) {
   });
   if (focusedUnit) {
     if (focusedUnit.owner_id == window.self.id) {
+      hoveredMoveTarget.position = focusedUnit.move_target;
       hoveredAttackTarget.position = focusedUnit.shoot_targets.length
         ? getUnitById(focusedUnit.shoot_targets[0]).pos
         : outOfBounds;
@@ -323,6 +325,7 @@ view.onFrame = function (event) {
   window.gameState.cur_shots.forEach(({ shooter_id, target_id, dmg }) => {
     let shooter = getUnitById(shooter_id);
     let targ = getUnitById(target_id);
+    if (!targ || !shooter) return;
     // TODO: use dmg to influence how strong laser looks...
     let laser = new Path.Line({
       from: Victor.fromObject(shooter.pos).toArray(),
@@ -405,30 +408,34 @@ function renderFac(p, elem) {
 
 function renderUnit(p, elem) {
   let pos = Victor.fromObject(elem.pos);
-  let size = 15;
+  let size = Math.sqrt(elem.base_stats.health) + 10;
   let midpt = [size / 2, size / 2];
   const renderedUnit =
     window.drawn[elem.id] ||
     // NOTE: compound path only accepts one parent style, child styles no effect
     new CompoundPath({
       children: [
-        new Path.Rectangle({
-          point: [0, 0],
-          size: [size, size],
-          // fillColor: "white",
-        }),
-        new Path.Rectangle(midpt, [3, size]),
+        elem.base_stats.speed > 20
+          ? new Path.RegularPolygon({
+              center: midpt,
+              sides: 3,
+              radius: size * 0.75,
+              rotation: 60,
+            }) //triangles are speedy
+          : new Path.Rectangle({
+              point: [0, 0],
+              size: [size, size],
+            }),
+        new Path.Rectangle(midpt, [
+          Math.sqrt(elem.base_stats.dmg),
+          Math.sqrt(elem.base_stats.range) * 2,
+        ]),
         // new Path.Line([0, 0], [0, 0]),
       ],
       applyMatrix: false,
     });
 
   renderedUnit.position = pos.toArray();
-
-  // small hack to not display dead things...
-  if (elem.cur_stats.health <= 0) {
-    // path.position = Victor(-50, -50).toArray();
-  }
   renderedUnit.rotation = -elem.orientation || 0;
   // if (path.rotation) console.log(path.rotation);
   renderedUnit.onMouseDown = function (e) {
@@ -480,8 +487,8 @@ function renderUnit(p, elem) {
   // ];
   // renderedUnit.children[3].strokeColor = "#cdc";
   renderedUnit.fillColor = "white";
-  renderedUnit.fillColor.alpha = 0.3;
-  renderedUnit.visible = true;
+  // renderedUnit.fillColor.alpha = 0.8;
+  // renderedUnit.visible = true;
   window.drawn[elem.id] = renderedUnit;
 }
 
@@ -499,6 +506,7 @@ socket.on("game_state", (state) => {
   window.selected.units.forEach((u) => {
     Object.assign(u, ...window.self.units.filter((su) => su.id == u.id));
   });
+  window.hovered.unit = null;
 
   // clear shots on game update
   window.drawn_shots.forEach((ds) => ds.path.remove());
