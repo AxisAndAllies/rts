@@ -54,6 +54,13 @@ class Game {
       new Victor(50, 50),
       new Victor(Game.MAP_SIZE, Game.MAP_SIZE)
     );
+    let numPlayers = this.players.length;
+    if (numPlayers % 2 == 1) {
+      // hack for fair even player placement
+      loc = new Victor(Game.MAP_SIZE, Game.MAP_SIZE).subtract(
+        this.players[numPlayers - 1].facs[0].pos
+      );
+    }
 
     newp.facs.push(new Factory(newp.id, loc));
     this.players.push(newp);

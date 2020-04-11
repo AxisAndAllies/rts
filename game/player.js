@@ -9,7 +9,7 @@ class Player {
     this.money = starting_money;
     this.facs = [];
     this.units = [];
-    this.id = generateID();
+    this.id = name || generateID();
     this.ended_turn = false;
   }
   buyBlueprint(stats, name) {

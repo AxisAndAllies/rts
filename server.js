@@ -103,7 +103,7 @@ function checkReconnect(new_socket_id) {
     game.updatePlayerSocket(old_socket.id, new_socket_id);
   } else {
     // actually new player
-    console.log("new player", new_socket_id);
+    console.log("new player w/ socket: ", new_socket_id);
     game.addNewPlayer(new_socket_id);
   }
 }

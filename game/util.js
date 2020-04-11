@@ -21,6 +21,7 @@ function calcCost(obj) {
 }
 
 function generateFriendlyID() {
+  // eg. Weasel9, Gnat0, Falcon7, etc.
   return shuffle(animals)[0] + Math.round(Math.random() * 10);
 }
 
