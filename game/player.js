@@ -1,3 +1,5 @@
+//@ts-check
+"use strict";
 const { generateID } = require("./util");
 const Blueprint = require("./blueprint");
 class Player {

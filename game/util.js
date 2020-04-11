@@ -1,3 +1,6 @@
+//@ts-check
+"use strict";
+
 // needs to be synced w/ frontend
 // function calcCost(obj) {
 //   let { dmg, health, range, speed, reload, turn } = obj;

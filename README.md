@@ -21,7 +21,6 @@ to run: `npm start` (starts BE and also serves FE)
   - rectangle select units
     - select rectangle to randomly move into...
     - select a target to make them ALL target that
-  - min 3s to build each unit to balance swarming...
   - make units spread out a bit???
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?
@@ -30,12 +29,12 @@ to run: `npm start` (starts BE and also serves FE)
 - MID priority
 
   - enable placing more factories
-  - larger playing field (enable map pan/zoom)
   - more map types {height, width, control points}
   - make factories destructable
   - add ability to unlock higher limits for certain stats?? (like researching tech)
 
 - LOW priority
+  - larger playing field (enable map pan/zoom)
   - more unit stats
     - sight radius?
     - AOE

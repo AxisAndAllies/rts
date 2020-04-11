@@ -1,7 +1,11 @@
+//@ts-check
+"use strict";
+// @ts-ignore
 const fs = require("fs");
 
 const Victor = require("victor");
 const Player = require("./player");
+const Unit = require("./unit");
 const Factory = require("./factory");
 const ControlPoint = require("./controlpoint");
 
@@ -18,10 +22,10 @@ class Game {
     // initialize control points
     let mapSize = Game.MAP_SIZE;
     let cps = [
-      Victor(200, 200),
-      Victor(mapSize - 200, mapSize - 200),
-      Victor(mapSize - 200, 200),
-      Victor(200, mapSize - 200),
+      new Victor(200, 200),
+      new Victor(mapSize - 200, mapSize - 200),
+      new Victor(mapSize - 200, 200),
+      new Victor(200, mapSize - 200),
     ];
     cps.forEach((pos) => {
       this.control_points.push(
@@ -30,7 +34,7 @@ class Game {
     });
     this.control_points.push(
       new ControlPoint(
-        Victor(mapSize / 2, mapSize / 2),
+        new Victor(mapSize / 2, mapSize / 2),
         this.addPlayerMoney.bind(this)
       )
     );
@@ -44,9 +48,10 @@ class Game {
     // TODO: add name support later
     let newp = new Player("player " + socket_id, 80000);
 
-    let loc = Victor().randomize(
-      Victor(50, 50),
-      Victor(Game.MAP_SIZE, Game.MAP_SIZE)
+    // @ts-ignore
+    let loc = new Victor().randomize(
+      new Victor(50, 50),
+      new Victor(Game.MAP_SIZE, Game.MAP_SIZE)
     );
 
     newp.facs.push(new Factory(newp.id, loc));
@@ -114,6 +119,15 @@ class Game {
     switcher[type]();
     // console.log(p);
   }
+  getEnemyUnitsOf(player_id) {
+    let res = [];
+    this.players
+      .filter((p) => p.id != player_id)
+      .forEach((p) => {
+        res.push(...p.units);
+      });
+    return res;
+  }
   getUnitById(id) {
     let res = null;
     this.players.forEach((p) => {
@@ -166,8 +180,6 @@ class Game {
       });
     });
 
-    // console.log("o");
-    // each player update the
     // each fac update them
     this.players.forEach((p) => {
       p.facs.forEach((f) => {
@@ -189,7 +201,39 @@ class Game {
     }
     this.players.forEach((p) => {
       // console.log(p.id, " player's units updating");
+      let enemies = this.getEnemyUnitsOf(p.id);
       p.units.forEach((u) => {
+        let dist = (enemy) =>
+          Victor.fromObject(enemy.pos).subtract(u.pos).length();
+        let rotateDist = (enemy) => {
+          let tempvec = Victor.fromObject(enemy.pos).subtract(u.pos);
+          return Math.abs(u.orientation - tempvec.verticalAngleDeg());
+        };
+        let range = u.cur_stats.range;
+        let in_range = enemies.filter((e) => dist(e) < range);
+        let algo = u.autoTarget.algorithm;
+        if (algo != Unit.AUTO_TARGET.none) {
+          let targs = [];
+          switch (algo) {
+            case Unit.AUTO_TARGET.none:
+              break;
+            case Unit.AUTO_TARGET.closest:
+              targs = in_range.sort((a, b) => dist(a) - dist(b));
+              break;
+            case Unit.AUTO_TARGET.leastRotation:
+              targs = in_range.sort((a, b) => dist(a) - dist(b));
+              break;
+            case Unit.AUTO_TARGET.mostValue:
+              targs = in_range.sort(
+                (a, b) => calcCost(a.base_stats) - calcCost(b.base_stats)
+              );
+              break;
+          }
+          if (targs.length) {
+            console.log(`${u.id} using "${algo}" algo ---> targs`);
+            u.setShootTargets(targs);
+          }
+        }
         // gotta bind, always gotta bind
         u.update(dt, dealDamage.bind(this), getUnitPosFn.bind(this));
       });
@@ -237,23 +281,28 @@ class Game {
 }
 
 if (process.env.NODE_ENV !== "production") {
+  // @ts-ignore
   if (module.hot) {
     // Reload this module and its dependencies, when they change (optional)
+    // @ts-ignore
     module.hot.accept();
 
     // Gets called before reload (optional)
+    // @ts-ignore
     module.hot.store((stash) => {
       console.log("reloading...");
       // stash.game = game;
     });
 
     // Gets called after reload, if there was a store (optional)
+    // @ts-ignore
     module.hot.restore((stash) => {
       console.log("reloaded.");
       // game = stash.game;
     });
 
     // Replaces class methods and accessors (optional)
+    // @ts-ignore
     module.hot.patch(Game);
   }
 }

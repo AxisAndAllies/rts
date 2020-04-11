@@ -1,3 +1,5 @@
+//@ts-check
+"use strict";
 const { calcCost, generateID } = require("./util");
 class Blueprint {
   constructor(name, owner_id, stats) {

@@ -1,3 +1,5 @@
+//@ts-check
+"use strict";
 const Victor = require("victor");
 const { generateID } = require("./util");
 class ControlPoint {

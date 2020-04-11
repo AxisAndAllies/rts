@@ -1,3 +1,6 @@
+//@ts-check
+"use strict";
+
 const Victor = require("victor");
 const { generateID } = require("./util");
 const Unit = require("./unit");
@@ -18,9 +21,10 @@ class Factory {
   createUnit(blueprint) {
     // support POS arg later
     // create unit at random pos around factory
-    let spread = Victor(Math.random() * 2 - 1, Math.random() * 2 - 1).multiply(
-      Victor(40, 40)
-    );
+    let spread = new Victor(
+      Math.random() * 2 - 1,
+      Math.random() * 2 - 1
+    ).multiply(new Victor(40, 40));
     return new Unit(
       blueprint.id,
       blueprint.stats,

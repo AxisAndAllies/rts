@@ -1,6 +1,14 @@
+//@ts-check
+"use strict";
 const Victor = require("victor");
 const { generateID } = require("./util");
 class Unit {
+  static AUTO_TARGET = {
+    closest: "closest",
+    leastRotation: "leastRotation",
+    mostValue: "mostValue",
+    none: "none",
+  };
   constructor(blueprint_id = "", stats, pos, owner_id) {
     this.blueprint_id = blueprint_id;
     //
@@ -18,6 +26,12 @@ class Unit {
     this.move_target = null;
     this.shoot_targets = [];
     this.id = this.owner_id + "_" + generateID();
+
+    // default
+    this.autoTarget = {
+      algorithm: Unit.AUTO_TARGET.closest,
+      // prioritizeThreats: true,
+    };
   }
   setMoveTarget(newpos) {
     // TODO: collision?
@@ -53,7 +67,7 @@ class Unit {
         (this.cur_stats.speed * millis) / 1000,
         dir.length()
       );
-      let dv = dir.normalize().multiply(Victor(speed, speed));
+      let dv = dir.normalize().multiply(new Victor(speed, speed));
 
       this.pos.add(dv);
     }
@@ -63,14 +77,23 @@ class Unit {
       return;
     }
     let targ = this.shoot_targets[0];
-    let tempvec = Victor.fromObject(getUnitPosFn(targ)).subtract(
-      this.pos.clone()
-    );
+    let tempvec = Victor.fromObject(getUnitPosFn(targ)).subtract(this.pos);
     // use vertical angle b/c that's the way paperJS does rotation
     let ang = tempvec.verticalAngleDeg();
+    this.turnTowards(ang, millis);
 
-    // TODO: need to better optimize which way to turn...(use modulo, use same sign, etc.)
-    // https://math.stackexchange.com/questions/1366869/calculating-rotation-direction-between-two-angless
+    // shoot if aligned + in range
+    if (
+      Math.abs(ang - this.orientation) < 0.01 &&
+      tempvec.length() < this.cur_stats.range
+    ) {
+      console.log(this.id, " fired a shot at ", targ);
+      this.shoot(targ, dealDamageFn);
+    }
+  }
+  turnTowards(ang, millis) {
+    // optimal turning algorithm
+    // from https://math.stackexchange.com/questions/1366869/calculating-rotation-direction-between-two-angless
     let cur_ang = this.orientation;
     let turn = (this.cur_stats.turn * millis) / 1000;
     let angdiff = cur_ang - ang;
@@ -82,15 +105,6 @@ class Unit {
       this.orientation -= minturn;
     } else if (angdiff < 0) {
       this.orientation += minturn;
-    }
-    // console.log("then... ", this.orientation);
-    // shoot if aligned + in range
-    if (
-      Math.abs(ang - this.orientation) < 0.01 &&
-      tempvec.length() < this.cur_stats.range
-    ) {
-      console.log(this.id, " fired a shot at ", targ);
-      this.shoot(targ, dealDamageFn);
     }
   }
   takeDamage(dmg) {
