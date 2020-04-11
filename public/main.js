@@ -23,7 +23,14 @@ window.addEventListener(
 //
 window.gameState = null;
 window.self = null;
-window.selected = {};
+
+function resetWindowSelected() {
+  window.selected = {
+    units: [],
+    fac: null,
+  };
+}
+resetWindowSelected();
 window.hovered = {};
 
 // maps id to drawn path, ensuring each elem gets drawn exactly once
@@ -50,12 +57,12 @@ window.buyBlueprint = () => {
 };
 
 window.setAutoTarget = (e) => {
-  if (!window.selected?.unit) {
+  if (!window.selected.units.length) {
     return;
   }
   console.log(`set autotarget to !${event.target.value}`);
   emitAction(ACTION_TYPES.SET_AUTOTARGET, {
-    unit_id: window.selected?.unit.id,
+    unit_ids: window.selected.units.map((u) => u.id),
     algorithm: event.target.value,
   });
 };
@@ -77,30 +84,9 @@ document.getElementById("maker").innerHTML = st;
 
 // Setup directly from canvas id:
 paper.setup("canvas");
+
 const background = new Path.Rectangle([0, 0], [1200, 1200]);
 background.fillColor = "#eee";
-background.onMouseDown = function (e) {
-  // when clicking outside any objects
-  let btn = e.event.button;
-  if (btn == 0) {
-    // deselect all things on left click on background
-    window.selected = {};
-  } else {
-    // btn=2 is right click
-
-    // can't move enemy units
-    if (window.selected.unit.owner_id != window.self.id) {
-      window.selected.unit = null; // deselects
-      return;
-    }
-    let { x, y } = e.point;
-    emitAction(ACTION_TYPES.SET_UNIT_MOVE, {
-      unit_id: window.selected.unit.id,
-      newpos: { x, y },
-    });
-  }
-  console.log(e.point, e.event.button);
-};
 
 const outOfBounds = Victor(0, 0);
 
@@ -127,6 +113,68 @@ const hoveredHealthBar = new Path.Line({
   to: [20, 20],
   strokeColor: "green",
 });
+const massSelector = new Path.Rectangle({
+  center: outOfBounds,
+  size: [100, 100],
+  strokeColor: "teal",
+});
+let massSelectorStart = outOfBounds;
+
+background.onMouseDown = function (e) {
+  // when clicking outside any objects
+  let btn = e.event.button;
+  if (btn == 0) {
+    // deselect all things on left click on background
+    resetWindowSelected();
+    massSelectorStart = e.point;
+  } else {
+    // btn=2 is right click
+
+    // can't move enemy units
+    if (window.selected.units.some((u) => u.owner_id != window.self.id)) {
+      window.selected.units = []; // deselects
+      return;
+    }
+    let { x, y } = e.point;
+    emitAction(ACTION_TYPES.SET_UNIT_MOVE, {
+      unit_ids: window.selected.units.map((u) => u.id),
+      newpos: { x, y },
+    });
+  }
+  console.log(e.point, e.event.button);
+};
+background.onMouseMove = function (e) {
+  let btn = e.event.button;
+  if (btn == 0) {
+    if (massSelectorStart == outOfBounds) return;
+    massSelector.position = [
+      (massSelectorStart.x + e.point.x) / 2 - 1,
+      (massSelectorStart.y + e.point.y) / 2 - 1,
+    ];
+    massSelector.scale(
+      (Math.abs(massSelectorStart.x - e.point.x) - 3.1) /
+        massSelector.bounds.width,
+      (Math.abs(massSelectorStart.y - e.point.y) - 3.1) /
+        massSelector.bounds.height
+    );
+  }
+};
+background.onMouseUp = function (e) {
+  const selunits = window.self.units.filter((u) =>
+    massSelector.bounds.contains(u.pos)
+  );
+  console.log(selunits);
+  window.selected.units = selunits;
+
+  let btn = e.event.button;
+  massSelectorStart = outOfBounds;
+  massSelector.position = outOfBounds;
+  massSelector.scale(
+    100 / massSelector.bounds.width,
+    100 / massSelector.bounds.height
+  );
+};
+
 function resetHoveredRange() {
   hoveredRange.position = outOfBounds;
   hoveredRange.scale(1 / (hoveredRange.bounds.width / 2));
@@ -148,7 +196,6 @@ view.onFrame = function (event) {
   if (!window.gameState) {
     return;
   }
-
   const income = window.gameState?.control_points
     .filter((cp) => cp.owner_id == window.self.id)
     .reduce((a, v) => a + v.baseResourcesPerSecond * 5, 0);
@@ -185,8 +232,8 @@ view.onFrame = function (event) {
   const hoveredUnit = window.hovered.unit
     ? getUnitById(window.hovered.unit.id)
     : null;
-  const selectedUnit = window.selected.unit
-    ? getUnitById(window.selected.unit.id)
+  const selectedUnit = window.selected.units[0]
+    ? getUnitById(window.selected.units[0]?.id)
     : null;
   const focusedUnit = hoveredUnit || selectedUnit;
   if (focusedUnit) {
@@ -344,7 +391,7 @@ function renderUnit(p, elem) {
     let btn = e.event.button;
     if (btn == 0) {
       // can only select your own units
-      if (elem.owner_id == window.self.id) window.selected.unit = elem;
+      if (elem.owner_id == window.self.id) window.selected.units[0] = elem;
       else {
         alert("Cannot select enemy units.");
       }
@@ -352,14 +399,17 @@ function renderUnit(p, elem) {
       // right click
       // can't attack yourself
       if (elem.owner_id == window.self.id) {
-        window.selected.unit = null; // deselects
+        window.selected.units = []; // deselects
         return;
       }
       // add newest target to FRONT of attack queue
-      window.selected.unit.shoot_targets.unshift(elem.id);
+      let targs = window.selected.units[0].shoot_targets;
+      targs.unshift(elem.id);
+      window.selected.units.forEach((u) => (u.shoot_targets = targs));
       emitAction(ACTION_TYPES.SET_UNIT_ATTACK, {
-        unit_id: window.selected.unit.id,
-        shoot_targets: window.selected.unit.shoot_targets,
+        unit_ids: window.selected.units.map((u) => u.id),
+        // everyone that's selected is going to have the same shoot targets :)
+        shoot_targets: targs,
       });
     }
     console.log(elem);
@@ -370,8 +420,11 @@ function renderUnit(p, elem) {
   renderedUnit.onMouseLeave = function (e) {
     window.hovered.unit = null;
   };
-  renderedUnit.strokeColor =
-    window.selected.unit === elem ? SELECTED_COLOR : unitColor(elem);
+  renderedUnit.strokeColor = window.selected.units
+    .map((u) => u.id)
+    .includes(elem.id)
+    ? SELECTED_COLOR
+    : unitColor(elem);
   if (elem.cur_stats.health <= 0) {
     renderedUnit.strokeColor = "#555"; // dead
     // renderedUnit.position = Victor(-50, -50).toArray();

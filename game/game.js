@@ -96,28 +96,32 @@ class Game {
       },
       BUY_UNIT: () => {
         p.buyUnit(data.blueprint_id, data.factory_id);
-        console.log(p.id, " bought unit ", data.blueprint_id, data.factory_id);
+        console.log(p.id, " bought unit ");
       },
       BUY_BLUEPRINT: () => {
         // data.stats[k];
         p.buyBlueprint(data.stats, data.name);
-        console.log(p.id, " bought blueprint ", data.stats, data.name);
+        console.log(p.id, " bought blueprint ");
       },
       SET_UNIT_MOVE: () => {
-        p.setUnitMoveTarget(data.unit_id, data.newpos);
-        console.log(p.id, " move target ", data.unit_id, data.newpos);
+        let unit_ids = data.unit_ids || [data.unit_id];
+        unit_ids.forEach((unit_id) => {
+          p.setUnitMoveTarget(unit_id, data.newpos);
+        });
+        console.log(p.id, " move target ");
       },
       SET_UNIT_ATTACK: () => {
-        p.setUnitShootTargets(data.unit_id, data.shoot_targets);
-        console.log(
-          p.id,
-          " set attack target ",
-          data.unit_id,
-          data.shoot_targets
-        );
+        let unit_ids = data.unit_ids || [data.unit_id];
+        unit_ids.forEach((unit_id) => {
+          p.setUnitShootTargets(unit_id, data.shoot_targets);
+          console.log(p.id, " set attack target ");
+        });
       },
       SET_AUTOTARGET: () => {
-        p.setUnitAutoTarget(data.unit_id, data.algorithm);
+        let unit_ids = data.unit_ids || [data.unit_id];
+        unit_ids.forEach((unit_id) => {
+          p.setUnitAutoTarget(unit_id, data.algorithm);
+        });
       },
     };
     // execute handler

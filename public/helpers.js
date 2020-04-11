@@ -174,7 +174,8 @@ function showDefaultDetail() {
   document.getElementById("blueprintInfo").innerText = dispText();
 }
 function buyUnit(blueprint_id) {
-  let factory_id = window.selected.fac.id;
+  if (!window.selected.fac) window.selected.fac = window.self.facs[0];
+  let factory_id = window.selected.fac?.id;
   console.log("bought unit @ ", factory_id);
   emitAction(ACTION_TYPES.BUY_UNIT, {
     blueprint_id,

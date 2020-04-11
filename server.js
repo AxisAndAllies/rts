@@ -145,7 +145,7 @@ io.on("connection", function (socket) {
     );
   });
   socket.on("action", function (msg) {
-    console.log("Handing action ", msg);
+    console.log("Handling action ", msg);
     game.handlePlayerAction(msg.type, socket.id, msg.data);
 
     socket.broadcast.emit("game_state", game.state);

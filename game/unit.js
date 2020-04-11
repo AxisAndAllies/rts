@@ -34,7 +34,7 @@ class Unit {
     };
   }
   setMoveTarget(newpos) {
-    // TODO: collision?
+    // TODO: handle collisions?
     this.move_target = Victor.fromObject(newpos).clone();
   }
   setShootTargets(unit_ids) {
