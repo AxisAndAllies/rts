@@ -8,7 +8,7 @@ const Player = require("./player");
 const Unit = require("./unit");
 const Factory = require("./factory");
 const ControlPoint = require("./controlpoint");
-const { calcCost } = require("./util");
+const { calcCost, randomBetween } = require("./util");
 
 class Game {
   static RESOLVE_TIMESPAN = 5000;
@@ -104,9 +104,13 @@ class Game {
         console.log(p.id, " bought blueprint ");
       },
       SET_UNIT_MOVE: () => {
+        let { minX, maxX, minY, maxY } = data.to;
         let unit_ids = data.unit_ids || [data.unit_id];
         unit_ids.forEach((unit_id) => {
-          p.setUnitMoveTarget(unit_id, data.newpos);
+          p.setUnitMoveTarget(unit_id, {
+            x: randomBetween(minX, maxX),
+            y: randomBetween(minY, maxY),
+          });
         });
         console.log(p.id, " move target ");
       },

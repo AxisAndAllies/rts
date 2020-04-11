@@ -26,7 +26,7 @@ window.self = null;
 
 function resetWindowSelected() {
   window.selected = {
-    units: [],
+    units: window.selected?.units || [],
     fac: null,
   };
 }
@@ -75,9 +75,9 @@ window.endTurn = () => {
 showDefaultDetail();
 let st = "";
 Object.keys(CONSTRAINTS_MIN).forEach((k) => {
-  //min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]}
+  //
   // set to CONSTRAINTS_MIN
-  st += `<span>${k}: </span><input type="text" value="${CONSTRAINTS_TESTING[k]}" id="${k}"</input><br>`;
+  st += `<span>${k}: </span><input type="number" min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]} value="${CONSTRAINTS_TESTING[k]}" id="${k}"</input><br>`;
 });
 console.log(st);
 document.getElementById("maker").innerHTML = st;
@@ -117,56 +117,74 @@ const massSelector = new Path.Rectangle({
   center: outOfBounds,
   size: [100, 100],
   strokeColor: "teal",
+  dashArray: [2, 4],
 });
+let curMassSelectorMode = "select";
 let massSelectorStart = outOfBounds;
+// const massTargetor = new Path.Rectangle({
+//   center: outOfBounds,
+//   size: [100, 100],
+//   strokeColor: "maroon",
+//   dashArray: [2, 4],
+// });
+// let massTargetorStart = outOfBounds;
 
 background.onMouseDown = function (e) {
   // when clicking outside any objects
   let btn = e.event.button;
-  if (btn == 0) {
-    // deselect all things on left click on background
-    resetWindowSelected();
-    massSelectorStart = e.point;
-  } else {
-    // btn=2 is right click
+  resetWindowSelected();
+  massSelectorStart = e.point;
+  // left/right click
+  curMassSelectorMode = btn == 0 ? "select" : "move";
 
-    // can't move enemy units
-    if (window.selected.units.some((u) => u.owner_id != window.self.id)) {
-      window.selected.units = []; // deselects
-      return;
-    }
-    let { x, y } = e.point;
-    emitAction(ACTION_TYPES.SET_UNIT_MOVE, {
-      unit_ids: window.selected.units.map((u) => u.id),
-      newpos: { x, y },
-    });
-  }
   console.log(e.point, e.event.button);
 };
 background.onMouseMove = function (e) {
   let btn = e.event.button;
-  if (btn == 0) {
-    if (massSelectorStart == outOfBounds) return;
-    massSelector.position = [
-      (massSelectorStart.x + e.point.x) / 2 - 1,
-      (massSelectorStart.y + e.point.y) / 2 - 1,
-    ];
-    massSelector.scale(
-      (Math.abs(massSelectorStart.x - e.point.x) - 3.1) /
-        massSelector.bounds.width,
-      (Math.abs(massSelectorStart.y - e.point.y) - 3.1) /
-        massSelector.bounds.height
-    );
+  if (curMassSelectorMode == "select") {
+    massSelector.strokeColor = "teal";
+  } else {
+    massSelector.strokeColor = "brown";
   }
+  if (massSelectorStart == outOfBounds) return;
+  massSelector.position = [
+    (massSelectorStart.x + e.point.x) / 2 - 1,
+    (massSelectorStart.y + e.point.y) / 2 - 1,
+  ];
+  massSelector.scale(
+    (Math.abs(massSelectorStart.x - e.point.x) - 3.1) /
+      massSelector.bounds.width,
+    (Math.abs(massSelectorStart.y - e.point.y) - 3.1) /
+      massSelector.bounds.height
+  );
 };
 background.onMouseUp = function (e) {
-  const selunits = window.self.units.filter((u) =>
-    massSelector.bounds.contains(u.pos)
-  );
-  console.log(selunits);
-  window.selected.units = selunits;
-
   let btn = e.event.button;
+  if (btn == 0) {
+    const selunits = window.self.units.filter((u) =>
+      massSelector.bounds.contains(u.pos)
+    );
+    console.log("selected", selunits);
+    window.selected.units = selunits;
+  } else {
+    // if (window.selected.units.some((u) => u.owner_id != window.self.id)) {
+    //   // can't move enemy units, this block should never execute
+    //   console.log("contains enemy, deselected");
+    //   window.selected.units = []; // deselects
+    //   return;
+    // }
+    let { x, y } = e.point;
+    emitAction(ACTION_TYPES.SET_UNIT_MOVE, {
+      unit_ids: window.selected.units.map((u) => u.id),
+      to: {
+        minX: Math.min(massSelectorStart.x, x),
+        maxX: Math.max(massSelectorStart.x, x),
+        minY: Math.min(massSelectorStart.y, y),
+        maxY: Math.max(massSelectorStart.y, y),
+      },
+    });
+  }
+  // reset mass selector
   massSelectorStart = outOfBounds;
   massSelector.position = outOfBounds;
   massSelector.scale(
@@ -259,10 +277,36 @@ view.onFrame = function (event) {
     resetHoveredHealth();
   }
 
+  Object.keys(window.drawn).forEach((k) => {
+    // return;
+    if (!k.includes("_movetarg")) return;
+    // console.log(window.selected?.units.map((u) => u.id));
+    // console.log(k.split("_")[0]);
+    if (
+      !window.selected?.units
+        .map((u) => u.id)
+        .includes(k.replace("_movetarg", ""))
+    ) {
+      // console.log("bll");
+      window.drawn[k].remove();
+      delete window.drawn[k];
+    }
+  });
+  // only show if unit belongs to owner
+  window.selected.units.forEach((u) => {
+    let key = `${u.id}_movetarg`;
+    let renderedMoveTarget =
+      window.drawn[key] ||
+      new Path.Rectangle({
+        center: u.move_target,
+        size: [10, 10],
+        strokeColor: "green",
+      });
+    renderedMoveTarget.position = u.move_target || outOfBounds;
+    window.drawn[key] = renderedMoveTarget;
+  });
   if (focusedUnit) {
-    // only show if unit belongs to owner
     if (focusedUnit.owner_id == window.self.id) {
-      hoveredMoveTarget.position = focusedUnit.move_target || outOfBounds;
       hoveredAttackTarget.position = focusedUnit.shoot_targets.length
         ? getUnitById(focusedUnit.shoot_targets[0]).pos
         : outOfBounds;
@@ -450,6 +494,11 @@ socket.on("game_state", (state) => {
   window.gameState = state;
 
   window.self = getSelf(socket.id, gameState);
+
+  // update selected units
+  window.selected.units.forEach((u) => {
+    Object.assign(u, ...window.self.units.filter((su) => su.id == u.id));
+  });
 
   // clear shots on game update
   window.drawn_shots.forEach((ds) => ds.path.remove());

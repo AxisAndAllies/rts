@@ -61,6 +61,7 @@ a {
 #maker,
 #unitdetail {
   border: 1px solid black;
+  border-radius: 4px;
   padding: 10px;
   margin: 10px;
 }

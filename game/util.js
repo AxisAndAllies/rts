@@ -24,7 +24,21 @@ function generateID() {
   return shortid.generate();
 }
 
+function randomBetween(min, max, numTimes = 1) {
+  // return random float between min and max
+  // use numTimes to try to more uniformly generate random values by bucketing
+  let res = [];
+  let bucketsize = (max - min) / numTimes;
+  for (let i = 0; i < numTimes; i++) {
+    let _min = min + bucketsize * i;
+    let _max = min + bucketsize * (i + 1);
+    res.push(Math.random() * (_max - _min) + _min);
+  }
+  return res;
+}
+
 module.exports = {
   calcCost,
   generateID,
+  randomBetween,
 };

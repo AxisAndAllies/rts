@@ -18,9 +18,6 @@ to run: `npm start` (starts BE and also serves FE)
 
   - different unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
-  - [x] rectangle select units
-    - select rectangle to randomly move into...
-    - [x] select a target to make them ALL target that
   - make units spread out a bit???
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?
