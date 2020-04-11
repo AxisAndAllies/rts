@@ -32,12 +32,12 @@ const CONSTRAINTS_MIN = {
   dmg: 1,
   health: 1,
 
-  range: 5,
+  range: 10,
   speed: 1,
 
   reload: 1,
   turn: 5,
-  accuracy: 10,
+  accuracy: 25,
 };
 const CONSTRAINTS_MAX = {
   dmg: 100,

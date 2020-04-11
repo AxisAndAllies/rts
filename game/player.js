@@ -22,8 +22,7 @@ class Player {
     return true;
   }
   get blueprintCost() {
-    // return Math.pow(this.blueprints.length, 2) * 10000;
-    return this.blueprints.length * 10000;
+    return this.blueprints.length * 5000 + 5000 || 0;
   }
   addMoney(amount) {
     this.money += amount;

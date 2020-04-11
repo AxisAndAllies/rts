@@ -114,19 +114,19 @@ class Game {
         let unit_ids = data.unit_ids || [data.unit_id];
         unit_ids.forEach((unit_id) => {
           p.setUnitShootTargets(unit_id, data.shoot_targets);
-          console.log(p.id, " set attack target ");
         });
+        console.log(p.id, " set attack target ");
       },
       SET_AUTOTARGET: () => {
         let unit_ids = data.unit_ids || [data.unit_id];
         unit_ids.forEach((unit_id) => {
           p.setUnitAutoTarget(unit_id, data.algorithm);
         });
+        console.log(p.id, " set auto target algorithm ");
       },
     };
     // execute handler
     switcher[type]();
-    // console.log(p);
   }
   getEnemyUnitsOf(player_id) {
     let res = [];
