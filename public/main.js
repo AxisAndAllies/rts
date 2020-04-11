@@ -116,19 +116,12 @@ const hoveredHealthBar = new Path.Line({
 });
 const massSelector = new Path.Rectangle({
   center: outOfBounds,
-  size: [100, 100],
+  size: [5, 5],
   strokeColor: "teal",
   dashArray: [2, 4],
 });
 let curMassSelectorMode = "select";
 let massSelectorStart = outOfBounds;
-// const massTargetor = new Path.Rectangle({
-//   center: outOfBounds,
-//   size: [100, 100],
-//   strokeColor: "maroon",
-//   dashArray: [2, 4],
-// });
-// let massTargetorStart = outOfBounds;
 
 background.onMouseDown = function (e) {
   // when clicking outside any objects
@@ -189,8 +182,8 @@ background.onMouseUp = function (e) {
   massSelectorStart = outOfBounds;
   massSelector.position = outOfBounds;
   massSelector.scale(
-    100 / massSelector.bounds.width,
-    100 / massSelector.bounds.height
+    5 / massSelector.bounds.width,
+    5 / massSelector.bounds.height
   );
 };
 
@@ -368,6 +361,7 @@ view.onFrame = function (event) {
       : "red";
     // renderedControlPoint.fillColor = "blue";
     // renderedControlPoint.opacity = 0.3;
+    renderedControlPoint.rotate(0.25);
     window.drawn[elem.id] = renderedControlPoint;
   });
 
@@ -498,6 +492,23 @@ var socket = io();
 // on each update...
 socket.on("game_state", (state) => {
   console.log(state);
+
+  // remove dead units
+  if (window.gameState)
+    window.gameState.players.forEach((p) => {
+      p.units
+        .filter(
+          (u) =>
+            !state.players
+              .filter((e) => e.id == p.id)[0]
+              .units.map((e) => e.id)
+              .includes(u.id)
+        )
+        .forEach((elem) => {
+          window.drawn[elem.id].remove();
+        });
+    });
+
   window.gameState = state;
 
   window.self = getSelf(socket.id, gameState);

@@ -6,14 +6,13 @@ to run: `npm start` (starts BE and also serves FE)
 
 ### known bugs
 
-- bug where units killed on last iteration of game resolution phase don't get removed visually...
+- none :)
 
 ### main todos
 
 - HIGH priority
 
   - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
-  - clean dead units...
   - make units spread out a bit???
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?

@@ -200,6 +200,7 @@ class Game {
       let unit = this.getUnitById(id);
       return unit.pos;
     }
+    // NOTE: everyone gets a chance to fire, and then all dead gets taken away together
     this.players.forEach((p) => {
       // console.log(p.id, " player's units updating");
       let enemies = this.getEnemyUnitsOf(p.id);

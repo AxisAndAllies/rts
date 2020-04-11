@@ -19,7 +19,7 @@ class Unit {
     this.cur_stats.reload = 0;
     //
     this.pos = pos;
-    this.orientation = 0;
+    this.orientation = Math.random() * 360;
     //
 
     this.owner_id = owner_id;
@@ -126,7 +126,7 @@ class Unit {
   }
   takeDamage(dmg) {
     this.cur_stats.health -= dmg;
-    console.log(`${this.id} took ${dmg} damage`);
+    // console.log(`${this.id} took ${dmg} damage`);
   }
 }
 module.exports = Unit;
