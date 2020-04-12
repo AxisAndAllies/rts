@@ -221,7 +221,7 @@ class Game {
     allUnits.forEach((u) => {
       nextLocs[u.id] = Victor.fromObject(u.pos).add(u.calcMove(dt));
     });
-    console.log(nextLocs);
+    // console.log(nextLocs);
     const COLLISION_RADIUS = 25;
     let collisionMap = {};
     let allMovingUnitsIds = Object.keys(nextLocs).filter(
@@ -238,18 +238,23 @@ class Game {
           break;
         }
         // TODO: always allow successful move if one is moving away from another?
+        // if(angle between the two move vecs > 90) {
+        //   return;
+        // }
+
+        // simple distance check
         let dist = nextLocs[j].clone().subtract(nextLocs[k]).length();
         if (dist < COLLISION_RADIUS) {
-          console.log(
-            `${j}(${nextLocs[j]}), ${k}(${nextLocs[k]}), predicted to collide`
-          );
+          // console.log(
+          //   `${j}(${nextLocs[j]}), ${k}(${nextLocs[k]}), predicted to collide`
+          // );
           collisionMap[j] = true;
           // if collides w/ one unit, stop checking for all others
           break;
         }
       }
     }
-    console.log(collisionMap);
+    // console.log(collisionMap);
     // NOTE: if something not in collisionMap, it means it won't collide
 
     // NOTE: everyone gets a chance to fire, and then all dead gets taken away together

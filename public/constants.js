@@ -22,7 +22,7 @@ const CONSTRAINTS_TESTING = {
   health: 4,
 
   range: 80,
-  speed: 30,
+  speed: 35,
 
   reload: 1,
   turn: 30,

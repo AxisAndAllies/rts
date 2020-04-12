@@ -44,7 +44,7 @@ function dispUnitStatText({ base_stats, cur_stats, autoTarget, owner_id }) {
     else {
       // obfuscate enemy unit stats :)
       let rem = Math.round(base_stats[k] - cur_stats[k]);
-      disp += `${k}: ${"/".repeat(Math.round(base_stats[k]))}${".".repeat(
+      disp += `${k}: ${"/".repeat(Math.round(cur_stats[k]))}${".".repeat(
         rem
       )}\n`;
     }

@@ -77,8 +77,9 @@ class Unit {
   update(millis, dealDamageFn, getUnitPosFn, willCollide = false) {
     // reduce reload time
     this.cur_stats.reload = Math.max(this.cur_stats.reload - millis / 1000, 0);
-    //move if won't collide
-    if (!willCollide) this.pos.add(this.calcMove(millis));
+    if (!willCollide)
+      //move if won't collide
+      this.pos.add(this.calcMove(millis));
 
     // rotate if necessary
     if (this.shoot_targets.length == 0) {
@@ -100,7 +101,7 @@ class Unit {
 
     // shoot if aligned + in range + reloaded
     if (
-      Math.abs(ang - this.orientation) < 0.1 &&
+      Math.abs(ang - this.orientation) % 360 < 0.1 &&
       tempvec.length() < this.cur_stats.range &&
       this.cur_stats.reload <= 0
     ) {

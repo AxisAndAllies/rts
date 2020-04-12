@@ -6,14 +6,11 @@ to run: `npm start` (starts BE and also serves FE)
 
 ### known bugs
 
-- none :)
-
 ### main todos
 
 - HIGH priority
 
   - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
-  - prevent units from going through each other
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?
   - write state to file, load from file...
@@ -23,6 +20,7 @@ to run: `npm start` (starts BE and also serves FE)
 
 - MID priority
 
+  - better collision resolution
   - better unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - enable placing more factories
   - more map types {height, width, control points}
