@@ -147,6 +147,10 @@ const massSelector = new Path.Rectangle({
   strokeColor: "teal",
   dashArray: [2, 4],
 });
+const hoveredText = new PointText(outOfBounds);
+hoveredText.justification = "center";
+hoveredText.fillColor = "black";
+hoveredText.content = "hi";
 let curMassSelectorMode = MOUSE_MODES.SELECT;
 let massSelectorStart = outOfBounds;
 let viewOriginalCenter = {
@@ -404,6 +408,14 @@ view.onFrame = function (event) {
       [-healthbarLen / 2 + pos.x, -size / 2 - 9 + pos.y],
       [healthbarLen / 2 + pos.x, -size / 2 - 9 + pos.y],
     ];
+
+    hoveredText.position = Victor.fromObject(focusedUnit.pos).subtract(
+      Victor(100, 200)
+    );
+    hoveredText.justification = "center";
+    hoveredText.fillColor = "black";
+    hoveredText.content = dispUnitStatText(focusedUnit);
+    hoveredText.scale((40 * view.zoom) / hoveredText.bounds.width);
   } else {
     showUnitDetail({});
     resetHoveredRange();
@@ -493,14 +505,16 @@ view.onFrame = function (event) {
     renderedControlPoint.children[1].scale(
       newrad / (renderedControlPoint.children[1].bounds.width / 2 || 0.00001)
     );
-    renderedControlPoint.strokeColor = !elem.owner_id
+    let color = !elem.owner_id
       ? COLORS.NEUTRAL
       : elem.owner_id == window.self.id
       ? COLORS.SELF
       : COLORS.NEUTRAL;
+    renderedControlPoint.strokeColor = color;
     // renderedControlPoint.fillColor = "blue";
     // renderedControlPoint.opacity = 0.3;
     renderedControlPoint.rotate(0.25);
+    addShadow(renderedControlPoint, 8, elem.pos, 0);
     window.drawn[elem.id] = renderedControlPoint;
   });
 
@@ -535,8 +549,19 @@ function renderFac(p, elem) {
   };
   renderedFactory.strokeColor =
     window.selected.fac === elem ? COLORS.SELECTED : unitColor(elem);
-
+  addShadow(renderedFactory, size / 2, elem.pos, 0);
   window.drawn[elem.id] = renderedFactory;
+}
+
+function addShadow(render, blursize, pos, orient) {
+  render.shadowBlur = blursize;
+  render.shadowColor = "#888";
+  let light = Victor.fromObject(view.center)
+    .subtract(Victor.fromObject(pos))
+    // .norm()
+    .divide(Victor(35, 35))
+    .invert();
+  render.shadowOffset = light.rotateDeg(orient);
 }
 
 function renderUnit(p, elem) {
@@ -582,6 +607,8 @@ function renderUnit(p, elem) {
       ],
       applyMatrix: false,
     });
+
+  addShadow(renderedUnit, size / 2, elem.pos, elem.orientation);
 
   renderedUnit.position = pos.toArray();
   renderedUnit.rotation = -elem.orientation || 0;
