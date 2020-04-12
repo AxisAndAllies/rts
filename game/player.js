@@ -29,7 +29,7 @@ class Player {
   }
   buyUnit(blueprint_id, factory_id) {
     let blueprint = this.blueprints.filter((b) => b.id == blueprint_id)[0];
-    let factory = this.facs.filter((b) => b.id == factory_id)[0];
+    let factory = this.facs.filter((f) => f.id == factory_id)[0];
     // console.log(
     //   blueprint,
     //   factory,

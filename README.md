@@ -19,6 +19,7 @@ to run: `npm start` (starts BE and also serves FE)
   - write state to file, load from file...
   - add unit lifetime stats (kill count, dmg, dmg taken, dist moved, birth date)
   - show turn resolve summary/highlights
+  - diagonal panning (n-key rollover?)
 
 - MID priority
 
@@ -42,6 +43,8 @@ to run: `npm start` (starts BE and also serves FE)
   - rectangle select + smarter auto spread out?
 
 ### NOTES:
+
+- a lot of hacks/simple tricks are possible simply b/c it's small scale (< 50 units usually)
 
 - Victor.js is mutable, modifies vector directly unless you use `.clone()`
 - uses [node-hot](https://github.com/mihe/node-hot) for hot-reloading file changes in `./game` without restarting server. Incredibly useful for development!

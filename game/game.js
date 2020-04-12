@@ -90,11 +90,7 @@ class Game {
   }
   handlePlayerAction(type, socket_id, data) {
     const player_id = this.socket_player_map[socket_id];
-    let candidates = this.players.filter((e) => e.id == player_id);
-    if (candidates.length > 1) {
-      console.error("duplicate players.");
-    }
-    let p = candidates[0];
+    let p = this.getPlayerById(player_id);
     let switcher = {
       END_TURN: () => {
         p.ended_turn = true;
@@ -105,7 +101,6 @@ class Game {
         console.log(p.id, " bought unit ");
       },
       BUY_BLUEPRINT: () => {
-        // data.stats[k];
         p.buyBlueprint(data.stats, data.name);
         console.log(p.id, " bought blueprint ");
       },
@@ -149,6 +144,12 @@ class Game {
       EXPORT_GAME_STATE: () => {
         this.saveToFile();
         console.log(`saved game to file >>>`);
+      },
+      GOD_MODE: () => {
+        let { addMoney, instantBuild, player_id } = data;
+        let player = this.getPlayerById(player_id);
+        if (addMoney) player.addMoney(addMoney);
+        if (instantBuild) player.facs.forEach((e) => (e.buildSpeed = 999999));
       },
     };
     // execute handler
@@ -212,6 +213,45 @@ class Game {
       let unit = this.getUnitById(id);
       return unit.pos;
     }
+    // simulate all units move, see which will collide...
+    let allUnits = this.getEnemyUnitsOf(this.players[0]).concat(
+      this.players[0].units
+    );
+    let nextLocs = {};
+    allUnits.forEach((u) => {
+      nextLocs[u.id] = Victor.fromObject(u.pos).add(u.calcMove(dt));
+    });
+    console.log(nextLocs);
+    const COLLISION_RADIUS = 25;
+    let collisionMap = {};
+    let allMovingUnitsIds = Object.keys(nextLocs).filter(
+      (k) => nextLocs[k].length() > 0.1
+    );
+    // not many units expected, so just brute force it, no broad/narrow phase sweep+prune
+    // not perfect b/c of cascading effect where if some units don't move, they may collide also
+    // b/c nextLocs assume everything will successfully move
+    for (let a = 0; a < allMovingUnitsIds.length; a++) {
+      for (let b = 0; b < allUnits.length; b++) {
+        let j = allMovingUnitsIds[a];
+        let k = allUnits[b].id;
+        if (k == j) {
+          break;
+        }
+        // TODO: always allow successful move if one is moving away from another?
+        let dist = nextLocs[j].clone().subtract(nextLocs[k]).length();
+        if (dist < COLLISION_RADIUS) {
+          console.log(
+            `${j}(${nextLocs[j]}), ${k}(${nextLocs[k]}), predicted to collide`
+          );
+          collisionMap[j] = true;
+          // if collides w/ one unit, stop checking for all others
+          break;
+        }
+      }
+    }
+    console.log(collisionMap);
+    // NOTE: if something not in collisionMap, it means it won't collide
+
     // NOTE: everyone gets a chance to fire, and then all dead gets taken away together
     this.players.forEach((p) => {
       // console.log(p.id, " player's units updating");
@@ -253,7 +293,12 @@ class Game {
           }
         }
         // gotta bind, always gotta bind
-        u.update(dt, dealDamage.bind(this), getUnitPosFn.bind(this));
+        u.update(
+          dt,
+          dealDamage.bind(this),
+          getUnitPosFn.bind(this),
+          collisionMap[u.id]
+        );
       });
     });
 

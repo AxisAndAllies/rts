@@ -43,8 +43,8 @@ const CONSTRAINTS_MAX = {
   dmg: 100,
   health: 100,
 
-  range: 200,
-  speed: 30,
+  range: 250,
+  speed: 35,
 
   reload: 30,
   turn: 360,
@@ -60,6 +60,7 @@ const ACTION_TYPES = {
   SET_AUTOTARGET: "SET_AUTOTARGET",
   CLEAR_FAC_QUEUE: "CLEAR_FAC_QUEUE",
   EXPORT_GAME_STATE: "EXPORT_GAME_STATE",
+  GOD_MODE: "GOD_MODE",
 };
 
 const MOUSE_MODES = {

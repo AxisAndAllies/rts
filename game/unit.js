@@ -61,24 +61,24 @@ class Unit {
     // reset reloading
     this.cur_stats.reload = this.base_stats.reload;
   }
-  update(millis, dealDamageFn, getUnitPosFn) {
+  calcMove(millis) {
+    // used for pre-move and move
+    if (!this.move_target) return new Victor(0, 0);
+
+    let dir = Victor.fromObject(this.move_target)
+      .clone()
+      .subtract(this.pos.clone());
+
+    // slow down if necessary to not overshoot target
+    let speed = Math.min((this.cur_stats.speed * millis) / 1000, dir.length());
+    let dv = dir.normalize().multiply(new Victor(speed, speed));
+    return dv;
+  }
+  update(millis, dealDamageFn, getUnitPosFn, willCollide = false) {
     // reduce reload time
     this.cur_stats.reload = Math.max(this.cur_stats.reload - millis / 1000, 0);
-    //move
-    if (this.move_target) {
-      let dir = Victor.fromObject(this.move_target)
-        .clone()
-        .subtract(this.pos.clone());
-
-      // slow down if necessary to not overshoot target
-      let speed = Math.min(
-        (this.cur_stats.speed * millis) / 1000,
-        dir.length()
-      );
-      let dv = dir.normalize().multiply(new Victor(speed, speed));
-
-      this.pos.add(dv);
-    }
+    //move if won't collide
+    if (!willCollide) this.pos.add(this.calcMove(millis));
 
     // rotate if necessary
     if (this.shoot_targets.length == 0) {

@@ -49,11 +49,31 @@ window.clearQueue = () => {
     fac_id: window.selected.fac.id,
   });
 };
+// manually call this from console to enable :)
+window.setGodMode = (addMoney = 9999999, instantBuild = true) => {
+  emitAction(ACTION_TYPES.GOD_MODE, {
+    player_id: window.self.id,
+    addMoney,
+    instantBuild,
+  });
+};
+console.log(`Maybe just type 'setGodMode()'`);
 window.exportGame = () => {
   emitAction(ACTION_TYPES.EXPORT_GAME_STATE, {});
 };
+
+console.log(
+  `Keyboard shortcuts:\n\n[W,A,S,D] - pan\n[Z / X] - zoom in/out\n[C] - reset zoom\n[Enter] - end turn`
+);
+
 window.buyBlueprint = () => {
-  console.log("bought blueprint!");
+  // short tutorial if new
+  // if (!window.self.blueprints.length)
+  //   alert(
+  //     `Keyboard shortcuts:\n\n[W,A,S,D] - pan\n[Z / X] - zoom in/out\n[C] - reset zoom\n[Enter] - end turn`
+  //   );
+
+  // console.log("bought blueprint!");
   let nos = getMakerObj().newobj;
   if (
     window.self?.blueprints
@@ -638,12 +658,6 @@ socket.on("game_state", (state) => {
   window.gameState = state;
 
   window.self = getSelf(socket.id, gameState);
-
-  // short tutorial if new
-  if (!window.self.blueprints.length)
-    alert(
-      `Keyboard shortcuts:\n\n[W,A,S,D] - pan\n[Z / X] - zoom in/out\n[C] - reset zoom\n[Enter] - end turn`
-    );
 
   // update selected units
   window.selected.units.forEach((u) => {
