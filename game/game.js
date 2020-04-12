@@ -51,8 +51,8 @@ class Game {
 
     // @ts-ignore
     let loc = new Victor().randomize(
-      new Victor(50, 50),
-      new Victor(Game.MAP_SIZE, Game.MAP_SIZE)
+      new Victor(100, 100),
+      new Victor(Game.MAP_SIZE - 100, Game.MAP_SIZE - 100)
     );
     let numPlayers = this.players.length;
     if (numPlayers % 2 == 1) {

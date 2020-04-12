@@ -45,7 +45,6 @@ For hot reloading, see [this section](./README.md#Hot-reloading-everything).
 - LOW priority
   - better unit visuals based on unit class (artillery, tanky, raider, scout, balanced)
   - maybe different pricing formulas based on unit class?
-  - larger playing field (enable map pan/zoom)
   - more unit stats
     - sight radius?
     - AOE
@@ -55,7 +54,6 @@ For hot reloading, see [this section](./README.md#Hot-reloading-everything).
   - factory upgrade build speed, build radius
     - factory choose where to build unit
   - use more backend validation instead of frontend validation
-  - rectangle select + smarter auto spread out?
 
 ### Misc notes:
 

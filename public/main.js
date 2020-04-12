@@ -114,8 +114,9 @@ paper.setup("canvas");
 
 const background = new Path.Rectangle([0, 0], [1200, 1200]);
 background.fillColor = "#e7e7e7";
+background.strokeColor = COLORS.NEUTRAL;
 
-const outOfBounds = Victor(0, 0);
+const outOfBounds = Victor(-100, -100);
 
 const hoveredRange = new Path.Circle({
   center: outOfBounds,
@@ -137,7 +138,7 @@ const hoveredAttackTarget = new Path.Rectangle({
 });
 const hoveredHealthBar = new Path.Line({
   from: outOfBounds,
-  to: [20, 20],
+  to: outOfBounds,
   strokeColor: "green",
 });
 const massSelector = new Path.Rectangle({
@@ -329,7 +330,7 @@ function resetHoveredAttackTarget() {
   hoveredAttackTarget.position = outOfBounds;
 }
 function resetHoveredHealth() {
-  hoveredHealthBar.segments = [outOfBounds, [20, 20]];
+  hoveredHealthBar.segments = [outOfBounds, outOfBounds];
 }
 
 view.onFrame = function (event) {

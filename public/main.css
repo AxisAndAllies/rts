@@ -53,13 +53,28 @@ a {
   width: 4em;
 }
 
+#uberselect {
+  /* position: fixed; */
+}
+
+#unitselection {
+  display: inline-block;
+  max-width: 200px;
+}
 #unitselection > button {
-  margin-top: 10px;
+  margin-top: 5px;
+}
+
+#blueprintInfo {
+  vertical-align: top;
+  max-width: 250px;
+  display: inline-block;
 }
 
 #facQueue,
 #blueprintInfo,
 #maker,
+#unitselection,
 #unitdetail {
   border: 1px solid black;
   border-radius: 4px;

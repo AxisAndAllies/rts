@@ -57,7 +57,7 @@ function dispUnitStatText({ base_stats, cur_stats, autoTarget, owner_id }) {
       )}\n`;
     }
   });
-  disp += "COST: $" + calcCost(base_stats);
+  disp += `COST: ${formatMoney(calcCost(base_stats))}`;
   if (owner_id == window.self.id) {
     disp += `\nAI: <${autoTarget.algorithm}>`;
   }
@@ -70,7 +70,7 @@ function dispStatText(stats) {
   Object.keys(stats).forEach((k) => {
     disp += k + ": " + stats[k] + "\n";
   });
-  disp += "COST: $" + calcCost(stats);
+  disp += `COST: ${formatMoney(calcCost(stats))}`;
   //   console.log(disp);
   return disp;
 }
@@ -140,11 +140,14 @@ function refreshBlueprints(blueprints) {
   blueprints.forEach((e) => {
     st += `<button id="${e.id}" 
     onmouseover="showBlueprintDetail('${e.id}')" 
-    onmouseleave="showDefaultDetail()"
+
     onclick="buyUnit('${e.id}')"
-    >${e.name} ($${e.unit_cost})</button><br>`;
+    >${e.name} (${formatMoney(e.unit_cost)})</button><br>`;
   });
   document.getElementById("unitselection").innerHTML = st;
+  document
+    .getElementById("unitselection")
+    .addEventListener("mouseleave", showDefaultDetail);
 }
 
 function getSelf(socket_id, gameState) {
