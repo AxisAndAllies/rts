@@ -1,6 +1,14 @@
+"use strict";
 function emitAction(type, data) {
   if (window.self?.ended_turn) {
-    alert("can't make actions while game is resolving :)");
+    let numwait = window.gameState.players.filter((p) => !p.ended_turn).length;
+    alert(
+      ` ${
+        numwait
+          ? "You've ended your turn already. Waiting on " + numwait + " others."
+          : "Can't issue commands while game resolving."
+      }`
+    );
     return;
   }
   console.log("action emitted: ", type, data);
@@ -123,7 +131,7 @@ function getUnitById(id) {
   return res;
 }
 function unitColor(e) {
-  return e.owner_id == window.self.id ? "black" : "red";
+  return e.owner_id == window.self.id ? COLORS.SELF : COLORS.ENEMY;
 }
 function refreshBlueprints(blueprints) {
   let st = "";

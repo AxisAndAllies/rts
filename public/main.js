@@ -1,3 +1,5 @@
+// "use strict";
+
 // const Victor = require("victor");
 
 // Make the paper scope global, by injecting it into window:
@@ -106,14 +108,6 @@ window.endTurn = () => {
 };
 
 showDefaultDetail();
-let st = "";
-Object.keys(CONSTRAINTS_MIN).forEach((k) => {
-  //
-  // set to CONSTRAINTS_MIN
-  st += `<span>${k}: </span><input type="number" min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]} value="${CONSTRAINTS_TESTING[k]}" id="${k}"</input><br>`;
-});
-console.log(st);
-document.getElementById("maker").innerHTML = st;
 
 // Setup directly from canvas id:
 paper.setup("canvas");
@@ -338,8 +332,6 @@ function resetHoveredHealth() {
   hoveredHealthBar.segments = [outOfBounds, [20, 20]];
 }
 
-const SELECTED_COLOR = "blue";
-
 view.onFrame = function (event) {
   // console.log(this.gameState);
   if (!window.gameState) {
@@ -501,10 +493,10 @@ view.onFrame = function (event) {
       newrad / (renderedControlPoint.children[1].bounds.width / 2 || 0.00001)
     );
     renderedControlPoint.strokeColor = !elem.owner_id
-      ? "#aaa"
+      ? COLORS.NEUTRAL
       : elem.owner_id == window.self.id
-      ? "black"
-      : "red";
+      ? COLORS.SELF
+      : COLORS.NEUTRAL;
     // renderedControlPoint.fillColor = "blue";
     // renderedControlPoint.opacity = 0.3;
     renderedControlPoint.rotate(0.25);
@@ -541,21 +533,23 @@ function renderFac(p, elem) {
     console.log(window.selected.fac);
   };
   renderedFactory.strokeColor =
-    window.selected.fac === elem ? SELECTED_COLOR : unitColor(elem);
+    window.selected.fac === elem ? COLORS.SELECTED : unitColor(elem);
 
   window.drawn[elem.id] = renderedFactory;
 }
 
 function renderUnit(p, elem) {
   let pos = Victor.fromObject(elem.pos);
-  let size = Math.sqrt(elem.base_stats.health) + 10;
+  let { health, dmg, range, turn, reload, accuracy, speed } = elem.base_stats;
+  let size = Math.sqrt(health) + 10;
   let midpt = [size / 2, size / 2];
+  let cost = calcCost(elem.base_stats);
   const renderedUnit =
     window.drawn[elem.id] ||
     // NOTE: compound path only accepts one parent style, child styles no effect
     new CompoundPath({
       children: [
-        elem.base_stats.speed > 20
+        speed > 20
           ? new Path.RegularPolygon({
               center: midpt,
               sides: 3,
@@ -566,11 +560,24 @@ function renderUnit(p, elem) {
               point: [0, 0],
               size: [size, size],
             }),
-        new Path.Rectangle(midpt, [
-          Math.sqrt(elem.base_stats.dmg),
-          Math.sqrt(elem.base_stats.range) * 2,
-        ]),
-        // new Path.Line([0, 0], [0, 0]),
+        new Path.Rectangle(
+          [size / 2 - Math.sqrt(dmg) / 2, size / 2],
+          [Math.sqrt(dmg), Math.sqrt(range) * 2]
+        ),
+        new Path.Circle({
+          center: midpt,
+          radius: turn > 30 ? size / 4 : 1,
+        }),
+        new Path.Circle({
+          center: midpt,
+          radius: turn > 50 ? size / 2 : 1,
+        }),
+        new Path.RegularPolygon({
+          center: midpt,
+          sides: Math.min(10, Math.floor(cost / 100000) + 4),
+          radius: cost > 100000 ? size : 1,
+          rotation: 180,
+        }),
       ],
       applyMatrix: false,
     });
@@ -614,7 +621,7 @@ function renderUnit(p, elem) {
   renderedUnit.strokeColor = window.selected.units
     .map((u) => u.id)
     .includes(elem.id)
-    ? SELECTED_COLOR
+    ? COLORS.SELECTED
     : unitColor(elem);
   if (elem.cur_stats.health <= 0) {
     renderedUnit.strokeColor = "#555"; // dead
@@ -668,6 +675,16 @@ socket.on("game_state", (state) => {
   // clear shots on game update
   window.drawn_shots.forEach((ds) => ds.path.remove());
   refreshBlueprints(window.self.blueprints);
+
+  // show last active blueprint...
+  let st = "";
+  Object.keys(CONSTRAINTS_MIN).forEach((k) => {
+    v =
+      window.self?.blueprints[window.self?.blueprints.length - 1].stats[k] ||
+      CONSTRAINTS_TESTING[k];
+    st += `<span>${k}: </span><input type="number" min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]} value="${v}" id="${k}"</input><br>`;
+  });
+  document.getElementById("maker").innerHTML = st;
 });
 
 // webpack hot reloading...

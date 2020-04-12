@@ -1,9 +1,4 @@
-/**
- * NOTE: to ADD a new unit attribute:
- * 1. simply add it to the consts below
- * 2. update the `calcCost` function on both backend and frontend
- * 3. implement its behavior
- */
+"use strict";
 
 const CONSTRAINTS_UNITS = {
   dmg: "dmg/shot",
@@ -67,4 +62,11 @@ const MOUSE_MODES = {
   SELECT: "select",
   MOVE: "move",
   DRAG: "drag",
+};
+
+const COLORS = {
+  SELF: "olive",
+  ENEMY: "tomato",
+  NEUTRAL: "#aaa",
+  SELECTED: "blue",
 };
