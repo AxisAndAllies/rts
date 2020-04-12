@@ -100,7 +100,7 @@ class Unit {
 
     // shoot if aligned + in range + reloaded
     if (
-      Math.abs(ang - this.orientation) < 0.01 &&
+      Math.abs(ang - this.orientation) < 0.1 &&
       tempvec.length() < this.cur_stats.range &&
       this.cur_stats.reload <= 0
     ) {

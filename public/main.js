@@ -15,7 +15,7 @@ window.addEventListener(
     if (e.keyCode == 13) {
       // press Enter to end turn.
       window.endTurn();
-      this.alert("Turn ended.");
+      // this.alert("Turn ended.");
     }
   },
   false
@@ -39,7 +39,16 @@ window.drawn = {};
 
 window.drawn_shots = [];
 //
-
+window.clearQueue = () => {
+  if (!window.selected?.fac) {
+    alert("no fac selected");
+    return;
+  }
+  emitAction(ACTION_TYPES.CLEAR_FAC_QUEUE, {
+    player_id: window.self.id,
+    fac_id: window.selected.fac.id,
+  });
+};
 window.buyBlueprint = () => {
   console.log("bought blueprint!");
   let nos = getMakerObj().newobj;
@@ -208,6 +217,15 @@ view.onFrame = function (event) {
   if (!window.gameState) {
     return;
   }
+
+  if (window.selected?.fac) {
+    document.getElementById(
+      "clearqueue"
+    ).innerText = `Clear Queue $${window.selected.fac.buildQueue
+      .map((e) => Number(e.remaining))
+      .reduce((a, v) => a + v, 0)}`;
+  }
+
   const income = window.gameState?.control_points
     .filter((cp) => cp.owner_id == window.self.id)
     .reduce((a, v) => a + v.baseResourcesPerSecond * 5, 0);

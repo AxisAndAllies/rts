@@ -138,6 +138,14 @@ class Game {
         });
         console.log(p.id, " set auto target algorithm ");
       },
+      CLEAR_FAC_QUEUE: () => {
+        let { fac_id, player_id } = data;
+        let player = this.getPlayerById(player_id);
+        player.facs
+          .filter((f) => f.id == fac_id)[0]
+          .clearQueue(player.addMoney.bind(player));
+        console.log("cleared fac queue");
+      },
     };
     // execute handler
     switcher[type]();

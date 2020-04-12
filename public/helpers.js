@@ -20,7 +20,8 @@ function calcCost(obj) {
   // speed^2 to correct for value of moving fast
   // dps * health = damage output over lifespan
   // sqrt(turn) b/c difference between 5 and 10 deg way more valuable than 180 to 360 deg.
-  let cost = coverage * efficient_dps * (health + speed * 2) * 0.005;
+  let cost =
+    coverage * efficient_dps * (health + speed * 2) * Math.sqrt(health) * 0.004;
   cost = Math.max(cost, 1000);
   return Math.round(cost);
 }
@@ -42,8 +43,10 @@ function dispUnitStatText({ base_stats, cur_stats, autoTarget, owner_id }) {
       disp += `${k}: ${base_stats[k]} (${cur_stats[k]})\n`;
     else {
       // obfuscate enemy unit stats :)
-      let rem = base_stats[k] - cur_stats[k];
-      disp += `${k}: ${"/".repeat(base_stats[k])}${".".repeat(rem)}\n`;
+      let rem = Math.round(base_stats[k] - cur_stats[k]);
+      disp += `${k}: ${"/".repeat(Math.round(base_stats[k]))}${".".repeat(
+        rem
+      )}\n`;
     }
   });
   disp += "COST: $" + calcCost(base_stats);

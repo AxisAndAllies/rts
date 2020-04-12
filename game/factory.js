@@ -18,6 +18,12 @@ class Factory {
       remaining: blueprint.unit_cost,
     });
   }
+  clearQueue(addPlayerMoney) {
+    addPlayerMoney(
+      this.buildQueue.map((e) => Number(e.remaining)).reduce((a, v) => a + v)
+    );
+    this.buildQueue = [];
+  }
   createUnit(blueprint) {
     // support POS arg later
     // create unit at random pos around factory
