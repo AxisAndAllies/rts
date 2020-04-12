@@ -132,22 +132,86 @@ const massSelector = new Path.Rectangle({
   strokeColor: "teal",
   dashArray: [2, 4],
 });
-let curMassSelectorMode = "select";
+let curMassSelectorMode = MOUSE_MODES.SELECT;
 let massSelectorStart = outOfBounds;
+let viewOriginalCenter = {
+  x: background.bounds.width / 2,
+  y: background.bounds.height / 2,
+};
+let mouseLoc = { x: 0, y: 0 };
 
+tool = new Tool();
+tool.onKeyDown = function (event) {
+  console.log(view.zoom);
+  if (event.key == "z") {
+    let factor = 1.5;
+    if (view.zoom < 2) view.zoom *= factor;
+
+    let c = Victor.fromObject(view.center);
+    let p = Victor.fromObject(mouseLoc);
+    p.subtract(c); // distance in project coords
+    p.multiply(Victor((factor - 1) / factor, (factor - 1) / factor));
+    c.add(p);
+    view.center = c;
+    // Prevent the key event from bubbling
+    return false;
+  }
+  if (event.key == "x") {
+    let factor = 1 / 1.5;
+    if (view.zoom > 0.7) view.zoom *= factor;
+
+    let c = Victor.fromObject(view.center);
+    let p = Victor.fromObject(mouseLoc);
+    p.subtract(c); // distance in project coords
+    p.multiply(Victor((factor - 1) / factor, (factor - 1) / factor));
+    c.add(p);
+    view.center = c;
+    // Prevent the key event from bubbling
+    return false;
+  }
+  if (event.key == "c") {
+    view.zoom = 1;
+    view.center = viewOriginalCenter;
+    // view.center = Victor(background.size
+  }
+};
 background.onMouseDown = function (e) {
   // when clicking outside any objects
   let btn = e.event.button;
+
   resetWindowSelected();
   massSelectorStart = e.point;
   // left/right click
-  curMassSelectorMode = btn == 0 ? "select" : "move";
-
-  console.log(e.point, e.event.button);
+  switch (btn) {
+    case 0:
+      curMassSelectorMode = MOUSE_MODES.SELECT;
+      break;
+    // case 1:
+    //   curMassSelectorMode = MOUSE_MODES.DRAG;
+    //   break;
+    case 2:
+      curMassSelectorMode = MOUSE_MODES.MOVE;
+      break;
+  }
+  console.log(`mouse mode ${curMassSelectorMode}`);
 };
-background.onMouseMove = function (e) {
-  let btn = e.event.button;
-  if (curMassSelectorMode == "select") {
+// view.onMouseDrag = function (e) {
+//   var offset = e.downPoint - e.point;
+//   view.center += offset;
+// };
+view.onMouseMove = function (e) {
+  // // update mouseLoc
+  mouseLoc = e.point;
+  // if (curMassSelectorMode == MOUSE_MODES.DRAG) {
+  //   let diff = Victor.fromObject(mouseLoc).subtract(
+  //     Victor.fromObject(massSelectorStart)
+  //   );
+  //   console.log(diff);
+  //   view.center = Victor.fromObject(viewOriginalCenter).add(diff);
+  //   return;
+  // }
+
+  if (curMassSelectorMode == MOUSE_MODES.SELECT) {
     massSelector.strokeColor = "teal";
   } else {
     massSelector.strokeColor = "brown";
@@ -164,7 +228,7 @@ background.onMouseMove = function (e) {
       massSelector.bounds.height
   );
 };
-background.onMouseUp = function (e) {
+view.onMouseUp = function (e) {
   let btn = e.event.button;
   if (btn == 0) {
     const selunits = window.self.units.filter((u) =>
@@ -172,7 +236,7 @@ background.onMouseUp = function (e) {
     );
     console.log("selected", selunits);
     window.selected.units = selunits;
-  } else {
+  } else if (btn == 2) {
     // if (window.selected.units.some((u) => u.owner_id != window.self.id)) {
     //   // can't move enemy units, this block should never execute
     //   console.log("contains enemy, deselected");
@@ -533,6 +597,12 @@ socket.on("game_state", (state) => {
   window.gameState = state;
 
   window.self = getSelf(socket.id, gameState);
+
+  // short tutorial if new
+  if (window.self.units.length == 0)
+    alert(
+      `Keyboard shortcuts:\n\n[Z] - zoom in\n[X] - zoom out\n[C] - reset zoom\n[Enter] - end turn`
+    );
 
   // update selected units
   window.selected.units.forEach((u) => {

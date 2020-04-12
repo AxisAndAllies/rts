@@ -1,0 +1,917 @@
+{
+  "players": [
+    {
+      "name": "Alligator1",
+      "blueprints": [
+        {
+          "name": "lol",
+          "owner_id": "Alligator1",
+          "stats": {
+            "dmg": 1,
+            "health": 3,
+            "range": 40,
+            "speed": 30,
+            "reload": 1,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "unit_cost": 5553,
+          "id": "Alligator1_44bxp"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Alligator1",
+          "stats": {
+            "dmg": 3,
+            "health": 4,
+            "range": 130,
+            "speed": 5,
+            "reload": 1,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "unit_cost": 23626,
+          "id": "Alligator1_a1j5m"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Alligator1",
+          "stats": {
+            "dmg": 3,
+            "health": 7,
+            "range": 70,
+            "speed": 21,
+            "reload": 3,
+            "turn": 30,
+            "accuracy": 60
+          },
+          "unit_cost": 22251,
+          "id": "Alligator1_flypc"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Alligator1",
+          "stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 3,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "unit_cost": 9429,
+          "id": "Alligator1_gp27i"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Alligator1",
+          "stats": {
+            "dmg": 8,
+            "health": 2,
+            "range": 200,
+            "speed": 30,
+            "reload": 5,
+            "turn": 35,
+            "accuracy": 70
+          },
+          "unit_cost": 142952,
+          "id": "Alligator1_8rcww"
+        }
+      ],
+      "money": 230911,
+      "facs": [
+        {
+          "owner_id": "Alligator1",
+          "pos": {
+            "x": 571,
+            "y": 858
+          },
+          "id": "Alligator1_w5sy0",
+          "buildQueue": [],
+          "buildSpeed": 5000
+        }
+      ],
+      "units": [
+        {
+          "blueprint_id": "Alligator1_44bxp",
+          "base_stats": {
+            "dmg": 1,
+            "health": 3,
+            "range": 40,
+            "speed": 30,
+            "reload": 1,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 3,
+            "range": 40,
+            "speed": 30,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 191,
+            "y": 198
+          },
+          "orientation": 5.440332031005506,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 191,
+            "y": 198
+          },
+          "shoot_targets": [
+            "Scorpion7_z4qt9"
+          ],
+          "id": "Alligator1_bs39o",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Alligator1_44bxp",
+          "base_stats": {
+            "dmg": 1,
+            "health": 3,
+            "range": 40,
+            "speed": 30,
+            "reload": 1,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 3,
+            "range": 40,
+            "speed": 30,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 191,
+            "y": 198
+          },
+          "orientation": 5.440332031005506,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 191,
+            "y": 198
+          },
+          "shoot_targets": [
+            "Scorpion7_z4qt9"
+          ],
+          "id": "Alligator1_ge244",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Alligator1_a1j5m",
+          "base_stats": {
+            "dmg": 3,
+            "health": 4,
+            "range": 130,
+            "speed": 5,
+            "reload": 1,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 3,
+            "health": 2,
+            "range": 130,
+            "speed": 5,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 582.4188142459302,
+            "y": 639.7570936715288
+          },
+          "orientation": -389.1889110097466,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 582.4188142459302,
+            "y": 639.7570936715288
+          },
+          "shoot_targets": [
+            "Scorpion7_owuc2",
+            "Scorpion7_kc440"
+          ],
+          "id": "Alligator1_ygpkz",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Alligator1_44bxp",
+          "base_stats": {
+            "dmg": 1,
+            "health": 3,
+            "range": 40,
+            "speed": 30,
+            "reload": 1,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 3,
+            "range": 40,
+            "speed": 30,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 191,
+            "y": 198
+          },
+          "orientation": 365.4403320310055,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 191,
+            "y": 198
+          },
+          "shoot_targets": [
+            "Scorpion7_z4qt9"
+          ],
+          "id": "Alligator1_t64xb",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Alligator1_gp27i",
+          "base_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 3,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "cur_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 0,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "pos": {
+            "x": 652.7647270084809,
+            "y": 642.1655547754865
+          },
+          "orientation": -62.12076170567707,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 652.7647270084809,
+            "y": 642.1655547754865
+          },
+          "shoot_targets": [
+            "Scorpion7_owuc2"
+          ],
+          "id": "Alligator1_pl79o",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Alligator1_gp27i",
+          "base_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 3,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "cur_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 0,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "pos": {
+            "x": 603.2304416794836,
+            "y": 636.8560208249618
+          },
+          "orientation": -401.44793743136415,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 603.2304416794836,
+            "y": 636.8560208249618
+          },
+          "shoot_targets": [
+            "Scorpion7_owuc2",
+            "Scorpion7_kc440"
+          ],
+          "id": "Alligator1_cy5z6",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Alligator1_gp27i",
+          "base_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 3,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "cur_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 0,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "pos": {
+            "x": 642.2020018603635,
+            "y": 628.7850369986894
+          },
+          "orientation": -53.610156754524006,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 642.2020018603635,
+            "y": 628.7850369986894
+          },
+          "shoot_targets": [
+            "Scorpion7_owuc2",
+            "Scorpion7_kc440"
+          ],
+          "id": "Alligator1_47298",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Alligator1_gp27i",
+          "base_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 3,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "cur_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 0.5999999999999984,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "pos": {
+            "x": 666.7762972395811,
+            "y": 648.822424204983
+          },
+          "orientation": -11.637905459194615,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 666.7762972395811,
+            "y": 648.822424204983
+          },
+          "shoot_targets": [],
+          "id": "Alligator1_zr7oc",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Alligator1_gp27i",
+          "base_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 3,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "cur_stats": {
+            "dmg": 3,
+            "health": 1,
+            "range": 60,
+            "speed": 30,
+            "reload": 0,
+            "turn": 35,
+            "accuracy": 60
+          },
+          "pos": {
+            "x": 619.350881683498,
+            "y": 616.9858697296421
+          },
+          "orientation": 238.05394480882217,
+          "owner_id": "Alligator1",
+          "move_target": {
+            "x": 619.350881683498,
+            "y": 616.9858697296421
+          },
+          "shoot_targets": [
+            "Scorpion7_kc440",
+            "Scorpion7_owuc2"
+          ],
+          "id": "Alligator1_0vta6",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        }
+      ],
+      "id": "Alligator1",
+      "ended_turn": false
+    },
+    {
+      "name": "Scorpion7",
+      "blueprints": [
+        {
+          "name": "lol",
+          "owner_id": "Scorpion7",
+          "stats": {
+            "dmg": 2,
+            "health": 5,
+            "range": 43,
+            "speed": 30,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "unit_cost": 5473,
+          "id": "Scorpion7_wyq8r"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Scorpion7",
+          "stats": {
+            "dmg": 3,
+            "health": 3,
+            "range": 40,
+            "speed": 11,
+            "reload": 2,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "unit_cost": 3180,
+          "id": "Scorpion7_jv2z3"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Scorpion7",
+          "stats": {
+            "dmg": 5,
+            "health": 6,
+            "range": 83,
+            "speed": 27,
+            "reload": 4,
+            "turn": 27,
+            "accuracy": 26
+          },
+          "unit_cost": 23983,
+          "id": "Scorpion7_ij2g2"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Scorpion7",
+          "stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "unit_cost": 24086,
+          "id": "Scorpion7_x2z5g"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Scorpion7",
+          "stats": {
+            "dmg": 2,
+            "health": 19,
+            "range": 84,
+            "speed": 30,
+            "reload": 1,
+            "turn": 44,
+            "accuracy": 59
+          },
+          "unit_cost": 204796,
+          "id": "Scorpion7_77kws"
+        }
+      ],
+      "money": 596562,
+      "facs": [
+        {
+          "owner_id": "Scorpion7",
+          "pos": {
+            "x": 629,
+            "y": 342
+          },
+          "id": "Scorpion7_kzg46",
+          "buildQueue": [],
+          "buildSpeed": 5000
+        }
+      ],
+      "units": [
+        {
+          "blueprint_id": "Scorpion7_wyq8r",
+          "base_stats": {
+            "dmg": 2,
+            "health": 5,
+            "range": 43,
+            "speed": 30,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 2,
+            "health": 3,
+            "range": 43,
+            "speed": 30,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 1003,
+            "y": 989
+          },
+          "orientation": -134.24944320363574,
+          "owner_id": "Scorpion7",
+          "move_target": {
+            "x": 1003,
+            "y": 989
+          },
+          "shoot_targets": [
+            "Alligator1_t64xb"
+          ],
+          "id": "Scorpion7_ovgu4",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Scorpion7_wyq8r",
+          "base_stats": {
+            "dmg": 2,
+            "health": 5,
+            "range": 43,
+            "speed": 30,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 2,
+            "health": 2,
+            "range": 43,
+            "speed": 30,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 982,
+            "y": 1019
+          },
+          "orientation": -139.5840357486978,
+          "owner_id": "Scorpion7",
+          "move_target": {
+            "x": 982,
+            "y": 1019
+          },
+          "shoot_targets": [
+            "Alligator1_zr7oc"
+          ],
+          "id": "Scorpion7_mo68l",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Scorpion7_wyq8r",
+          "base_stats": {
+            "dmg": 2,
+            "health": 5,
+            "range": 43,
+            "speed": 30,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 2,
+            "health": 5,
+            "range": 43,
+            "speed": 30,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 984,
+            "y": 207
+          },
+          "orientation": 269.3497605585396,
+          "owner_id": "Scorpion7",
+          "move_target": {
+            "x": 984,
+            "y": 207
+          },
+          "shoot_targets": [
+            "Alligator1_ge244",
+            "Alligator1_ge244"
+          ],
+          "id": "Scorpion7_bp33k",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Scorpion7_wyq8r",
+          "base_stats": {
+            "dmg": 2,
+            "health": 5,
+            "range": 43,
+            "speed": 30,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 2,
+            "health": 5,
+            "range": 43,
+            "speed": 30,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 404.3049395342841,
+            "y": 875.6994724913208
+          },
+          "orientation": 70.98603490044765,
+          "owner_id": "Scorpion7",
+          "move_target": {
+            "x": 404.3049395342841,
+            "y": 875.6994724913208
+          },
+          "shoot_targets": [],
+          "id": "Scorpion7_blcsu",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Scorpion7_x2z5g",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 0,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 369.724751462269,
+            "y": 850.9744187187629
+          },
+          "orientation": 62.216815490016764,
+          "owner_id": "Scorpion7",
+          "move_target": {
+            "x": 369.724751462269,
+            "y": 850.9744187187629
+          },
+          "shoot_targets": [],
+          "id": "Scorpion7_771pf",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Scorpion7_ij2g2",
+          "base_stats": {
+            "dmg": 5,
+            "health": 6,
+            "range": 83,
+            "speed": 27,
+            "reload": 4,
+            "turn": 27,
+            "accuracy": 26
+          },
+          "cur_stats": {
+            "dmg": 5,
+            "health": 6,
+            "range": 83,
+            "speed": 27,
+            "reload": 0,
+            "turn": 27,
+            "accuracy": 26
+          },
+          "pos": {
+            "x": 195,
+            "y": 240
+          },
+          "orientation": 185.44033203100554,
+          "owner_id": "Scorpion7",
+          "move_target": {
+            "x": 195,
+            "y": 240
+          },
+          "shoot_targets": [
+            "Alligator1_bs39o",
+            "Alligator1_ge244",
+            "Alligator1_t64xb"
+          ],
+          "id": "Scorpion7_z4qt9",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Scorpion7_77kws",
+          "base_stats": {
+            "dmg": 2,
+            "health": 19,
+            "range": 84,
+            "speed": 30,
+            "reload": 1,
+            "turn": 44,
+            "accuracy": 59
+          },
+          "cur_stats": {
+            "dmg": 2,
+            "health": 4,
+            "range": 84,
+            "speed": 30,
+            "reload": 0.40000000000000013,
+            "turn": 44,
+            "accuracy": 59
+          },
+          "pos": {
+            "x": 551,
+            "y": 696
+          },
+          "orientation": 150.81108899025338,
+          "owner_id": "Scorpion7",
+          "move_target": {
+            "x": 551,
+            "y": 696
+          },
+          "shoot_targets": [
+            "Alligator1_ygpkz",
+            "Alligator1_cy5z6",
+            "Alligator1_0vta6",
+            "Alligator1_47298",
+            "Alligator1_pl79o",
+            "Alligator1_zr7oc"
+          ],
+          "id": "Scorpion7_owuc2",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Scorpion7_x2z5g",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 0.6000000000000001,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 544,
+            "y": 570
+          },
+          "orientation": 28.84383491613919,
+          "owner_id": "Scorpion7",
+          "move_target": {
+            "x": 544,
+            "y": 570
+          },
+          "shoot_targets": [
+            "Alligator1_ygpkz",
+            "Alligator1_0vta6",
+            "Alligator1_cy5z6",
+            "Alligator1_47298",
+            "Alligator1_pl79o"
+          ],
+          "id": "Scorpion7_kc440",
+          "autoTarget": {
+            "algorithm": "closest"
+          }
+        }
+      ],
+      "id": "Scorpion7",
+      "ended_turn": false
+    }
+  ],
+  "socket_player_map": {
+    "bDxRlCuoIpFosvJUAAAX": "Scorpion7",
+    "LQiCcdtLLKPQV28UAAAZ": "Alligator1"
+  },
+  "cur_resolve_timespan": 5000,
+  "cur_shots": [],
+  "control_points": [
+    {
+      "owner_id": "Scorpion7",
+      "pos": {
+        "x": 200,
+        "y": 200
+      },
+      "ownershipLevel": 55.29131582510898,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_nhusq"
+    },
+    {
+      "owner_id": "Scorpion7",
+      "pos": {
+        "x": 1000,
+        "y": 1000
+      },
+      "ownershipLevel": 100,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_miwk1"
+    },
+    {
+      "owner_id": "Scorpion7",
+      "pos": {
+        "x": 1000,
+        "y": 200
+      },
+      "ownershipLevel": 100,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_37bx7"
+    },
+    {
+      "owner_id": "Scorpion7",
+      "pos": {
+        "x": 200,
+        "y": 1000
+      },
+      "ownershipLevel": 100,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_n8dsz"
+    },
+    {
+      "owner_id": "Alligator1",
+      "pos": {
+        "x": 600,
+        "y": 600
+      },
+      "ownershipLevel": 100,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_d13ko"
+    }
+  ]
+}

@@ -13,7 +13,7 @@ to run: `npm start` (starts BE and also serves FE)
 - HIGH priority
 
   - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
-  - make units spread out a bit???
+  - prevent units from going through each other
   - [ongoing] unit balance :)
     - maybe different pricing formulas based on unit class?
   - write state to file, load from file...

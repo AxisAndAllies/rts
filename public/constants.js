@@ -61,3 +61,9 @@ const ACTION_TYPES = {
   CLEAR_FAC_QUEUE: "CLEAR_FAC_QUEUE",
   EXPORT_GAME_STATE: "EXPORT_GAME_STATE",
 };
+
+const MOUSE_MODES = {
+  SELECT: "select",
+  MOVE: "move",
+  DRAG: "drag",
+};
