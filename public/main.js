@@ -41,71 +41,12 @@ window.drawn = {};
 
 window.drawn_shots = [];
 //
-window.clearQueue = () => {
-  if (!window.selected?.fac) {
-    alert("no fac selected");
-    return;
-  }
-  emitAction(ACTION_TYPES.CLEAR_FAC_QUEUE, {
-    player_id: window.self.id,
-    fac_id: window.selected.fac.id,
-  });
-};
-// manually call this from console to enable :)
-window.setGodMode = (addMoney = 9999999, instantBuild = true) => {
-  emitAction(ACTION_TYPES.GOD_MODE, {
-    player_id: window.self.id,
-    addMoney,
-    instantBuild,
-  });
-};
+
 console.log(`Maybe just type 'setGodMode()'`);
-window.exportGame = () => {
-  emitAction(ACTION_TYPES.EXPORT_GAME_STATE, {});
-};
 
 console.log(
   `Keyboard shortcuts:\n\n[W,A,S,D] - pan\n[Z / X] - zoom in/out\n[C] - reset zoom\n[Enter] - end turn`
 );
-
-window.buyBlueprint = () => {
-  // short tutorial if new
-  // if (!window.self.blueprints.length)
-  //   alert(
-  //     `Keyboard shortcuts:\n\n[W,A,S,D] - pan\n[Z / X] - zoom in/out\n[C] - reset zoom\n[Enter] - end turn`
-  //   );
-
-  // console.log("bought blueprint!");
-  let nos = getMakerObj().newobj;
-  if (
-    window.self?.blueprints
-      .map((e) => JSON.stringify(e.stats))
-      .includes(JSON.stringify(nos))
-  ) {
-    alert("you cannot buy the same blueprint twice");
-    return;
-  }
-  emitAction(ACTION_TYPES.BUY_BLUEPRINT, {
-    stats: nos,
-    name: "lol",
-  });
-};
-
-window.setAutoTarget = (e) => {
-  if (!window.selected.units.length) {
-    return;
-  }
-  console.log(`set autotarget to !${event.target.value}`);
-  emitAction(ACTION_TYPES.SET_AUTOTARGET, {
-    unit_ids: window.selected.units.map((u) => u.id),
-    algorithm: event.target.value,
-  });
-};
-
-window.endTurn = () => {
-  console.log("ended turn");
-  emitAction(ACTION_TYPES.END_TURN);
-};
 
 showDefaultDetail();
 
@@ -131,7 +72,7 @@ const hoveredMoveTarget = new Path.Rectangle({
 });
 const hoveredAttackTarget = new Path.Rectangle({
   center: outOfBounds,
-  size: [15, 15],
+  size: [28, 28],
   strokeWidth: 2,
   strokeColor: "maroon",
   rotation: 45,
@@ -416,6 +357,9 @@ view.onFrame = function (event) {
     hoveredText.fillColor = "black";
     hoveredText.content = dispUnitStatText(focusedUnit);
     hoveredText.scale((40 * view.zoom) / hoveredText.bounds.width);
+
+    document.getElementById("autotarget").value =
+      focusedUnit.autoTarget.algorithm;
   } else {
     showUnitDetail({});
     resetHoveredRange();
@@ -556,10 +500,11 @@ function renderFac(p, elem) {
 function addShadow(render, blursize, pos, orient) {
   render.shadowBlur = blursize;
   render.shadowColor = "#888";
+  let factor = 35 / view.zoom;
   let light = Victor.fromObject(view.center)
     .subtract(Victor.fromObject(pos))
     // .norm()
-    .divide(Victor(35, 35))
+    .divide(Victor(factor, factor))
     .invert();
   render.shadowOffset = light.rotateDeg(orient);
 }

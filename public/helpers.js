@@ -1,4 +1,69 @@
 "use strict";
+// manually call this from console to enable :)
+window.setGodMode = (addMoney = 9999999, instantBuild = true) => {
+  emitAction(ACTION_TYPES.GOD_MODE, {
+    player_id: window.self?.id,
+    addMoney,
+    instantBuild,
+  });
+};
+
+window.clearQueue = () => {
+  if (!window.selected?.fac) {
+    alert("no fac selected");
+    return;
+  }
+  emitAction(ACTION_TYPES.CLEAR_FAC_QUEUE, {
+    player_id: window.self?.id,
+    fac_id: window.selected?.fac?.id,
+  });
+};
+
+window.exportGame = () => {
+  emitAction(ACTION_TYPES.EXPORT_GAME_STATE, {});
+};
+
+window.buyBlueprint = () => {
+  // short tutorial if new
+  // if (!window.self.blueprints.length)
+  //   alert(
+  //     `Keyboard shortcuts:\n\n[W,A,S,D] - pan\n[Z / X] - zoom in/out\n[C] - reset zoom\n[Enter] - end turn`
+  //   );
+
+  // console.log("bought blueprint!");
+  let nos = getMakerObj().newobj;
+  if (
+    window.self?.blueprints
+      .map((e) => JSON.stringify(e.stats))
+      .includes(JSON.stringify(nos))
+  ) {
+    alert("you cannot buy the same blueprint twice");
+    return;
+  }
+  emitAction(ACTION_TYPES.BUY_BLUEPRINT, {
+    stats: nos,
+    name: "lol",
+  });
+};
+
+window.setAutoTarget = () => {
+  if (!window.selected.units.length) {
+    return;
+  }
+  console.log(`set autotarget to !${event.target.value}`);
+  emitAction(ACTION_TYPES.SET_AUTOTARGET, {
+    unit_ids: window.selected.units.map((u) => u.id),
+    algorithm: event.target.value,
+  });
+
+  document.getElementById("autotarget").value = event.target.value;
+};
+
+window.endTurn = () => {
+  console.log("ended turn");
+  emitAction(ACTION_TYPES.END_TURN);
+};
+
 function emitAction(type, data) {
   if (window.self?.ended_turn) {
     let numwait = window.gameState.players.filter((p) => !p.ended_turn).length;
