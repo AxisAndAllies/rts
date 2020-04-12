@@ -139,11 +139,32 @@ let viewOriginalCenter = {
   y: background.bounds.height / 2,
 };
 let mouseLoc = { x: 0, y: 0 };
+// let shiftHeld = false;
+
+let viewShift = Victor(0, 0);
+function addViewShift(vec) {
+  // fast direction change...
+  if (vec.x * viewShift.x < 0) {
+    viewShift.x = 0;
+  }
+  if (vec.y * viewShift.y < 0) {
+    viewShift.y = 0;
+  }
+  viewShift.add(vec);
+}
+setInterval(() => {
+  if (Math.pow(viewShift.x, 2) + Math.pow(viewShift.y, 2) > 4) {
+    let normed = viewShift.clone().divide(Victor(10, 10));
+    viewShift.subtract(normed);
+    view.center = Victor.fromObject(view.center).add(normed);
+    // console.log(viewShift);
+  }
+}, 20);
 
 tool = new Tool();
-tool.onKeyDown = function (event) {
+tool.onKeyDown = function ({ key }) {
   console.log(view.zoom);
-  if (event.key == "z") {
+  if (key == "z") {
     let factor = 1.5;
     if (view.zoom < 2) view.zoom *= factor;
 
@@ -156,7 +177,7 @@ tool.onKeyDown = function (event) {
     // Prevent the key event from bubbling
     return false;
   }
-  if (event.key == "x") {
+  if (key == "x") {
     let factor = 1 / 1.5;
     if (view.zoom > 0.7) view.zoom *= factor;
 
@@ -169,10 +190,26 @@ tool.onKeyDown = function (event) {
     // Prevent the key event from bubbling
     return false;
   }
-  if (event.key == "c") {
+  if (key == "c") {
     view.zoom = 1;
     view.center = viewOriginalCenter;
     // view.center = Victor(background.size
+  }
+  if (key == "w") {
+    addViewShift(Victor(0, -100));
+  }
+  if (key == "a") {
+    addViewShift(Victor(-100, 0));
+  }
+  if (key == "s") {
+    addViewShift(Victor(0, 100));
+  }
+  if (key == "d") {
+    addViewShift(Victor(100, 0));
+  }
+  if (key == "shift") {
+    console.log("shift");
+    // shiftHeld = true;
   }
 };
 background.onMouseDown = function (e) {
@@ -195,10 +232,14 @@ background.onMouseDown = function (e) {
   }
   console.log(`mouse mode ${curMassSelectorMode}`);
 };
-// view.onMouseDrag = function (e) {
-//   var offset = e.downPoint - e.point;
-//   view.center += offset;
-// };
+tool.onMouseDrag = function (e) {
+  // console.log(e.delta);
+  // if (shiftHeld)
+  // console.log(e);
+  // view.center = Victor.fromObject(view.center).subtract(
+  //   Victor.fromObject(e.delta)
+  // );
+};
 view.onMouseMove = function (e) {
   // // update mouseLoc
   mouseLoc = e.point;
@@ -228,7 +269,7 @@ view.onMouseMove = function (e) {
       massSelector.bounds.height
   );
 };
-view.onMouseUp = function (e) {
+background.onMouseUp = function (e) {
   let btn = e.event.button;
   if (btn == 0) {
     const selunits = window.self.units.filter((u) =>
@@ -599,9 +640,9 @@ socket.on("game_state", (state) => {
   window.self = getSelf(socket.id, gameState);
 
   // short tutorial if new
-  if (window.self.units.length == 0)
+  if (!window.self.blueprints.length)
     alert(
-      `Keyboard shortcuts:\n\n[Z] - zoom in\n[X] - zoom out\n[C] - reset zoom\n[Enter] - end turn`
+      `Keyboard shortcuts:\n\n[W,A,S,D] - pan\n[Z / X] - zoom in/out\n[C] - reset zoom\n[Enter] - end turn`
     );
 
   // update selected units
