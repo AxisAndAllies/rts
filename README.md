@@ -18,6 +18,7 @@ to run: `npm start` (starts BE and also serves FE)
     - maybe different pricing formulas based on unit class?
   - write state to file, load from file...
   - add unit lifetime stats (kill count, dmg, dmg taken, dist moved, birth date)
+  - show turn resolve summary/highlights
 
 - MID priority
 

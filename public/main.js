@@ -49,6 +49,9 @@ window.clearQueue = () => {
     fac_id: window.selected.fac.id,
   });
 };
+window.exportGame = () => {
+  emitAction(ACTION_TYPES.EXPORT_GAME_STATE, {});
+};
 window.buyBlueprint = () => {
   console.log("bought blueprint!");
   let nos = getMakerObj().newobj;

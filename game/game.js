@@ -146,6 +146,10 @@ class Game {
           .clearQueue(player.addMoney.bind(player));
         console.log("cleared fac queue");
       },
+      EXPORT_GAME_STATE: () => {
+        this.saveToFile();
+        console.log(`saved game to file >>>`);
+      },
     };
     // execute handler
     switcher[type]();
@@ -303,12 +307,17 @@ class Game {
       p.units = p.units.filter((u) => u.cur_stats.health > 0);
     });
 
-    // save game to file
-    // let data = JSON.stringify(this.state, null, 2);
-    // fs.writeFile("./gameState.json", data, (err) => {
-    //   if (err) throw err;
-    // });
+    // this.saveToFile();
     return true;
+  }
+  saveToFile() {
+    // save game to file
+    let data = JSON.stringify(this.state, null, 2);
+    let date =
+      new Date().toLocaleDateString().split("/").join("-") + Date.now();
+    fs.writeFile(`./past_games/gameState_${date}.json`, data, (err) => {
+      if (err) throw err;
+    });
   }
   printStub() {
     // prints random things for debugging, can be called anywhere :)
