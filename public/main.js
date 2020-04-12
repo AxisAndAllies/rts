@@ -56,8 +56,9 @@ paper.setup("canvas");
 const background = new Path.Rectangle([0, 0], [1200, 1200]);
 background.fillColor = "#e7e7e7";
 background.strokeColor = COLORS.NEUTRAL;
+addShadow(background, 6, background.position, 0);
 
-const outOfBounds = Victor(-100, -100);
+const outOfBounds = Victor(-300, -300);
 
 const hoveredRange = new Path.Circle({
   center: outOfBounds,
@@ -69,10 +70,12 @@ const hoveredMoveTarget = new Path.Rectangle({
   center: outOfBounds,
   size: [10, 10],
   strokeColor: "green",
+  strokeWidth: 1,
 });
+
 const hoveredAttackTarget = new Path.Rectangle({
   center: outOfBounds,
-  size: [28, 28],
+  size: [24, 24],
   strokeWidth: 2,
   strokeColor: "maroon",
   rotation: 45,
@@ -88,10 +91,16 @@ const massSelector = new Path.Rectangle({
   strokeColor: "teal",
   dashArray: [2, 4],
 });
-const hoveredText = new PointText(outOfBounds);
-hoveredText.justification = "center";
-hoveredText.fillColor = "black";
-hoveredText.content = "hi";
+
+setInterval(() => {
+  hoveredAttackTarget.tweenTo({ opacity: 0.2 }, 750).then(() => {
+    hoveredAttackTarget.tweenTo({ opacity: 1 }, 750);
+  });
+}, 1500);
+// const hoveredText = new PointText(outOfBounds);
+// hoveredText.justification = "center";
+// hoveredText.fillColor = "black";
+// hoveredText.content = "hi";
 let curMassSelectorMode = MOUSE_MODES.SELECT;
 let massSelectorStart = outOfBounds;
 let viewOriginalCenter = {
@@ -113,11 +122,11 @@ function addViewShift(vec) {
   viewShift.add(vec);
 }
 setInterval(() => {
+  // smooth panning
   if (Math.pow(viewShift.x, 2) + Math.pow(viewShift.y, 2) > 4) {
     let normed = viewShift.clone().divide(Victor(10, 10));
     viewShift.subtract(normed);
     view.center = Victor.fromObject(view.center).add(normed);
-    // console.log(viewShift);
   }
 }, 20);
 
@@ -268,6 +277,13 @@ function resetHoveredRange() {
   hoveredRange.position = outOfBounds;
   hoveredRange.scale(1 / (hoveredRange.bounds.width / 2));
 }
+// function resetHoveredText() {
+//   hoveredText.position = outOfBounds;
+//   hoveredText.justification = "center";
+//   hoveredText.fillColor = "black";
+//   hoveredText.content = "";
+//   hoveredText.scale(100 / view.zoom / hoveredText.bounds.height);
+// }
 function resetHoveredMoveTarget() {
   hoveredMoveTarget.position = outOfBounds;
 }
@@ -350,14 +366,6 @@ view.onFrame = function (event) {
       [healthbarLen / 2 + pos.x, -size / 2 - 9 + pos.y],
     ];
 
-    hoveredText.position = Victor.fromObject(focusedUnit.pos).subtract(
-      Victor(100, 200)
-    );
-    hoveredText.justification = "center";
-    hoveredText.fillColor = "black";
-    hoveredText.content = dispUnitStatText(focusedUnit);
-    hoveredText.scale((40 * view.zoom) / hoveredText.bounds.width);
-
     document.getElementById("autotarget").value =
       focusedUnit.autoTarget.algorithm;
   } else {
@@ -365,6 +373,18 @@ view.onFrame = function (event) {
     resetHoveredRange();
     resetHoveredHealth();
   }
+
+  // if (selectedUnit) {
+  //   hoveredText.position = Victor.fromObject(selectedUnit.pos).subtract(
+  //     Victor(50, 100)
+  //   );
+  //   hoveredText.justification = "center";
+  //   hoveredText.fillColor = "black";
+  //   hoveredText.content = dispUnitStatText(selectedUnit);
+  //   hoveredText.scale(100 / view.zoom / hoveredText.bounds.height);
+  // } else {
+  //   resetHoveredText();
+  // }
 
   Object.keys(window.drawn).forEach((k) => {
     // return;
@@ -555,7 +575,16 @@ function renderUnit(p, elem) {
 
   addShadow(renderedUnit, size / 2, elem.pos, elem.orientation);
 
-  renderedUnit.position = pos.toArray();
+  let posvec = Victor.fromObject(pos);
+  let shift = posvec.clone().subtract(Victor.fromObject(renderedUnit.position));
+  // reverse-interpolation :)
+  if (shift.length() > 10 && shift.length() > 0) {
+    // shift.divide(Victor(2, 2));
+    console.log(shift);
+  }
+  // posvec.add(shift);
+  // if (shift.length() > 0) console.log(posvec, shift);
+  renderedUnit.position = posvec;
   renderedUnit.rotation = -elem.orientation || 0;
   // if (path.rotation) console.log(path.rotation);
   renderedUnit.onMouseDown = function (e) {
@@ -652,9 +681,9 @@ socket.on("game_state", (state) => {
   // show last active blueprint...
   let st = "";
   Object.keys(CONSTRAINTS_MIN).forEach((k) => {
-    v =
-      window.self?.blueprints[window.self?.blueprints.length - 1].stats[k] ||
-      CONSTRAINTS_TESTING[k];
+    v = CONSTRAINTS_TESTING[k];
+    if (window.self.blueprints.length)
+      v = window.self.blueprints[window.self.blueprints.length - 1].stats[k];
     st += `<span>${k}: </span><input type="number" min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]} value="${v}" id="${k}"</input><br>`;
   });
   document.getElementById("maker").innerHTML = st;

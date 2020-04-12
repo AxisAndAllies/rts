@@ -222,7 +222,7 @@ class Game {
       nextLocs[u.id] = Victor.fromObject(u.pos).add(u.calcMove(dt));
     });
     // console.log(nextLocs);
-    const COLLISION_RADIUS = 25;
+    const COLLISION_RADIUS = 20;
     let collisionMap = {};
     let allMovingUnitsIds = Object.keys(nextLocs).filter(
       (k) => nextLocs[k].length() > 0.1
@@ -295,6 +295,13 @@ class Game {
           if (targs.length) {
             // console.log(`${u.id} using "${algo}" algo:`);
             u.setShootTargets(targs.map((t) => t.id));
+          }
+
+          // if no target set and algo is not none, then pre-aim to nearest anyways
+          if (u.shoot_targets.length == 0 && enemies.length > 0) {
+            u.shoot_targets.push(
+              enemies.sort((a, b) => dist(a) - dist(b))[0].id
+            );
           }
         }
         // gotta bind, always gotta bind

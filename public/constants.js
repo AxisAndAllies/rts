@@ -65,7 +65,7 @@ const MOUSE_MODES = {
 };
 
 const COLORS = {
-  SELF: "olive",
+  SELF: "navy",
   ENEMY: "tomato",
   NEUTRAL: "#aaa",
   SELECTED: "blue",
