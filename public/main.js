@@ -682,7 +682,20 @@ function renderUnit(p, elem) {
   //   [healthbarLen / 2, -size / 2 - 9],
   // ];
   // renderedUnit.children[3].strokeColor = "#cdc";
-  renderedUnit.fillColor = "white";
+  let { numKills } = elem.history;
+
+  // darkness based on numKills :)
+  renderedUnit.fillColor = [
+    "white",
+    "#ddd",
+    "#bbb",
+    "#999",
+    "#777",
+    "#555",
+    "#333",
+    "#111",
+    "#000",
+  ][Math.min(numKills, 8)];
   // renderedUnit.fillColor.alpha = 0.8;
   // renderedUnit.visible = true;
   window.drawn[elem.id] = renderedUnit;
