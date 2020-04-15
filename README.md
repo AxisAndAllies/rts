@@ -29,12 +29,12 @@ For hot reloading, see [this section](./README.md#Hot-reloading-everything).
   - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
   - [ongoing] unit balance :)
   - load from export file...
-  - add unit lifetime stats (kill count, dmg, dmg taken, dist moved, birth date)
   - show turn resolve summary/highlights
   - diagonal panning (n-key rollover?)
 
 - MID priority
 
+  - support both manual + AI targetting simultaneously
   - better collision resolution
   - enable placing more factories
   - more map types {height, width, control points}

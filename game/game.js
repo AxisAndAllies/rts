@@ -164,6 +164,11 @@ class Game {
       });
     return res;
   }
+  getBlueprintById(blueprint_id, player_id) {
+    return this.getPlayerById(player_id).blueprints.filter(
+      (b) => b.id == blueprint_id
+    )[0];
+  }
   getUnitById(id) {
     let res = null;
     this.players.forEach((p) => {
@@ -205,8 +210,15 @@ class Game {
     // each unit update them
     function dealDamage(shooter_id, target_id, dmg) {
       let targ = this.getUnitById(target_id);
-      targ.takeDamage(dmg);
-      // let shooter = this.getUnitById(shooter_id);
+      let { dmgTaken, healthLeft } = targ.takeDamage(dmg);
+      let shooter = this.getUnitById(shooter_id);
+      shooter.history.dmgActuallyDealt += dmgTaken;
+      if (healthLeft <= 0) {
+        shooter.history.numKills += 1;
+        let targCost = this.getBlueprintById(targ.blueprint_id, targ.owner_id)
+          .unit_cost;
+        shooter.history.totalCostKilled += targCost;
+      }
       this.cur_shots.push({ shooter_id, target_id, dmg });
     }
     function getUnitPosFn(id) {

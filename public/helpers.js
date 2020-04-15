@@ -232,6 +232,15 @@ function getBlueprint(blueprint_id, player_id) {
   return getPlayer(player_id).blueprints.filter((e) => e.id == blueprint_id)[0];
 }
 
+function showUnitHistory(unit) {
+  let hist = "";
+  Object.keys(unit?.history || {}).forEach(
+    // round to 2 decimals
+    (k) => (hist += `${k}: ${Math.round(unit.history[k] * 100) / 100}\n`)
+  );
+  document.getElementById("unithistory").innerText = hist;
+}
+
 function showUnitDetail(unit) {
   // TODO: show base stats also
   document.getElementById("info").innerText = dispUnitStatText(unit);

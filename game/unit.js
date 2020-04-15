@@ -32,6 +32,16 @@ class Unit {
       algorithm: Unit.AUTO_TARGET.leastRotation,
       // prioritizeThreats: true,
     };
+    this.history = {
+      distMoved: 0,
+      controlPointsCaptured: 0,
+      dmgTheoreticallyDealt: 0,
+      dmgActuallyDealt: 0,
+      shotsHit: 0,
+      shotsMissed: 0,
+      numKills: 0,
+      totalCostKilled: 0,
+    };
   }
   setMoveTarget(newpos) {
     // TODO: handle collisions?
@@ -51,12 +61,16 @@ class Unit {
   }
   shoot(targ, cb) {
     // enemy take damage
-    if (Math.random() * 100 < this.cur_stats.accuracy) {
-      cb(this.id, targ, this.cur_stats.dmg);
-      console.log(`${this.id} hit ${targ} for ${this.cur_stats.dmg}!`);
+    let { dmg, accuracy } = this.cur_stats;
+    if (Math.random() * 100 < accuracy) {
+      cb(this.id, targ, dmg);
+      console.log(`${this.id} hit ${targ} for ${dmg}!`);
+      this.history.shotsHit += 1;
+      this.history.dmgTheoreticallyDealt += dmg;
     } else {
       cb(this.id, targ, 0);
       console.log(`${this.id} missed ${targ}!`);
+      this.history.shotsMissed += 1;
     }
     // reset reloading
     this.cur_stats.reload = this.base_stats.reload;
@@ -77,9 +91,12 @@ class Unit {
   update(millis, dealDamageFn, getUnitPosFn, willCollide = false) {
     // reduce reload time
     this.cur_stats.reload = Math.max(this.cur_stats.reload - millis / 1000, 0);
-    if (!willCollide)
+    if (!willCollide) {
       //move if won't collide
-      this.pos.add(this.calcMove(millis));
+      let dv = this.calcMove(millis);
+      this.pos.add(dv);
+      this.history.distMoved += dv.length();
+    }
 
     // rotate if necessary
     if (this.shoot_targets.length == 0) {
@@ -126,8 +143,14 @@ class Unit {
     }
   }
   takeDamage(dmg) {
-    this.cur_stats.health -= dmg;
+    // returns damage actually taken
+    let dmgTaken = Math.min(this.cur_stats.health, dmg);
+    this.cur_stats.health -= dmgTaken;
     // console.log(`${this.id} took ${dmg} damage`);
+    return {
+      dmgTaken: dmgTaken,
+      healthLeft: this.cur_stats.health,
+    };
   }
 }
 module.exports = Unit;

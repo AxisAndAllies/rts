@@ -346,7 +346,6 @@ view.onFrame = function (event) {
     : null;
   const focusedUnit = hoveredUnit || selectedUnit;
   if (focusedUnit) {
-    showUnitDetail(focusedUnit);
     hoveredRange.position = focusedUnit.pos;
     // can't set radius directly so this hack instead
     hoveredRange.scale(
@@ -363,10 +362,48 @@ view.onFrame = function (event) {
       [healthbarLen / 2 + pos.x, -size / 2 - 9 + pos.y],
     ];
 
+    showUnitDetail(focusedUnit);
+    showUnitHistory(focusedUnit);
+
     document.getElementById("autotarget").value =
       focusedUnit.autoTarget.algorithm;
   } else {
-    showUnitDetail({});
+    // showUnitDetail({
+    //   base_stats: {
+    //     dmg: 0,
+    //     health: 0,
+
+    //     range: 0,
+    //     speed: 0,
+
+    //     reload: 0,
+    //     turn: 0,
+    //     accuracy: 0,
+    //   },
+    //   cur_stats: {
+    //     dmg: 0,
+    //     health: 0,
+
+    //     range: 0,
+    //     speed: 0,
+
+    //     reload: 0,
+    //     turn: 0,
+    //     accuracy: 0,
+    //   },
+    // });
+    // showUnitHistory({
+    //   history: {
+    //     distMoved: 0,
+    //     controlPointsCaptured: 0,
+    //     dmgTheoreticallyDealt: 0,
+    //     dmgActuallyDealt: 0,
+    //     shotsHit: 0,
+    //     shotsMissed: 0,
+    //     numKills: 0,
+    //     totalCostKilled: 0,
+    //   },
+    // });
     resetHoveredRange();
     resetHoveredHealth();
   }
