@@ -19,6 +19,7 @@ class Game {
     this.cur_resolve_timespan = Game.RESOLVE_TIMESPAN;
     this.socket_player_map = {}; // maps socket_id to player_id
     this.cur_shots = [];
+    this.cur_dead = [];
 
     // initialize control points
     let mapSize = Game.MAP_SIZE;
@@ -85,6 +86,7 @@ class Game {
       socket_player_map: this.socket_player_map,
       cur_resolve_timespan: this.cur_resolve_timespan,
       cur_shots: this.cur_shots,
+      cur_dead: this.cur_dead,
       control_points: this.control_points,
     };
   }
@@ -364,6 +366,7 @@ class Game {
     if (dead_unit_ids.length) {
       console.log(JSON.stringify(dead_unit_ids), " died.");
     }
+    this.cur_dead = dead_unit_ids.map((u) => this.getUnitById(u));
 
     // remove dead
     this.players.forEach((p) => {

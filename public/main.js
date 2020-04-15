@@ -466,14 +466,24 @@ view.onFrame = function (event) {
   // draw shots
   window.gameState.cur_shots.forEach(({ shooter_id, target_id, dmg }) => {
     let shooter = getUnitById(shooter_id);
-    let targ = getUnitById(target_id);
-    if (!targ || !shooter) return;
-    // TODO: use dmg to influence how strong laser looks...
+    let targ =
+      getUnitById(target_id) ||
+      window.gameState.cur_dead.filter((u) => u.id == target_id)[0];
+    if (!shooter) {
+      return;
+    }
+    // if (!targ) {
+    //   targ = {
+    //     pos: Victor.fromObject(shooter.pos).add(
+    //       Victor(shooter.cur_stats.range, 0).rotateDeg(-shooter.orientation)
+    //     ),
+    //   };
+    // }
     let laser = new Path.Line({
       from: Victor.fromObject(shooter.pos).toArray(),
       to: Victor.fromObject(targ.pos).toArray(),
       strokeColor: dmg > 0 ? unitColor(shooter) : "white",
-      strokeWidth: 3,
+      strokeWidth: Math.min(0.5 + Math.sqrt(shooter.cur_stats.dmg) / 2, 5),
       opacity: 0.3,
     });
     // console.log("drew shot", laser.from, laser.to);
@@ -516,14 +526,20 @@ view.onFrame = function (event) {
     window.drawn[elem.id] = renderedControlPoint;
   });
 
+  // render all dead
+  window.gameState.cur_dead.forEach((u) => {
+    renderUnit(null, u);
+  });
   window.gameState.players.forEach((p) => {
     p.facs.forEach((elem) => {
       renderFac(p, elem);
     });
     p.units.forEach((elem) => {
+      elem.cur_stats.health = 0;
       renderUnit(p, elem);
     });
   });
+
   Object.keys(window.drawn).forEach((k) => {
     // window.drawn[k].rotate(1);
   });
@@ -620,8 +636,6 @@ function renderUnit(p, elem) {
       applyMatrix: false,
     });
 
-  addShadow(renderedUnit, size / 2, elem.pos, elem.orientation);
-
   let posvec = Victor.fromObject(pos);
   let shift = posvec.clone().subtract(Victor.fromObject(renderedUnit.position));
   // reverse-interpolation :)
@@ -634,39 +648,7 @@ function renderUnit(p, elem) {
   renderedUnit.position = posvec;
   renderedUnit.rotation = -elem.orientation || 0;
   // if (path.rotation) console.log(path.rotation);
-  renderedUnit.onMouseDown = function (e) {
-    let btn = e.event.button;
-    if (btn == 0) {
-      // can only select your own units
-      if (elem.owner_id == window.self.id) window.selected.units[0] = elem;
-      else {
-        alert("Cannot select enemy units.");
-      }
-    } else {
-      // right click
-      // can't attack yourself
-      if (elem.owner_id == window.self.id) {
-        window.selected.units = []; // deselects
-        return;
-      }
-      // add newest target to FRONT of attack queue
-      let targs = window.selected.units[0].shoot_targets;
-      targs.unshift(elem.id);
-      window.selected.units.forEach((u) => (u.shoot_targets = targs));
-      emitAction(ACTION_TYPES.SET_UNIT_ATTACK, {
-        unit_ids: window.selected.units.map((u) => u.id),
-        // everyone that's selected is going to have the same shoot targets :)
-        shoot_targets: targs,
-      });
-    }
-    console.log(elem);
-  };
-  renderedUnit.onMouseEnter = function (e) {
-    window.hovered.unit = elem;
-  };
-  renderedUnit.onMouseLeave = function (e) {
-    window.hovered.unit = null;
-  };
+
   renderedUnit.strokeColor = window.selected.units
     .map((u) => u.id)
     .includes(elem.id)
@@ -675,6 +657,44 @@ function renderUnit(p, elem) {
   if (elem.cur_stats.health <= 0) {
     renderedUnit.strokeColor = "#555"; // dead
     // renderedUnit.position = Victor(-50, -50).toArray();
+  } else {
+    // only shadow if alive :)
+    addShadow(renderedUnit, size / 2, elem.pos, elem.orientation);
+
+    // if alive, can interact :)
+    renderedUnit.onMouseDown = function (e) {
+      let btn = e.event.button;
+      if (btn == 0) {
+        // can only select your own units
+        if (elem.owner_id == window.self.id) window.selected.units[0] = elem;
+        else {
+          alert("Cannot select enemy units.");
+        }
+      } else {
+        // right click
+        // can't attack yourself
+        if (elem.owner_id == window.self.id) {
+          window.selected.units = []; // deselects
+          return;
+        }
+        // add newest target to FRONT of attack queue
+        let targs = window.selected.units[0].shoot_targets;
+        targs.unshift(elem.id);
+        window.selected.units.forEach((u) => (u.shoot_targets = targs));
+        emitAction(ACTION_TYPES.SET_UNIT_ATTACK, {
+          unit_ids: window.selected.units.map((u) => u.id),
+          // everyone that's selected is going to have the same shoot targets :)
+          shoot_targets: targs,
+        });
+      }
+      console.log(elem);
+    };
+    renderedUnit.onMouseEnter = function (e) {
+      window.hovered.unit = elem;
+    };
+    renderedUnit.onMouseLeave = function (e) {
+      window.hovered.unit = null;
+    };
   }
   // let healthbarLen = Math.sqrt(elem.cur_stats.health) * 4 + 5;
   // renderedUnit.children[2].segments = [

@@ -26,6 +26,7 @@ For hot reloading, see [this section](./README.md#Hot-reloading-everything).
 
 - HIGH priority
 
+  - implement ControlPointsCaptured unit historical stat
   - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
   - [ongoing] unit balance :)
   - load from export file...
