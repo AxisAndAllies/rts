@@ -1,0 +1,857 @@
+{
+  "players": [
+    {
+      "name": "Goldfinch4",
+      "blueprints": [
+        {
+          "name": "lol",
+          "owner_id": "Goldfinch4",
+          "stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 200,
+            "speed": 30,
+            "reload": 1,
+            "turn": 90,
+            "accuracy": 99
+          },
+          "unit_cost": 337977,
+          "id": "Goldfinch4_z5tzn"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Goldfinch4",
+          "stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 100,
+            "speed": 35,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "unit_cost": 38856,
+          "id": "Goldfinch4_syqay"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Goldfinch4",
+          "stats": {
+            "dmg": 100,
+            "health": 4,
+            "range": 100,
+            "speed": 35,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "unit_cost": 3885593,
+          "id": "Goldfinch4_88hts"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Goldfinch4",
+          "stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 25,
+            "reload": 5,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "unit_cost": 139951,
+          "id": "Goldfinch4_pih9v"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Goldfinch4",
+          "stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 19,
+            "reload": 5,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "unit_cost": 124725,
+          "id": "Goldfinch4_yl0ht"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Goldfinch4",
+          "stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 40,
+            "speed": 22,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "unit_cost": 1602,
+          "id": "Goldfinch4_4wk82"
+        }
+      ],
+      "money": 5106094,
+      "facs": [
+        {
+          "owner_id": "Goldfinch4",
+          "pos": {
+            "x": 1052,
+            "y": 1155
+          },
+          "id": "Goldfinch4_ynxsi",
+          "buildQueue": [],
+          "buildSpeed": 999999
+        }
+      ],
+      "units": [
+        {
+          "blueprint_id": "Goldfinch4_z5tzn",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 200,
+            "speed": 30,
+            "reload": 1,
+            "turn": 90,
+            "accuracy": 99
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 200,
+            "speed": 30,
+            "reload": 0,
+            "turn": 90,
+            "accuracy": 99
+          },
+          "pos": {
+            "x": 506.1126470390365,
+            "y": 872.2398750175186
+          },
+          "orientation": 272.0770329315777,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 506.1126470390365,
+            "y": 872.2398750175186
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_ua7t9",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_z5tzn",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 200,
+            "speed": 30,
+            "reload": 1,
+            "turn": 90,
+            "accuracy": 99
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 3,
+            "range": 200,
+            "speed": 30,
+            "reload": 0,
+            "turn": 90,
+            "accuracy": 99
+          },
+          "pos": {
+            "x": 530.1878761211057,
+            "y": 859.4035762919137
+          },
+          "orientation": 186.0557005938108,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 421.9381081762108,
+            "y": 995.2400165699759
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_18bsx",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_88hts",
+          "base_stats": {
+            "dmg": 100,
+            "health": 4,
+            "range": 100,
+            "speed": 35,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 100,
+            "health": 4,
+            "range": 100,
+            "speed": 35,
+            "reload": 0,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 492.5086552323052,
+            "y": 506.386534544668
+          },
+          "orientation": 170.62416468453242,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 492.5086552323052,
+            "y": 506.386534544668
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_amqyq",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_pih9v",
+          "base_stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 25,
+            "reload": 5,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 25,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 548.1103690192328,
+            "y": 844.8986768986739
+          },
+          "orientation": 245.80894295170242,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 390.83241344167317,
+            "y": 935.6915090345409
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_5cu96",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_pih9v",
+          "base_stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 25,
+            "reload": 5,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 25,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 436.85496010784584,
+            "y": 1033.368375533799
+          },
+          "orientation": 237.6991502433229,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 436.85496010784584,
+            "y": 1033.368375533799
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_qgmea",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_yl0ht",
+          "base_stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 19,
+            "reload": 5,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 19,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 812.9926094816062,
+            "y": 740.668186643497
+          },
+          "orientation": 233.05127260568864,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 812.9926094816062,
+            "y": 740.668186643497
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_32inz",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_yl0ht",
+          "base_stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 19,
+            "reload": 5,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 10,
+            "health": 70,
+            "range": 50,
+            "speed": 19,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 805.3712909437957,
+            "y": 764.6846299530664
+          },
+          "orientation": 181.48127811662928,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 767.9262848529312,
+            "y": 708.517770500962
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_pc7e2",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_4wk82",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 40,
+            "speed": 22,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 40,
+            "speed": 22,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 893.3453338381147,
+            "y": 1090.937861273275
+          },
+          "orientation": 91.2814319128355,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 893.3453338381147,
+            "y": 1090.937861273275
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_0pjeo",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_4wk82",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 40,
+            "speed": 22,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 40,
+            "speed": 22,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 867.2981980058353,
+            "y": 1069.266584435132
+          },
+          "orientation": 252.6283787236363,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 867.2981980058353,
+            "y": 1069.266584435132
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_dj769",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Goldfinch4_4wk82",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 40,
+            "speed": 22,
+            "reload": 3,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 40,
+            "speed": 22,
+            "reload": 0,
+            "turn": 20,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 909.1183638634233,
+            "y": 1057.4590768116525
+          },
+          "orientation": 45.691259134312375,
+          "owner_id": "Goldfinch4",
+          "move_target": {
+            "x": 909.1183638634233,
+            "y": 1057.4590768116525
+          },
+          "shoot_targets": [],
+          "id": "Goldfinch4_1kgq5",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        }
+      ],
+      "id": "Goldfinch4",
+      "ended_turn": false
+    },
+    {
+      "name": "Trout5",
+      "blueprints": [
+        {
+          "name": "lol",
+          "owner_id": "Trout5",
+          "stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "unit_cost": 24086,
+          "id": "Trout5_hj66g"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Trout5",
+          "stats": {
+            "dmg": 8,
+            "health": 16,
+            "range": 60,
+            "speed": 18,
+            "reload": 2,
+            "turn": 35,
+            "accuracy": 70
+          },
+          "unit_cost": 140624,
+          "id": "Trout5_wrgt7"
+        },
+        {
+          "name": "lol",
+          "owner_id": "Trout5",
+          "stats": {
+            "dmg": 8,
+            "health": 16,
+            "range": 60,
+            "speed": 18,
+            "reload": 2,
+            "turn": 35,
+            "accuracy": 30
+          },
+          "unit_cost": 86189,
+          "id": "Trout5_eofc8"
+        }
+      ],
+      "money": 9446317,
+      "facs": [
+        {
+          "owner_id": "Trout5",
+          "pos": {
+            "x": 148,
+            "y": 45
+          },
+          "id": "Trout5_a75z1",
+          "buildQueue": [],
+          "buildSpeed": 999999
+        }
+      ],
+      "units": [
+        {
+          "blueprint_id": "Trout5_hj66g",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 0,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 319.09952621866483,
+            "y": 302.638010834693
+          },
+          "orientation": 38.01357179316658,
+          "owner_id": "Trout5",
+          "move_target": {
+            "x": 723.4769471638485,
+            "y": 1033.0015761407972
+          },
+          "shoot_targets": [
+            "Goldfinch4_1kgq5",
+            "Goldfinch4_0pjeo",
+            "Goldfinch4_dj769",
+            "Goldfinch4_ua7t9",
+            "Goldfinch4_32inz",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_5cu96",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_5cu96"
+          ],
+          "id": "Trout5_ivs45",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Trout5_hj66g",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 0,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 314.97445910781937,
+            "y": 265.8719007400082
+          },
+          "orientation": 36.890900748320924,
+          "owner_id": "Trout5",
+          "move_target": {
+            "x": 746.425259125193,
+            "y": 989.8233037292077
+          },
+          "shoot_targets": [
+            "Goldfinch4_1kgq5",
+            "Goldfinch4_0pjeo",
+            "Goldfinch4_dj769",
+            "Goldfinch4_ua7t9",
+            "Goldfinch4_32inz",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_5cu96",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_5cu96"
+          ],
+          "id": "Trout5_2v4qk",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Trout5_hj66g",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 0,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 306.38802723390813,
+            "y": 240.8914429881298
+          },
+          "orientation": 372.6686694481441,
+          "owner_id": "Trout5",
+          "move_target": {
+            "x": 789.8771272987427,
+            "y": 958.7253994288836
+          },
+          "shoot_targets": [
+            "Goldfinch4_1kgq5",
+            "Goldfinch4_0pjeo",
+            "Goldfinch4_dj769",
+            "Goldfinch4_ua7t9",
+            "Goldfinch4_32inz",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_5cu96",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_5cu96"
+          ],
+          "id": "Trout5_55uwn",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Trout5_hj66g",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 0,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 271.19949204932334,
+            "y": 233.60805097524815
+          },
+          "orientation": 37.75109794009977,
+          "owner_id": "Trout5",
+          "move_target": {
+            "x": 776.100090010248,
+            "y": 1089.627465335937
+          },
+          "shoot_targets": [
+            "Goldfinch4_1kgq5",
+            "Goldfinch4_0pjeo",
+            "Goldfinch4_dj769",
+            "Goldfinch4_ua7t9",
+            "Goldfinch4_32inz",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_5cu96",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_5cu96"
+          ],
+          "id": "Trout5_s92q2",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        },
+        {
+          "blueprint_id": "Trout5_hj66g",
+          "base_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 1,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "cur_stats": {
+            "dmg": 1,
+            "health": 4,
+            "range": 80,
+            "speed": 30,
+            "reload": 0,
+            "turn": 30,
+            "accuracy": 50
+          },
+          "pos": {
+            "x": 264.45141685158313,
+            "y": 207.73025396370235
+          },
+          "orientation": 37.18663579306083,
+          "owner_id": "Trout5",
+          "move_target": {
+            "x": 822.5524913469169,
+            "y": 926.3057588640191
+          },
+          "shoot_targets": [
+            "Goldfinch4_1kgq5",
+            "Goldfinch4_0pjeo",
+            "Goldfinch4_dj769",
+            "Goldfinch4_ua7t9",
+            "Goldfinch4_32inz",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_pc7e2",
+            "Goldfinch4_5cu96",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_amqyq",
+            "Goldfinch4_5cu96"
+          ],
+          "id": "Trout5_kmeyz",
+          "autoTarget": {
+            "algorithm": "leastRotation"
+          }
+        }
+      ],
+      "id": "Trout5",
+      "ended_turn": false
+    }
+  ],
+  "socket_player_map": {
+    "CY44pYLyhKQkReRmAABa": "Viper3",
+    "ZpHT8_3G__LFHEibAACJ": "Goldfinch4",
+    "OsorpKZOg9V5XjOdAACL": "Trout5"
+  },
+  "cur_resolve_timespan": 5000,
+  "cur_shots": [],
+  "control_points": [
+    {
+      "owner_id": "Trout5",
+      "pos": {
+        "x": 200,
+        "y": 200
+      },
+      "ownershipLevel": 60.740115370177534,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_328q5"
+    },
+    {
+      "owner_id": null,
+      "pos": {
+        "x": 1000,
+        "y": 1000
+      },
+      "ownershipLevel": 26,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_6dn5i"
+    },
+    {
+      "owner_id": null,
+      "pos": {
+        "x": 1000,
+        "y": 200
+      },
+      "ownershipLevel": 100,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_qwg1p"
+    },
+    {
+      "owner_id": null,
+      "pos": {
+        "x": 200,
+        "y": 1000
+      },
+      "ownershipLevel": 100,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_o5aux"
+    },
+    {
+      "owner_id": "Goldfinch4",
+      "pos": {
+        "x": 600,
+        "y": 600
+      },
+      "ownershipLevel": 100,
+      "baseResourcesPerSecond": 2000,
+      "captureRange": 50,
+      "id": "null_c98q1"
+    }
+  ]
+}
