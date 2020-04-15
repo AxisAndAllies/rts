@@ -574,21 +574,33 @@ function renderUnit(p, elem) {
     // NOTE: compound path only accepts one parent style, child styles no effect
     new CompoundPath({
       children: [
-        speed > 20
+        // body
+        speed > 26
           ? new Path.RegularPolygon({
               center: midpt,
               sides: 3,
               radius: size * 0.75,
               rotation: 60,
             }) //triangles are speedy
+          : speed > 19
+          ? new Path.Circle({
+              center: midpt,
+              radius: size * 0.75,
+            }) // circles are mid-speed
           : new Path.Rectangle({
               point: [0, 0],
               size: [size, size],
             }),
+        // barrel
         new Path.Rectangle(
           [size / 2 - Math.sqrt(dmg) / 2, size / 2],
           [Math.sqrt(dmg), Math.sqrt(range) * 2]
         ),
+        new Path.Rectangle(
+          [size / 2 - (Math.sqrt(dmg) + 4) / 2, size / 2],
+          [range > 160 ? Math.sqrt(dmg) + 4 : 0, Math.sqrt(range) * 0.7]
+        ),
+        // turret
         new Path.Circle({
           center: midpt,
           radius: turn > 30 ? size / 4 : 1,
@@ -597,6 +609,7 @@ function renderUnit(p, elem) {
           center: midpt,
           radius: turn > 50 ? size / 2 : 1,
         }),
+        // extra fancy high-cost stuff
         new Path.RegularPolygon({
           center: midpt,
           sides: Math.min(10, Math.floor(cost / 100000) + 4),
