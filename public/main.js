@@ -142,7 +142,7 @@ tool.onKeyDown = function ({ key }) {
   };
   if (key == "z") {
     let factor = 1.5;
-    if (view.zoom < 2) view.zoom *= factor;
+    if (view.zoom < 3) view.zoom *= factor;
 
     centeredZoom(factor);
 
@@ -535,7 +535,6 @@ view.onFrame = function (event) {
       renderFac(p, elem);
     });
     p.units.forEach((elem) => {
-      elem.cur_stats.health = 0;
       renderUnit(p, elem);
     });
   });
