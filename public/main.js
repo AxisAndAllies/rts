@@ -132,30 +132,27 @@ setInterval(() => {
 
 tool = new Tool();
 tool.onKeyDown = function ({ key }) {
-  console.log(view.zoom);
-  if (key == "z") {
-    let factor = 1.5;
-    if (view.zoom < 2) view.zoom *= factor;
-
+  let centeredZoom = (factor) => {
     let c = Victor.fromObject(view.center);
     let p = Victor.fromObject(mouseLoc);
     p.subtract(c); // distance in project coords
     p.multiply(Victor((factor - 1) / factor, (factor - 1) / factor));
     c.add(p);
     view.center = c;
+  };
+  if (key == "z") {
+    let factor = 1.5;
+    if (view.zoom < 2) view.zoom *= factor;
+
+    centeredZoom(factor);
+
     // Prevent the key event from bubbling
     return false;
   }
   if (key == "x") {
     let factor = 1 / 1.5;
     if (view.zoom > 0.7) view.zoom *= factor;
-
-    let c = Victor.fromObject(view.center);
-    let p = Victor.fromObject(mouseLoc);
-    p.subtract(c); // distance in project coords
-    p.multiply(Victor((factor - 1) / factor, (factor - 1) / factor));
-    c.add(p);
-    view.center = c;
+    centeredZoom(factor);
     // Prevent the key event from bubbling
     return false;
   }
