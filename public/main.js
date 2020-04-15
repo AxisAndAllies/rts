@@ -639,6 +639,7 @@ function renderUnit(p, elem) {
 }
 
 //*********************************************** */
+
 var socket = io();
 
 // on each update...
@@ -675,15 +676,17 @@ socket.on("game_state", (state) => {
   window.drawn_shots.forEach((ds) => ds.path.remove());
   refreshBlueprints(window.self.blueprints);
 
-  // show last active blueprint...
-  let st = "";
-  Object.keys(CONSTRAINTS_MIN).forEach((k) => {
-    v = CONSTRAINTS_TESTING[k];
-    if (window.self.blueprints.length)
-      v = window.self.blueprints[window.self.blueprints.length - 1].stats[k];
-    st += `<span>${k}: </span><input type="number" min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]} value="${v}" id="${k}"</input><br>`;
-  });
-  document.getElementById("maker").innerHTML = st;
+  // shows last active blueprint on page refresh
+  if (!document.getElementById("maker").innerHTML) {
+    let st = "";
+    Object.keys(CONSTRAINTS_MIN).forEach((k) => {
+      v = CONSTRAINTS_TESTING[k];
+      if (window.self?.blueprints.length)
+        v = window.self.blueprints[window.self.blueprints.length - 1].stats[k];
+      st += `<span>${k}: </span><input type="number" min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]} value="${v}" id="${k}"</input><br>`;
+    });
+    document.getElementById("maker").innerHTML = st;
+  }
 });
 
 // webpack hot reloading...
