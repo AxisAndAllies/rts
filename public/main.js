@@ -297,6 +297,12 @@ view.onFrame = function (event) {
     return;
   }
 
+  const finished_setup = window.self?.finished_setup;
+  document.getElementById("endturn").innerText = finished_setup
+    ? "[Enter] End Turn"
+    : "Setup incomplete.";
+  document.getElementById("endturn").disabled = !finished_setup;
+
   if (window.selected?.fac) {
     document.getElementById(
       "clearqueue"

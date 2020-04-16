@@ -11,6 +11,8 @@ class Player {
     this.units = [];
     this.id = name || generateID();
     this.ended_turn = false;
+
+    this.finished_setup = false;
   }
   buyBlueprint(stats, name) {
     const cost = this.blueprintCost;
@@ -19,10 +21,16 @@ class Player {
     }
     this.money -= cost;
     this.blueprints.push(new Blueprint(name, this.id, stats));
+
+    this.finished_setup = this.blueprints.length >= 4;
     return true;
   }
   get blueprintCost() {
-    return this.blueprints.length * 5000 + 5000 || 0;
+    // first 4 blueprints free
+    if (this.blueprints.length < 4) {
+      return 0;
+    }
+    return this.blueprints.length * 10000 + 10000;
   }
   addMoney(amount) {
     this.money += amount;

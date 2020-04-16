@@ -54,7 +54,7 @@ class Game {
       return;
     }
     // TODO: add name support later
-    let newp = new Player(`${generateFriendlyID()}`, 80000);
+    let newp = new Player(`${generateFriendlyID()}`, 60000);
 
     // @ts-ignore
     let loc = new Victor().randomize(

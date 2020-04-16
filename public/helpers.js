@@ -70,6 +70,10 @@ window.setAutoTarget = () => {
 };
 
 window.endTurn = () => {
+  if (!window.self || !window.self.finished_setup) {
+    alert("Has not finished setup yet");
+    return;
+  }
   console.log("ended turn");
   emitAction(ACTION_TYPES.END_TURN);
 };
@@ -117,7 +121,12 @@ function calcCost(obj) {
 
 // needs to be synced w/ backend player field
 function newBlueprintCost() {
-  return window.self?.blueprints.length * 5000 + 5000 || 0;
+  // first 4 blueprints free
+  let { self } = window;
+  if (!self || self.blueprints.length < 4) {
+    return 0;
+  }
+  return self.blueprints.length * 10000 + 10000;
 }
 
 function formatMoney(number) {
