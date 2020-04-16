@@ -20,6 +20,7 @@ class Game {
     this.socket_player_map = {}; // maps socket_id to player_id
     this.cur_shots = [];
     this.cur_dead = [];
+    this.map_size = Game.MAP_SIZE;
 
     // initialize control points
     let mapSize = Game.MAP_SIZE;
@@ -88,6 +89,7 @@ class Game {
   }
   get state() {
     return {
+      map_size: this.map_size,
       players: this.players,
       socket_player_map: this.socket_player_map,
       cur_resolve_timespan: this.cur_resolve_timespan,

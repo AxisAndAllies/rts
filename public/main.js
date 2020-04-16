@@ -53,7 +53,7 @@ showDefaultDetail();
 // Setup directly from canvas id:
 paper.setup("canvas");
 
-const background = new Path.Rectangle([0, 0], [1200, 1200]);
+const background = new Path.Rectangle([0, 0], [10, 10]);
 background.fillColor = "#e7e7e7";
 background.strokeColor = COLORS.NEUTRAL;
 addShadow(background, 6, background.position, 0);
@@ -103,10 +103,7 @@ setInterval(() => {
 // hoveredText.content = "hi";
 let curMassSelectorMode = MOUSE_MODES.SELECT;
 let massSelectorStart = outOfBounds;
-let viewOriginalCenter = {
-  x: background.bounds.width / 2,
-  y: background.bounds.height / 2,
-};
+
 let mouseLoc = { x: 0, y: 0 };
 // let shiftHeld = false;
 
@@ -787,6 +784,14 @@ socket.on("game_state", (state) => {
     });
     document.getElementById("maker").innerHTML = st;
   }
+
+  let { map_size } = window.gameState;
+  background.position = [map_size / 2, map_size / 2];
+  background.scale(
+    map_size / background.bounds.width,
+    map_size / background.bounds.height
+  );
+  window.viewOriginalCenter = background.position;
 });
 
 // webpack hot reloading...
