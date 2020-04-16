@@ -523,7 +523,7 @@ view.onFrame = function (event) {
       ? COLORS.NEUTRAL
       : elem.owner_id == window.self.id
       ? COLORS.SELF
-      : COLORS.NEUTRAL;
+      : COLORS.ENEMY;
     renderedControlPoint.strokeColor = color;
     // renderedControlPoint.fillColor = "blue";
     // renderedControlPoint.opacity = 0.3;

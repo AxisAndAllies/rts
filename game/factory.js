@@ -20,7 +20,7 @@ class Factory {
   upgradeBuildSpeed() {
     this.buildSpeed = this.nextUpgrade.buildSpeed;
     this.nextUpgrade = {
-      cost: this.nextUpgrade.cost + 5000,
+      cost: this.nextUpgrade.cost + 10000,
       buildSpeed: this.nextUpgrade.buildSpeed + 1000,
     };
     return this.buildSpeed;
