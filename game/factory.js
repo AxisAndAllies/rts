@@ -11,6 +11,19 @@ class Factory {
     this.id = this.owner_id + "_" + generateID();
     this.buildQueue = [];
     this.buildSpeed = buildSpeed;
+
+    this.nextUpgrade = {
+      cost: this.buildSpeed + 5000,
+      buildSpeed: this.buildSpeed + 1000,
+    };
+  }
+  upgradeBuildSpeed() {
+    this.buildSpeed = this.nextUpgrade.buildSpeed;
+    this.nextUpgrade = {
+      cost: this.nextUpgrade.cost + 5000,
+      buildSpeed: this.nextUpgrade.buildSpeed + 1000,
+    };
+    return this.buildSpeed;
   }
   queueUnit(blueprint) {
     this.buildQueue.push({

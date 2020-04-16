@@ -40,6 +40,16 @@ class Player {
     console.log(`queued unit ${blueprint.name}`);
     return true;
   }
+  upgradeFac(fac_id) {
+    let fac = this.facs.filter((f) => f.id == fac_id)[0];
+    let { cost } = fac.nextUpgrade;
+    if (this.money < cost) {
+      return false;
+    }
+    this.money -= cost;
+    console.log(`${this.name} upgrading ${fac_id} buildspeed`);
+    fac.upgradeBuildSpeed();
+  }
   getMyUnitById(unit_id) {
     return this.units.filter((u) => u.id == unit_id)[0];
   }

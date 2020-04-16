@@ -303,6 +303,12 @@ view.onFrame = function (event) {
     ).innerText = `Clear Queue $${window.selected.fac.buildQueue
       .map((e) => Number(e.remaining))
       .reduce((a, v) => a + v, 0)}`;
+
+    document.getElementById(
+      "upgradeFac"
+    ).innerText = `Upgrade Fac --> ${JSON.stringify(
+      window.selected.fac.nextUpgrade
+    )}`;
   }
 
   const income = window.gameState?.control_points
@@ -747,6 +753,12 @@ socket.on("game_state", (state) => {
   window.gameState = state;
 
   window.self = getSelf(socket.id, gameState);
+
+  if (window.selected.fac) {
+    window.selected.fac = window.self?.facs.filter(
+      (f) => f.id == window.selected?.fac.id
+    )[0];
+  }
 
   // update selected units
   window.selected.units.forEach((u) => {

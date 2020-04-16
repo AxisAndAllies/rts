@@ -7,6 +7,16 @@ window.setGodMode = (addMoney = 9999999, instantBuild = true) => {
     instantBuild,
   });
 };
+window.upgradeFac = () => {
+  if (!window.selected?.fac) {
+    alert("no fac selected");
+    return;
+  }
+  emitAction(ACTION_TYPES.UPGRADE_BUILD_SPEED, {
+    player_id: window.self?.id,
+    fac_id: window.selected?.fac?.id,
+  });
+};
 
 window.clearQueue = () => {
   if (!window.selected?.fac) {

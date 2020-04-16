@@ -153,6 +153,11 @@ class Game {
         });
         console.log(p.id, " set auto target algorithm ");
       },
+      UPGRADE_BUILD_SPEED: () => {
+        let { fac_id, player_id } = data;
+        let player = this.getPlayerById(player_id);
+        player.upgradeFac(fac_id);
+      },
       CLEAR_FAC_QUEUE: () => {
         let { fac_id, player_id } = data;
         let player = this.getPlayerById(player_id);
