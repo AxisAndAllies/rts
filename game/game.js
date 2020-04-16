@@ -23,6 +23,12 @@ class Game {
 
     // initialize control points
     let mapSize = Game.MAP_SIZE;
+    // let cps = [
+    //   new Victor(200, 200),
+    //   new Victor(mapSize - 200, mapSize - 200),
+    //   new Victor(mapSize - 200, 200),
+    //   new Victor(200, mapSize - 200),
+    // ];
     let cps = [
       new Victor(200, 200),
       new Victor(mapSize - 200, mapSize - 200),
@@ -111,12 +117,24 @@ class Game {
         let unit_ids = data.unit_ids || [data.unit_id];
         let randX = randomBetween(minX, maxX, unit_ids.length);
         let randY = randomBetween(minY, maxY, unit_ids.length);
+        let moveTo = randX.map((x) => ({
+          x: x,
+          y: randY.shift(),
+        }));
+        console.log(moveTo);
         unit_ids.forEach((unit_id) => {
+          let { pos } = this.getUnitById(unit_id, p.id);
+          let posVec = Victor.fromObject(pos);
+          let { x, y } = moveTo
+            .sort(
+              (a, b) =>
+                Victor.fromObject(a).subtract(posVec).length() -
+                Victor.fromObject(b).subtract(posVec).length()
+            )
+            .shift();
           p.setUnitMoveTarget(unit_id, {
-            // x: randomBetween(minX, maxX),
-            // y: randomBetween(minY, maxY),
-            x: randX.pop(),
-            y: randY.pop(),
+            x,
+            y,
           });
         });
         console.log(p.id, " move target ");
@@ -171,9 +189,13 @@ class Game {
       (b) => b.id == blueprint_id
     )[0];
   }
-  getUnitById(id) {
+  getUnitById(id, player_id) {
+    // more efficient if you know the player_id
     let res = null;
-    this.players.forEach((p) => {
+    let filteredPlayers = player_id
+      ? [this.getPlayerById(player_id)]
+      : this.players;
+    filteredPlayers.forEach((p) => {
       p.units.forEach((u) => {
         if (u.id == id) res = u;
       });
@@ -184,8 +206,7 @@ class Game {
     this.getPlayerById(id).addMoney(amount);
   }
   getPlayerById(id) {
-    let p = this.players.filter((p) => p.id == id)[0];
-    return p;
+    return this.players.filter((p) => p.id == id)[0];
   }
   everyoneReady() {
     return this.players.length && this.players.every((p) => p.ended_turn);
@@ -220,6 +241,7 @@ class Game {
         let targCost = this.getBlueprintById(targ.blueprint_id, targ.owner_id)
           .unit_cost;
         shooter.history.totalCostKilled += targCost;
+        this.getPlayerById(shooter.owner_id).addMoney(targCost / 2);
       }
       this.cur_shots.push({ shooter_id, target_id, dmg });
     }
@@ -285,8 +307,9 @@ class Game {
         let range = u.cur_stats.range;
 
         // check any unit that could concievably get in range
+        // don't account for own move b/c already moved
         let in_range = enemies.filter(
-          (e) => dist(e) < range + u.cur_stats.speed + e.cur_stats.speed
+          (e) => dist(e) < range + e.cur_stats.speed
         );
         let algo = u.autoTarget.algorithm;
         if (algo != Unit.AUTO_TARGET.none) {
@@ -298,7 +321,7 @@ class Game {
               targs = in_range.sort((a, b) => dist(a) - dist(b));
               break;
             case Unit.AUTO_TARGET.leastRotation:
-              targs = in_range.sort((a, b) => dist(a) - dist(b));
+              targs = in_range.sort((a, b) => rotateDist(a) - rotateDist(b));
               break;
             case Unit.AUTO_TARGET.mostValue:
               targs = in_range.sort(
