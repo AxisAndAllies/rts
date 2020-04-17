@@ -9,15 +9,14 @@
     <!-- prevent default right click menu -->
     <canvas id="canvas" oncontextmenu="return false;"></canvas>
 
-    <p>
-      This is a simulation.
-    </p>
-    <p class="info"></p>
+    <div id="topbox">
+      <div id="unitselection"></div>
+      <div id="info"></div>
+    </div>
     <div id="panel">
       <strong><p id="name"></p></strong>
       <strong><p id="money"></p></strong>
       <div id="unitdetail">
-        <div id="info"></div>
         <select id="autotarget" onchange="setAutoTarget()">
           <option value="closest">closest</option>
           <option value="leastRotation">leastRotation</option>
@@ -32,23 +31,24 @@
         </div>
         <button id="buy" onclick="buyBlueprint()">$100</button>
         <br />
-        <label>Units: </label>
-        <div id="uberselect">
-          <div id="unitselection"></div>
-          <div id="blueprintInfo"></div>
-        </div>
         <div id="facQueue"></div>
-        <button id="upgradeFac" onclick="upgradeFac()">
-          Upgrade Fac Build Speed
-        </button>
-        <button id="clearqueue" onclick="clearQueue()">Clear Queue</button>
-        <br />
-        <button id="exportgame" onclick="exportGame()">Export Game</button>
-        <br />
-        <button id="endturn" onclick="endTurn()">[Enter] End Turn</button>
-        <br />
+
+        <div id="powerbuttons">
+          <button id="upgradeFac" onclick="upgradeFac()">
+            Upgrade Fac Build Speed
+          </button>
+          <br />
+          <button id="clearqueue" onclick="clearQueue()">Clear Queue</button>
+          <br />
+          <button id="exportgame" onclick="exportGame()">Export Game</button>
+          <br />
+          <button id="endturn" onclick="endTurn()">[Enter] End Turn</button>
+        </div>
       </div>
     </div>
+    <p>
+      This is a simulation.
+    </p>
 
     <br />
     <p>

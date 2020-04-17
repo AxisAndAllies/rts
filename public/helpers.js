@@ -138,7 +138,9 @@ function dispUnitStatText({ base_stats, cur_stats, autoTarget, owner_id }) {
   if (!base_stats || !cur_stats) return disp;
   Object.keys(cur_stats).forEach((k) => {
     if (owner_id == window.self.id)
-      disp += `${k}: ${base_stats[k]} (${cur_stats[k]})\n`;
+      disp += `${k}: ${
+        cur_stats[k] != base_stats[k] ? cur_stats[k] + "/" : ""
+      } ${base_stats[k]}\n`;
     else {
       // obfuscate enemy unit stats :)
       let rem = Math.round(base_stats[k] - cur_stats[k]);
@@ -224,20 +226,31 @@ function unitColor(e) {
   return e.owner_id == window.self.id ? COLORS.SELF : COLORS.ENEMY;
 }
 function refreshBlueprints(blueprints) {
-  let st = "";
   // disabled=${window.selected.fac}
+  let unitSelect = document.getElementById("unitselection");
+  let showButtons = () => {
+    let st = "";
+    blueprints.forEach((e) => {
+      st += `<button id="${e.id}" 
+        onmouseover="showBlueprintDetail('${e.id}')" 
 
-  blueprints.forEach((e) => {
-    st += `<button id="${e.id}" 
-    onmouseover="showBlueprintDetail('${e.id}')" 
-
-    onclick="buyUnit('${e.id}')"
-    >${e.name} (${formatMoney(e.unit_cost)})</button><br>`;
-  });
-  document.getElementById("unitselection").innerHTML = st;
+        onclick="buyUnit('${e.id}')"
+        >${e.name} (${formatMoney(e.unit_cost)})</button><br>`;
+    });
+    unitSelect.innerHTML = st;
+  };
+  unitSelect.innerHTML = ["[ UNITS ]"];
+  // showButtons();
   document
     .getElementById("unitselection")
-    .addEventListener("mouseleave", showDefaultDetail);
+    .addEventListener("mouseleave", () => {
+      unitSelect.innerHTML = ["[ UNITS ]"];
+    });
+  document
+    .getElementById("unitselection")
+    .addEventListener("mouseenter", () => {
+      showButtons();
+    });
 }
 
 function getSelf(socket_id, gameState) {
@@ -266,11 +279,9 @@ function showUnitDetail(unit) {
 }
 function showBlueprintDetail(blueprint_id, player_id = window.self.id) {
   let stats = getBlueprint(blueprint_id, player_id).stats;
-  document.getElementById("blueprintInfo").innerText = dispStatText(stats);
+  document.getElementById("info").innerText = dispStatText(stats);
 }
-function showDefaultDetail() {
-  document.getElementById("blueprintInfo").innerText = dispText();
-}
+
 function buyUnit(blueprint_id) {
   if (!window.selected.fac) window.selected.fac = window.self.facs[0];
   let factory_id = window.selected.fac?.id;

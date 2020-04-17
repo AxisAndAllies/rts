@@ -48,8 +48,6 @@ console.log(
   `Keyboard shortcuts:\n\n[W,A,S,D] - pan\n[Z / X] - zoom in/out\n[C] - reset zoom\n[Enter] - end turn`
 );
 
-showDefaultDetail();
-
 // Setup directly from canvas id:
 paper.setup("canvas");
 
@@ -780,7 +778,7 @@ socket.on("game_state", (state) => {
       v = CONSTRAINTS_TESTING[k];
       if (window.self?.blueprints.length)
         v = window.self.blueprints[window.self.blueprints.length - 1].stats[k];
-      st += `<span>${k}: </span><input type="number" min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]} value="${v}" id="${k}"</input><br>`;
+      st += `<label>${k}: (${CONSTRAINTS_MIN[k]} - ${CONSTRAINTS_MAX[k]}) </label><input type="number" min=${CONSTRAINTS_MIN[k]} max=${CONSTRAINTS_MAX[k]} value="${v}" id="${k}"</input><br>`;
     });
     document.getElementById("maker").innerHTML = st;
   }

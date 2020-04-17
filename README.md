@@ -30,16 +30,19 @@ For hot reloading, see [this section](./README.md#Hot-reloading-everything).
   - set unit to also prioritize units that pose a threat to it first in addition to above (prioritize threats)
   - [ongoing] unit balance :)
   - load from export file...
+  - make death explosions w/ tween :)
   - show turn resolve summary/highlights
   - diagonal panning (n-key rollover?)
 
 - MID priority
 
+  - make UI preview units in blueprint + unit fac choice...
   - support both manual + AI targetting simultaneously
   - better collision resolution
   - enable placing more factories
   - more map types {height, width, control points}
   - make factories destructable
+    - need to make facs buildable first...
   - add ability to unlock higher limits for certain stats?? (like researching tech)
   - huge refactor for readability?
 

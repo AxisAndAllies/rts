@@ -14,7 +14,7 @@ canvas {
   border: 1px solid #333;
   /* box-shadow: 0 0 16px 2px rgba(0, 0, 0, 0.8); */
   width: 1200px;
-  height: 1200px;
+  height: 90%;
 }
 
 p,
@@ -29,13 +29,6 @@ a {
   text-decoration: none;
 }
 
-.info {
-  margin: 14px auto;
-  text-align: justify;
-  font-size: 18px;
-  color: #999;
-}
-
 #panel {
   position: fixed;
   padding: 20px;
@@ -45,12 +38,12 @@ a {
 }
 
 #newblueprintbox {
-  top: 280px;
+  top: 150px;
   position: fixed;
 }
 
 #maker > input {
-  width: 4em;
+  width: 5em;
 }
 
 #uberselect {
@@ -63,12 +56,6 @@ a {
 }
 #unitselection > button {
   margin-top: 5px;
-}
-
-#blueprintInfo {
-  vertical-align: top;
-  max-width: 250px;
-  display: inline-block;
 }
 
 #maker {
@@ -84,9 +71,8 @@ a {
 
 #unithistory,
 #facQueue,
-#blueprintInfo,
 #maker,
-#unitselection,
+/* #unitselection, */
 #unitdetail {
   border: 1px solid black;
   border-radius: 4px;
@@ -94,10 +80,106 @@ a {
   margin: 10px;
 }
 
-#info {
-  font-size: 12px;
+#info,
+#unitselection {
+  padding: 20px;
+  font-size: 14px;
+  /* position: fixed; */
+  background: hsla(0, 0%, 100%, 0.85);
+  box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.58);
+  border-radius: 5px;
+}
+
+#topbox {
+  top: 0px;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* For horizontal alignment */
+  width: 100%;
 }
 
 a {
   color: #3377ee;
+}
+
+#powerbuttons > button {
+  margin: 10px;
+}
+
+/**
+The below is from sakura.css
+*/
+
+/* Buttons, forms and input */
+input,
+textarea {
+  border: 1px solid #4a4a4a;
+}
+input:focus,
+textarea:focus {
+  border: 1px solid #2c8898;
+}
+
+textarea {
+  width: 100%;
+}
+
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: #2c8898;
+  color: #f9f9f9;
+  border-radius: 1px;
+  border: 1px solid #2c8898;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.button[disabled],
+button[disabled],
+input[type="submit"][disabled],
+input[type="reset"][disabled],
+input[type="button"][disabled] {
+  cursor: default;
+  opacity: 0.5;
+}
+.button:focus,
+.button:hover,
+button:focus,
+button:hover,
+input[type="submit"]:focus,
+input[type="submit"]:hover,
+input[type="reset"]:focus,
+input[type="reset"]:hover,
+input[type="button"]:focus,
+input[type="button"]:hover {
+  background-color: #982c61;
+  border-color: #982c61;
+  color: #f9f9f9;
+  outline: 0;
+}
+
+textarea,
+input[type] {
+  color: #4a4a4a;
+  padding: 6px 10px;
+  /* The 6px vertically centers text on FF, ignored by Webkit */
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #f1f1f1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+textarea:focus,
+input[type]:focus {
+  border: 1px solid #2c8898;
+  outline: 0;
 }

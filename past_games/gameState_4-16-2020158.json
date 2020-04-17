@@ -1,0 +1,1431 @@
+{
+    "map_size": 1200,
+    "players": [
+        {
+            "name": "Herring7",
+            "blueprints": [
+                {
+                    "name": "lol",
+                    "owner_id": "Herring7",
+                    "stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 5,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "unit_cost": 9237,
+                    "id": "Herring7_z9wa5"
+                },
+                {
+                    "name": "lol",
+                    "owner_id": "Herring7",
+                    "stats": {
+                        "dmg": 6,
+                        "health": 3,
+                        "range": 200,
+                        "speed": 25,
+                        "reload": 2,
+                        "turn": 40,
+                        "accuracy": 70
+                    },
+                    "unit_cost": 132914,
+                    "id": "Herring7_hpwc8"
+                },
+                {
+                    "name": "lol",
+                    "owner_id": "Herring7",
+                    "stats": {
+                        "dmg": 3,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 2,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "unit_cost": 62345,
+                    "id": "Herring7_zxl96"
+                },
+                {
+                    "name": "lol",
+                    "owner_id": "Herring7",
+                    "stats": {
+                        "dmg": 2,
+                        "health": 29,
+                        "range": 70,
+                        "speed": 30,
+                        "reload": 4,
+                        "turn": 30,
+                        "accuracy": 44
+                    },
+                    "unit_cost": 40602,
+                    "id": "Herring7_uzvl9"
+                }
+            ],
+            "money": 148049,
+            "facs": [
+                {
+                    "owner_id": "Herring7",
+                    "pos": {
+                        "x": 864,
+                        "y": 890
+                    },
+                    "id": "Herring7_no5o5",
+                    "buildQueue": [],
+                    "buildSpeed": 8000,
+                    "nextUpgrade": {
+                        "cost": 40000,
+                        "buildSpeed": 9000
+                    }
+                }
+            ],
+            "units": [
+                {
+                    "blueprint_id": "Herring7_zxl96",
+                    "base_stats": {
+                        "dmg": 3,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 2,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "cur_stats": {
+                        "dmg": 3,
+                        "health": 2,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 1.4999999999999996,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "pos": {
+                        "x": 575.4581680661536,
+                        "y": 627.1751996368598
+                    },
+                    "orientation": 161.24506812598906,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 575.4581680661536,
+                        "y": 627.1751996368598
+                    },
+                    "shoot_targets": [
+                        "Baboon5_77jmc"
+                    ],
+                    "id": "Herring7_ormpe",
+                    "autoTarget": {
+                        "algorithm": "mostValue"
+                    },
+                    "history": {
+                        "distMoved": 2095.721484325688,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 54,
+                        "dmgActuallyDealt": 53,
+                        "shotsHit": 18,
+                        "shotsMissed": 7,
+                        "numKills": 10,
+                        "totalCostKilled": 93047
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_zxl96",
+                    "base_stats": {
+                        "dmg": 3,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 2,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "cur_stats": {
+                        "dmg": 3,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 0.5999999999999993,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "pos": {
+                        "x": 622.1248347328202,
+                        "y": 625.1751996368598
+                    },
+                    "orientation": -161.34899526078686,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 622.1248347328202,
+                        "y": 625.1751996368598
+                    },
+                    "shoot_targets": [
+                        "Baboon5_77jmc"
+                    ],
+                    "id": "Herring7_y53g5",
+                    "autoTarget": {
+                        "algorithm": "mostValue"
+                    },
+                    "history": {
+                        "distMoved": 1475.1407621728497,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 69,
+                        "dmgActuallyDealt": 69,
+                        "shotsHit": 23,
+                        "shotsMissed": 5,
+                        "numKills": 7,
+                        "totalCostKilled": 53697
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_hpwc8",
+                    "base_stats": {
+                        "dmg": 6,
+                        "health": 3,
+                        "range": 200,
+                        "speed": 25,
+                        "reload": 2,
+                        "turn": 40,
+                        "accuracy": 70
+                    },
+                    "cur_stats": {
+                        "dmg": 6,
+                        "health": 3,
+                        "range": 200,
+                        "speed": 25,
+                        "reload": 1.7999999999999998,
+                        "turn": 40,
+                        "accuracy": 70
+                    },
+                    "pos": {
+                        "x": 583.4581680661536,
+                        "y": 645.8418663035266
+                    },
+                    "orientation": -190.07602321586444,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 583.4581680661536,
+                        "y": 645.8418663035266
+                    },
+                    "shoot_targets": [
+                        "Baboon5_77jmc",
+                        "Baboon5_cy3wk",
+                        "Baboon5_betsr",
+                        "Baboon5_yu0cy",
+                        "Baboon5_vuc00"
+                    ],
+                    "id": "Herring7_n1q54",
+                    "autoTarget": {
+                        "algorithm": "closest"
+                    },
+                    "history": {
+                        "distMoved": 1500.656343461916,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 108,
+                        "dmgActuallyDealt": 87,
+                        "shotsHit": 18,
+                        "shotsMissed": 13,
+                        "numKills": 11,
+                        "totalCostKilled": 281724
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_uzvl9",
+                    "base_stats": {
+                        "dmg": 2,
+                        "health": 29,
+                        "range": 70,
+                        "speed": 30,
+                        "reload": 4,
+                        "turn": 30,
+                        "accuracy": 44
+                    },
+                    "cur_stats": {
+                        "dmg": 2,
+                        "health": 5,
+                        "range": 70,
+                        "speed": 30,
+                        "reload": 0.49999999999999756,
+                        "turn": 30,
+                        "accuracy": 44
+                    },
+                    "pos": {
+                        "x": 611.8556158183496,
+                        "y": 573.7835349722336
+                    },
+                    "orientation": 217.44069537130338,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 611.8556158183496,
+                        "y": 573.7835349722336
+                    },
+                    "shoot_targets": [
+                        "Baboon5_77jmc"
+                    ],
+                    "id": "Herring7_xxtkj",
+                    "autoTarget": {
+                        "algorithm": "closest"
+                    },
+                    "history": {
+                        "distMoved": 386.10302226568683,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 2,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_z9wa5",
+                    "base_stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 5,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 1001.926737449954,
+                        "y": 201.53221692122477
+                    },
+                    "orientation": 157.35465772475078,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 1001.926737449954,
+                        "y": 201.53221692122477
+                    },
+                    "shoot_targets": [
+                        "Baboon5_rx1z2"
+                    ],
+                    "id": "Herring7_i8vfp",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 693.2410128026005,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_z9wa5",
+                    "base_stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 5,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 981.6976918686759,
+                        "y": 196.3162487031699
+                    },
+                    "orientation": -214.69284259119786,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 981.6976918686759,
+                        "y": 196.3162487031699
+                    },
+                    "shoot_targets": [
+                        "Baboon5_rx1z2"
+                    ],
+                    "id": "Herring7_saeec",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 705.6896743372912,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 1,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_z9wa5",
+                    "base_stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 5,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 1003.6343187516187,
+                        "y": 223.44236318211253
+                    },
+                    "orientation": 162.3968129985988,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 1028.2780027520528,
+                        "y": 179.6267311421734
+                    },
+                    "shoot_targets": [
+                        "Baboon5_rx1z2"
+                    ],
+                    "id": "Herring7_setoo",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 739.8599911579314,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_zxl96",
+                    "base_stats": {
+                        "dmg": 3,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 2,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "cur_stats": {
+                        "dmg": 3,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "pos": {
+                        "x": 392.30596313358035,
+                        "y": 905.5085304659302
+                    },
+                    "orientation": 140.75900502098963,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 284.22338831430216,
+                        "y": 904.4297608434583
+                    },
+                    "shoot_targets": [
+                        "Baboon5_rx1z2"
+                    ],
+                    "id": "Herring7_328y7",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 510,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_uzvl9",
+                    "base_stats": {
+                        "dmg": 2,
+                        "health": 29,
+                        "range": 70,
+                        "speed": 30,
+                        "reload": 4,
+                        "turn": 30,
+                        "accuracy": 44
+                    },
+                    "cur_stats": {
+                        "dmg": 2,
+                        "health": 29,
+                        "range": 70,
+                        "speed": 30,
+                        "reload": 2.799999999999999,
+                        "turn": 30,
+                        "accuracy": 44
+                    },
+                    "pos": {
+                        "x": 285.44762345860926,
+                        "y": 947.888884047279
+                    },
+                    "orientation": 305.9058662418553,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 285.44762345860926,
+                        "y": 947.888884047279
+                    },
+                    "shoot_targets": [
+                        "Baboon5_q6q4s",
+                        "Baboon5_jvkzs",
+                        "Baboon5_dydd7"
+                    ],
+                    "id": "Herring7_kci6s",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 590.6162342397747,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 2,
+                        "dmgActuallyDealt": 2,
+                        "shotsHit": 1,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_z9wa5",
+                    "base_stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 5,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 5,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 40,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 416.727051394423,
+                        "y": 952.9960274491879
+                    },
+                    "orientation": 161.07697575372947,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 286.12366223267327,
+                        "y": 972.700734149448
+                    },
+                    "shoot_targets": [
+                        "Baboon5_vuc00"
+                    ],
+                    "id": "Herring7_lytrt",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 455,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_uzvl9",
+                    "base_stats": {
+                        "dmg": 2,
+                        "health": 29,
+                        "range": 70,
+                        "speed": 30,
+                        "reload": 4,
+                        "turn": 30,
+                        "accuracy": 44
+                    },
+                    "cur_stats": {
+                        "dmg": 2,
+                        "health": 29,
+                        "range": 70,
+                        "speed": 30,
+                        "reload": 0,
+                        "turn": 30,
+                        "accuracy": 44
+                    },
+                    "pos": {
+                        "x": 383.31879280823375,
+                        "y": 1006.4005992926121
+                    },
+                    "orientation": 159.68763988417857,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 288.0939921300926,
+                        "y": 1024.5936833293379
+                    },
+                    "shoot_targets": [
+                        "Baboon5_vuc00"
+                    ],
+                    "id": "Herring7_3y7j7",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 459,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Herring7_zxl96",
+                    "base_stats": {
+                        "dmg": 3,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 2,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "cur_stats": {
+                        "dmg": 3,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 30,
+                        "accuracy": 70
+                    },
+                    "pos": {
+                        "x": 749.5698999814047,
+                        "y": 757.3599703331488
+                    },
+                    "orientation": 208.0596432437953,
+                    "owner_id": "Herring7",
+                    "move_target": {
+                        "x": 638.7915013994868,
+                        "y": 617.1751996368598
+                    },
+                    "shoot_targets": [
+                        "Baboon5_vuc00"
+                    ],
+                    "id": "Herring7_kd509",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 127.5,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                }
+            ],
+            "id": "Herring7",
+            "ended_turn": false,
+            "finished_setup": true
+        },
+        {
+            "name": "Baboon5",
+            "blueprints": [
+                {
+                    "name": "lol",
+                    "owner_id": "Baboon5",
+                    "stats": {
+                        "dmg": 2,
+                        "health": 6,
+                        "range": 85,
+                        "speed": 25,
+                        "reload": 2,
+                        "turn": 27,
+                        "accuracy": 75
+                    },
+                    "unit_cost": 28941,
+                    "id": "Baboon5_xb5hx"
+                },
+                {
+                    "name": "lol",
+                    "owner_id": "Baboon5",
+                    "stats": {
+                        "dmg": 3,
+                        "health": 30,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "unit_cost": 36591,
+          "id": "Baboon5_nibw0"
+                },
+                {
+                    "name": "lol",
+                    "owner_id": "Baboon5",
+                    "stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "unit_cost": 7671,
+                    "id": "Baboon5_vb0ub"
+                },
+                {
+                    "name": "lol",
+                    "owner_id": "Baboon5",
+                    "stats": {
+                        "dmg": 10,
+                        "health": 4,
+                        "range": 80,
+                        "speed": 28,
+                        "reload": 15,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "unit_cost": 24008,
+                    "id": "Baboon5_2zuoc"
+                },
+                {
+                    "name": "lol",
+                    "owner_id": "Baboon5",
+                    "stats": {
+                        "dmg": 9,
+                        "health": 9,
+                        "range": 120,
+                        "speed": 28,
+                        "reload": 15,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "unit_cost": 58619,
+                    "id": "Baboon5_4ow2w"
+                },
+                {
+                    "name": "lol",
+                    "owner_id": "Baboon5",
+                    "stats": {
+                        "dmg": 9,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 28,
+                        "reload": 2,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "unit_cost": 123441,
+                    "id": "Baboon5_kgnaz"
+                }
+            ],
+            "money": 131919,
+            "facs": [
+                {
+                    "owner_id": "Baboon5",
+                    "pos": {
+                        "x": 336,
+                        "y": 310
+                    },
+                    "id": "Baboon5_k7fqf",
+                    "buildQueue": [],
+                    "buildSpeed": 8000,
+                    "nextUpgrade": {
+                        "cost": 40000,
+                        "buildSpeed": 9000
+                    }
+                }
+            ],
+            "units": [
+                {
+                    "blueprint_id": "Baboon5_2zuoc",
+                    "base_stats": {
+                        "dmg": 10,
+                        "health": 4,
+                        "range": 80,
+                        "speed": 28,
+                        "reload": 15,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "cur_stats": {
+                        "dmg": 10,
+                        "health": 2,
+                        "range": 80,
+                        "speed": 28,
+                        "reload": 8.900000000000022,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "pos": {
+                        "x": 1039.307810445883,
+                        "y": 112.34188745723598
+                    },
+                    "orientation": -22.73932596943453,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 1045.8228833678072,
+                        "y": 98.92051792193803
+                    },
+                    "shoot_targets": [
+                        "Herring7_i8vfp",
+                        "Herring7_saeec"
+                    ],
+                    "id": "Baboon5_rx1z2",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 1526.4583754828157,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 40,
+                        "dmgActuallyDealt": 19,
+                        "shotsHit": 4,
+                        "shotsMissed": 0,
+                        "numKills": 3,
+                        "totalCostKilled": 59076
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_vb0ub",
+                    "base_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 1,
+                        "health": 1,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 241.45762313033575,
+                        "y": 979.739198162635
+                    },
+                    "orientation": -138.4003559993286,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 241.45762313033575,
+                        "y": 979.739198162635
+                    },
+                    "shoot_targets": [
+                        "Herring7_kci6s"
+                    ],
+                    "id": "Baboon5_q6q4s",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 694.8700617284333,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 3,
+                        "dmgActuallyDealt": 3,
+                        "shotsHit": 3,
+                        "shotsMissed": 5,
+                        "numKills": 1,
+                        "totalCostKilled": 9237
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_vb0ub",
+                    "base_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 231.39265185843684,
+                        "y": 961.0278734331606
+                    },
+                    "orientation": 8.995887862253234,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 219.60864112311162,
+                        "y": 996.1790330479769
+                    },
+                    "shoot_targets": [
+                        "Herring7_kci6s"
+                    ],
+                    "id": "Baboon5_jvkzs",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 647.5,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 5,
+                        "dmgActuallyDealt": 5,
+                        "shotsHit": 5,
+                        "shotsMissed": 3,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_nibw0",
+                    "base_stats": {
+                        "dmg": 3,
+                        "health": 30,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 3,
+                        "health": 28,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 198.72164177054162,
+                        "y": 1007.929724094056
+                    },
+                    "orientation": 64.90466317483806,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 198.72164177054162,
+                        "y": 1007.929724094056
+                    },
+                    "shoot_targets": [
+                        "Herring7_kci6s"
+                    ],
+                    "id": "Baboon5_mxxs2",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 731.6006472312939,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 9,
+                        "dmgActuallyDealt": 9,
+                        "shotsHit": 3,
+                        "shotsMissed": 5,
+                        "numKills": 1,
+                        "totalCostKilled": 9237
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_vb0ub",
+                    "base_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0.9999999999999983,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 226.38571500785758,
+                        "y": 943.5977844776985
+                    },
+                    "orientation": 390.79401840868627,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 205.6692640245865,
+                        "y": 1023.7890481885548
+                    },
+                    "shoot_targets": [
+                        "Herring7_kci6s"
+                    ],
+                    "id": "Baboon5_dydd7",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 615,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 4,
+                        "dmgActuallyDealt": 4,
+                        "shotsHit": 4,
+                        "shotsMissed": 4,
+                        "numKills": 1,
+                        "totalCostKilled": 40602
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_vb0ub",
+                    "base_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0.2999999999999985,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 196.2686464777583,
+                        "y": 987.8505228632882
+                    },
+                    "orientation": 419.5820706963066,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 186.81725251523216,
+                        "y": 1031.7633758278275
+                    },
+                    "shoot_targets": [
+                        "Herring7_kci6s"
+                    ],
+                    "id": "Baboon5_in0on",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 712.5,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 2,
+                        "dmgActuallyDealt": 2,
+                        "shotsHit": 2,
+                        "shotsMissed": 6,
+                        "numKills": 1,
+                        "totalCostKilled": 9237
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_4ow2w",
+                    "base_stats": {
+                        "dmg": 9,
+                        "health": 9,
+                        "range": 120,
+                        "speed": 28,
+                        "reload": 15,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "cur_stats": {
+                        "dmg": 9,
+                        "health": 9,
+                        "range": 120,
+                        "speed": 28,
+                        "reload": 2.3000000000000376,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "pos": {
+                        "x": 587.8228833678072,
+                        "y": 453.920517921938
+                    },
+                    "orientation": 11.33756664454983,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 587.8228833678072,
+                        "y": 453.920517921938
+                    },
+                    "shoot_targets": [
+                        "Herring7_xxtkj"
+                    ],
+                    "id": "Baboon5_vuc00",
+                    "autoTarget": {
+                        "algorithm": "mostValue"
+                    },
+                    "history": {
+                        "distMoved": 497.86681473702805,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 9,
+                        "dmgActuallyDealt": 9,
+                        "shotsHit": 1,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_nibw0",
+                    "base_stats": {
+                        "dmg": 3,
+                        "health": 30,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 3,
+                        "health": 12,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 2.8,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 599.1997110805596,
+                        "y": 557.254643038678
+                    },
+                    "orientation": 37.440695371303356,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 615.4940740351755,
+                        "y": 615.4509182602993
+                    },
+                    "shoot_targets": [
+                        "Herring7_xxtkj",
+                        "Herring7_ormpe",
+                        "Herring7_y53g5"
+                    ],
+                    "id": "Baboon5_77jmc",
+                    "autoTarget": {
+                        "algorithm": "mostValue"
+                    },
+                    "history": {
+                        "distMoved": 420,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 6,
+                        "dmgActuallyDealt": 6,
+                        "shotsHit": 2,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_vb0ub",
+                    "base_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 572.007137464095,
+                        "y": 468.61830473132886
+                    },
+                    "orientation": 380.7523520053342,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 1045.8228833678072,
+                        "y": 98.92051792193803
+                    },
+                    "shoot_targets": [
+                        "Herring7_xxtkj"
+                    ],
+                    "id": "Baboon5_betsr",
+                    "autoTarget": {
+                        "algorithm": "mostValue"
+                    },
+                    "history": {
+                        "distMoved": 300,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_vb0ub",
+                    "base_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 552.9960693870928,
+                        "y": 463.8498745358156
+                    },
+                    "orientation": 388.1650277750408,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 1045.8228833678072,
+                        "y": 98.92051792193803
+                    },
+                    "shoot_targets": [
+                        "Herring7_xxtkj"
+                    ],
+                    "id": "Baboon5_yu0cy",
+                    "autoTarget": {
+                        "algorithm": "mostValue"
+                    },
+                    "history": {
+                        "distMoved": 287.5,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_vb0ub",
+                    "base_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 3,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "cur_stats": {
+                        "dmg": 1,
+                        "health": 3,
+                        "range": 60,
+                        "speed": 25,
+                        "reload": 0,
+                        "turn": 27,
+                        "accuracy": 50
+                    },
+                    "pos": {
+                        "x": 577.4284895621116,
+                        "y": 480.3516257305698
+                    },
+                    "orientation": 380.22747483635953,
+                    "owner_id": "Baboon5",
+                    "move_target": {
+                        "x": 1045.8228833678072,
+                        "y": 98.92051792193803
+                    },
+                    "shoot_targets": [
+                        "Herring7_xxtkj"
+                    ],
+                    "id": "Baboon5_cy3wk",
+                    "autoTarget": {
+                        "algorithm": "mostValue"
+                    },
+                    "history": {
+                        "distMoved": 310,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                },
+                {
+                    "blueprint_id": "Baboon5_kgnaz",
+                    "base_stats": {
+                        "dmg": 9,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 28,
+                        "reload": 2,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "cur_stats": {
+                        "dmg": 9,
+                        "health": 8,
+                        "range": 120,
+                        "speed": 28,
+                        "reload": 0,
+                        "turn": 27,
+                        "accuracy": 100
+                    },
+                    "pos": {
+                        "x": 340.2008566234422,
+                        "y": 340.4998776139505
+                    },
+                    "orientation": 49.34564850313562,
+                    "owner_id": "Baboon5",
+                    "move_target": null,
+                    "shoot_targets": [
+                        "Herring7_xxtkj"
+                    ],
+                    "id": "Baboon5_tf64a",
+                    "autoTarget": {
+                        "algorithm": "leastRotation"
+                    },
+                    "history": {
+                        "distMoved": 0,
+                        "controlPointsCaptured": 0,
+                        "dmgTheoreticallyDealt": 0,
+                        "dmgActuallyDealt": 0,
+                        "shotsHit": 0,
+                        "shotsMissed": 0,
+                        "numKills": 0,
+                        "totalCostKilled": 0
+                    }
+                }
+            ],
+            "id": "Baboon5",
+            "ended_turn": false,
+            "finished_setup": true
+        }
+    ],
+    "socket_player_map": {
+        "nW71-mH8H22PlTKbAAAC": "Herring7",
+        "qdk5IP4Y9pvqrYYqAAAD": "Baboon5"
+    },
+    "cur_resolve_timespan": 5000,
+    "cur_shots": [],
+    "cur_dead": [],
+    "control_points": [
+        {
+            "owner_id": "Baboon5",
+            "pos": {
+                "x": 200,
+                "y": 200
+            },
+            "ownershipLevel": 30,
+            "baseResourcesPerSecond": 2000,
+            "captureRange": 50,
+            "id": "null_l773i"
+        },
+        {
+            "owner_id": "Herring7",
+            "pos": {
+                "x": 1000,
+                "y": 1000
+            },
+            "ownershipLevel": 100,
+            "baseResourcesPerSecond": 2000,
+            "captureRange": 50,
+            "id": "null_7kgeh"
+        },
+        {
+            "owner_id": "Baboon5",
+            "pos": {
+                "x": 1000,
+                "y": 200
+            },
+            "ownershipLevel": 70.555136271329,
+            "baseResourcesPerSecond": 2000,
+            "captureRange": 50,
+            "id": "null_h5i3l"
+        },
+        {
+            "owner_id": "Herring7",
+            "pos": {
+                "x": 200,
+                "y": 1000
+            },
+            "ownershipLevel": 66.31249558420973,
+            "baseResourcesPerSecond": 2000,
+            "captureRange": 50,
+            "id": "null_4xrxj"
+        },
+        {
+            "owner_id": "Herring7",
+            "pos": {
+                "x": 600,
+                "y": 600
+            },
+            "ownershipLevel": 100,
+            "baseResourcesPerSecond": 2000,
+            "captureRange": 50,
+            "id": "null_b8kts"
+        }
+    ]
+}
