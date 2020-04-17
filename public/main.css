@@ -58,16 +58,19 @@ a {
   margin-top: 5px;
 }
 
-#maker {
+#leftpane {
   display: inline-block;
-  max-width: 200px;
+  width: 250px;
 }
 
-#unithistory {
+#rightpane {
   vertical-align: top;
   max-width: 250px;
   display: inline-block;
 }
+/* #facQueue {
+  max-width: 250px;
+} */
 
 #unithistory,
 #facQueue,
@@ -103,8 +106,15 @@ a {
   color: #3377ee;
 }
 
-#powerbuttons > button {
+#powerbuttons {
   margin: 10px;
+  float: right;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+#rightpane > button {
+  margin-top: 10px;
 }
 
 /**

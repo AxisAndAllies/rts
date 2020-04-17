@@ -25,24 +25,24 @@
         </select>
       </div>
       <div id="newblueprintbox">
-        <div>
+        <div id="leftpane">
           <div id="maker"></div>
-          <div id="unithistory"></div>
+          <strong><label id="unitcost"></label></strong>
+          <button id="buy" onclick="buyBlueprint()">$100</button>
         </div>
-        <button id="buy" onclick="buyBlueprint()">$100</button>
-        <br />
-        <div id="facQueue"></div>
-
-        <div id="powerbuttons">
+        <div id="rightpane">
+          <div id="unithistory"></div>
+          <div id="facQueue"></div>
           <button id="upgradeFac" onclick="upgradeFac()">
             Upgrade Fac Build Speed
           </button>
-          <br />
           <button id="clearqueue" onclick="clearQueue()">Clear Queue</button>
-          <br />
-          <button id="exportgame" onclick="exportGame()">Export Game</button>
-          <br />
+        </div>
+        <br />
+        <br />
+        <div id="powerbuttons">
           <button id="endturn" onclick="endTurn()">[Enter] End Turn</button>
+          <button id="exportgame" onclick="exportGame()">Export Game</button>
         </div>
       </div>
     </div>

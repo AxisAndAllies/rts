@@ -205,11 +205,10 @@ function updateMakerText() {
   document.getElementById("maker");
   document.getElementById("buy").disabled = invalid;
 
-  document.getElementById(
-    "buy"
-  ).innerText = `$${newBlueprintCost()} (unit cost: ${formatMoney(
+  document.getElementById("buy").innerText = `$${newBlueprintCost()}`;
+  document.getElementById("unitcost").innerText = `unit cost: ${formatMoney(
     calcCost(newobj)
-  )})`;
+  )}`;
 }
 
 // isomorphic
@@ -230,13 +229,15 @@ function refreshBlueprints(blueprints) {
   let unitSelect = document.getElementById("unitselection");
   let showButtons = () => {
     let st = "";
-    blueprints.forEach((e) => {
-      st += `<button id="${e.id}" 
+    blueprints
+      .sort((a, b) => a.unit_cost - b.unit_cost)
+      .forEach((e) => {
+        st += `<button id="${e.id}" 
         onmouseover="showBlueprintDetail('${e.id}')" 
 
         onclick="buyUnit('${e.id}')"
         >${e.name} (${formatMoney(e.unit_cost)})</button><br>`;
-    });
+      });
     unitSelect.innerHTML = st;
   };
   unitSelect.innerHTML = ["[ UNITS ]"];
