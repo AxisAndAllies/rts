@@ -12,7 +12,6 @@ canvas {
   display: block;
   margin: 40px auto 20px;
   border: 1px solid #333;
-  /* box-shadow: 0 0 16px 2px rgba(0, 0, 0, 0.8); */
   width: 1200px;
   height: 90%;
 }
@@ -27,6 +26,17 @@ a {
   margin: 0 auto;
   text-align: center;
   text-decoration: none;
+}
+
+.statbarFilled {
+  background-color: #2c4098;
+  display: inline-block;
+  margin-left: 1em;
+}
+.statbarEmpty {
+  /* border: 2px solid #982c61; */
+  background-color: rgb(133, 133, 133);
+  display: inline-block;
 }
 
 #panel {
@@ -44,10 +54,6 @@ a {
 
 #maker > input {
   width: 5em;
-}
-
-#uberselect {
-  /* position: fixed; */
 }
 
 #unitselection {

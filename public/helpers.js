@@ -137,34 +137,36 @@ function dispUnitStatText({ base_stats, cur_stats, autoTarget, owner_id }) {
   let disp = "";
   if (!base_stats || !cur_stats) return disp;
   Object.keys(cur_stats).forEach((k) => {
+    // else {
+    // obfuscate enemy unit stats :)
+    let rem = Math.round(base_stats[k] - cur_stats[k]);
+    disp += `<div style="width: 5em; display: inline-block;">${k}</div>`;
+    disp += `<div class="statbarFilled" style="width: ${
+      cur_stats[k] / 2
+    }em; height: 1em; background-color: ${unitColor({ owner_id })}"></div>`;
+    disp += `<div class="statbarEmpty" style="width: ${
+      rem / 2
+    }em; height: 1em;"></div>`;
+
     if (owner_id == window.self.id)
-      disp += `${k}: ${
-        cur_stats[k] != base_stats[k] ? cur_stats[k] + "/" : ""
-      } ${base_stats[k]}\n`;
-    else {
-      // obfuscate enemy unit stats :)
-      let rem = Math.round(base_stats[k] - cur_stats[k]);
-      disp += `${k}: ${"/".repeat(Math.round(cur_stats[k]))}${".".repeat(
-        rem
-      )}\n`;
-    }
+      disp += `${cur_stats[k] != base_stats[k] ? cur_stats[k] + "/" : ""} ${
+        base_stats[k]
+      }`;
+    disp += `<br/>`;
   });
   disp += `COST: ${formatMoney(calcCost(base_stats))}`;
-  if (owner_id == window.self.id) {
-    disp += `\nAI: <${autoTarget.algorithm}>`;
+  if (owner_id == window.self.id && autoTarget) {
+    disp += `<br/>AI: "${autoTarget.algorithm}"`;
   }
-  //   console.log(disp);
   return disp;
 }
 
 function dispStatText(stats) {
-  let disp = "";
-  Object.keys(stats).forEach((k) => {
-    disp += k + ": " + stats[k] + "\n";
+  return dispUnitStatText({
+    base_stats: stats,
+    cur_stats: stats,
+    owner_id: window.self.id,
   });
-  disp += `COST: ${formatMoney(calcCost(stats))}`;
-  //   console.log(disp);
-  return disp;
 }
 
 function dispText() {
@@ -285,11 +287,11 @@ function showUnitHistory(unit) {
 
 function showUnitDetail(unit) {
   // TODO: show base stats also
-  document.getElementById("info").innerText = dispUnitStatText(unit);
+  document.getElementById("info").innerHTML = dispUnitStatText(unit);
 }
 function showBlueprintDetail(blueprint_id, player_id = window.self.id) {
   let stats = getBlueprint(blueprint_id, player_id).stats;
-  document.getElementById("info").innerText = dispStatText(stats);
+  document.getElementById("info").innerHTML = dispStatText(stats);
 }
 
 function buyUnit(blueprint_id) {

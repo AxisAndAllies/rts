@@ -294,7 +294,9 @@ view.onFrame = function (event) {
 
   const finished_setup = window.self?.finished_setup;
   document.getElementById("endturn").innerText = finished_setup
-    ? "[Enter] End Turn"
+    ? window.self.ended_turn
+      ? "[Enter] Continue Turn"
+      : "[Enter] End Turn"
     : "Setup incomplete.";
   document.getElementById("endturn").disabled = !finished_setup;
 
