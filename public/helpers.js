@@ -79,7 +79,7 @@ window.endTurn = () => {
 };
 
 function emitAction(type, data) {
-  if (window.self?.ended_turn) {
+  if (window.self?.ended_turn && type != ACTION_TYPES.END_TURN) {
     let numwait = window.gameState.players.filter((p) => !p.ended_turn).length;
     alert(
       ` ${

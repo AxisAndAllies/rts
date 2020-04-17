@@ -103,8 +103,8 @@ class Game {
     let p = this.getPlayerById(player_id);
     let switcher = {
       END_TURN: () => {
-        p.ended_turn = true;
-        console.log(p.id, " ended turn");
+        p.ended_turn = !p.ended_turn;
+        console.log(p.id, "ended turn status set to ", p.ended_turn);
       },
       BUY_UNIT: () => {
         p.buyUnit(data.blueprint_id, data.factory_id);
