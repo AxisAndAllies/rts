@@ -205,10 +205,19 @@ function updateMakerText() {
   document.getElementById("maker");
   document.getElementById("buy").disabled = invalid;
 
+  let hasBlueprint = window.self?.blueprints
+    .map((e) => JSON.stringify(e.stats))
+    .includes(JSON.stringify(newobj));
+
+  document.getElementById("buy").disabled = hasBlueprint;
   document.getElementById("buy").innerText = `$${newBlueprintCost()}`;
-  document.getElementById("unitcost").innerText = `unit cost: ${formatMoney(
-    calcCost(newobj)
-  )}`;
+  if (hasBlueprint) {
+    document.getElementById("unitcost").innerText = `Already have blueprint.`;
+  } else {
+    document.getElementById("unitcost").innerText = `unit cost: ${formatMoney(
+      calcCost(newobj)
+    )}`;
+  }
 }
 
 // isomorphic

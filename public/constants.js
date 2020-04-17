@@ -69,5 +69,5 @@ const COLORS = {
   SELF: "navy",
   ENEMY: "tomato",
   NEUTRAL: "#aaa",
-  SELECTED: "blue",
+  SELECTED: "dodgerblue",
 };

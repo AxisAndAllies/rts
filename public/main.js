@@ -298,6 +298,9 @@ view.onFrame = function (event) {
     : "Setup incomplete.";
   document.getElementById("endturn").disabled = !finished_setup;
 
+  document.getElementById("clearqueue").disabled = !window.selected?.fac;
+  document.getElementById("upgradeFac").disabled = !window.selected?.fac;
+
   if (window.selected?.fac) {
     document.getElementById(
       "clearqueue"
@@ -755,10 +758,14 @@ socket.on("game_state", (state) => {
 
   window.self = getSelf(socket.id, gameState);
 
+  // update selected fac
   if (window.selected.fac) {
     window.selected.fac = window.self?.facs.filter(
       (f) => f.id == window.selected?.fac.id
     )[0];
+  } else {
+    // auto-select existing fac
+    window.selected.fac = window.self.facs[0];
   }
 
   // update selected units
