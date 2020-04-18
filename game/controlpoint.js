@@ -7,7 +7,7 @@ class ControlPoint {
   constructor(
     pos,
     addPlayerMoney,
-    baseResourcesPerSecond = 2000,
+    baseResourcesPerSecond = 50,
     captureRange = 50
   ) {
     this.owner_id = null;

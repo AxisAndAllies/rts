@@ -9,23 +9,23 @@ const testunits = [
     dmg: 9,
     health: 1,
 
-    range: 200,
+    range: 250,
     speed: 5,
 
-    reload: 3,
-    turn: 15,
+    reload: 1,
+    turn: 25,
     accuracy: 90,
   },
   {
     dmg: 2,
-    health: 30,
+    health: 20,
 
-    range: 90,
-    speed: 20,
+    range: 10,
+    speed: 35,
 
     reload: 2,
     turn: 30,
-    accuracy: 60,
+    accuracy: 20,
   },
   {
     dmg: 3,
@@ -40,12 +40,13 @@ const testunits = [
   },
 ];
 
-const costs = [18811, 70953, 11549];
+const costs = [173, 48, 49];
 
 let testCalcCost = () => {
-  console.assert(calcCost(testunits[0]) === costs[0]);
-  console.assert(calcCost(testunits[1]) === costs[1]);
-  console.assert(calcCost(testunits[2]) === costs[2]);
+  [0, 1, 2].forEach((i) => {
+    // console.log(calcCost(testunits[i]));
+    console.assert(calcCost(testunits[i]) === costs[i]);
+  });
 };
 
 testCalcCost();

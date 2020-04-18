@@ -12,7 +12,7 @@ const { calcCost, randomBetween, generateFriendlyID } = require("./util");
 
 class Game {
   static RESOLVE_TIMESPAN = 5000;
-  static MAP_SIZE = 1200;
+  static MAP_SIZE = 1500;
   constructor(initial_state) {
     this.players = [];
     this.control_points = [];
@@ -55,7 +55,7 @@ class Game {
       return;
     }
     // TODO: add name support later
-    let newp = new Player(`${generateFriendlyID()}`, 60000);
+    let newp = new Player(`${generateFriendlyID()}`, 1500);
 
     // @ts-ignore
     let loc = new Victor().randomize(
