@@ -5,23 +5,24 @@ const Victor = require("victor");
 const { generateID } = require("./util");
 const Unit = require("./unit");
 class Factory {
-  constructor(owner_id, pos, buildSpeed = 5000) {
+  constructor(owner_id, pos, buildSpeed = 125) {
     this.owner_id = owner_id;
     this.pos = pos;
     this.id = this.owner_id + "_" + generateID();
     this.buildQueue = [];
     this.buildSpeed = buildSpeed;
+    this.baseBuildSpeed = buildSpeed;
 
     this.nextUpgrade = {
-      cost: this.buildSpeed + 5000,
-      buildSpeed: this.buildSpeed + 1000,
+      cost: this.buildSpeed + 250,
+      buildSpeed: this.buildSpeed + this.baseBuildSpeed / 5,
     };
   }
   upgradeBuildSpeed() {
     this.buildSpeed = this.nextUpgrade.buildSpeed;
     this.nextUpgrade = {
-      cost: this.nextUpgrade.cost + 10000,
-      buildSpeed: this.nextUpgrade.buildSpeed + 1000,
+      cost: this.nextUpgrade.cost + 250,
+      buildSpeed: this.nextUpgrade.buildSpeed + this.baseBuildSpeed / 5,
     };
     return this.buildSpeed;
   }
