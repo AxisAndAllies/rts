@@ -123,22 +123,30 @@ class Game {
           x: x,
           y: randY.shift(),
         }));
-        console.log(moveTo);
-        unit_ids.forEach((unit_id) => {
-          let { pos } = this.getUnitById(unit_id, p.id);
-          let posVec = Victor.fromObject(pos);
-          let { x, y } = moveTo
-            .sort(
-              (a, b) =>
-                Victor.fromObject(a).subtract(posVec).length() -
-                Victor.fromObject(b).subtract(posVec).length()
-            )
-            .shift();
-          p.setUnitMoveTarget(unit_id, {
-            x,
-            y,
+        // console.log(moveTo);
+        let avgX = moveTo.reduce((a, v) => a + v.x, 0) / moveTo.length;
+        let avgY = moveTo.reduce((a, v) => a + v.y, 0) / moveTo.length;
+        // console.log(avgX, avgY);
+        let dist = (obj) =>
+          Victor.fromArray([avgX, avgY]).subtract(obj.pos).length();
+        unit_ids
+          .map((unit_id) => this.getUnitById(unit_id, p.id))
+          // sort by closest to avg move so that front of army moves first
+          .sort((a, b) => dist(a) - dist(b))
+          .forEach(({ id, pos }) => {
+            let posVec = Victor.fromObject(pos);
+            let { x, y } = moveTo
+              .sort(
+                (a, b) =>
+                  Victor.fromObject(a).subtract(posVec).length() -
+                  Victor.fromObject(b).subtract(posVec).length()
+              )
+              .shift();
+            p.setUnitMoveTarget(id, {
+              x,
+              y,
+            });
           });
-        });
         console.log(p.id, " move target ");
       },
       SET_UNIT_ATTACK: () => {

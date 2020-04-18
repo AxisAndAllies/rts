@@ -97,15 +97,15 @@ a {
   background: hsla(0, 0%, 100%, 0.85);
   box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.58);
   border-radius: 5px;
+
+  position: absolute;
 }
 
 #unitinfo {
-  left: 50%;
-  position: absolute;
+  left: 40%;
 }
 #unitselection {
-  right: 50%;
-  position: absolute;
+  right: 60%;
 }
 
 #topbox {
