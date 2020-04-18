@@ -109,14 +109,12 @@ function calcCost(obj) {
     Math.pow(Math.sqrt((dmg + 2) / reload), 0.8) *
     ((accuracy / 100) * 0.75 + 0.25);
 
-  // speed^2 to correct for value of moving fast
-  // dps * health = damage output over lifespan
-  // sqrt(turn) b/c difference between 5 and 10 deg way more valuable than 180 to 360 deg.
+  // health more costly than dmg, b/c easy to waste dmg w/ overkill
   let cost =
     coverage *
     efficient_dps *
     (dmg + health + speed * 2) *
-    Math.sqrt(health + 2) *
+    Math.pow(health + 2, 0.7) *
     0.002;
   cost = Math.max(cost, 1000);
   return Math.round(cost);

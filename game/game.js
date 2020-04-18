@@ -321,11 +321,8 @@ class Game {
         };
         let range = u.cur_stats.range;
 
-        // check any unit that could concievably get in range
-        // don't account for own move b/c already moved
-        let in_range = enemies.filter(
-          (e) => dist(e) < range + e.cur_stats.speed
-        );
+        // be conservative in checking range to ensure can fire
+        let in_range = enemies.filter((e) => dist(e) < range);
         let algo = u.autoTarget.algorithm;
         if (algo != Unit.AUTO_TARGET.none) {
           let targs = [];
