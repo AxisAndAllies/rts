@@ -521,9 +521,9 @@ view.onFrame = function (event) {
           }),
         ],
       });
-    let newrad = (elem.ownershipLevel / 100) * elem.captureRange || 0.00001;
+    let newrad = (elem.ownershipLevel / 100) * elem.captureRange || 0.01;
     renderedControlPoint.children[1].scale(
-      newrad / (renderedControlPoint.children[1].bounds.width / 2 || 0.00001)
+      newrad / (renderedControlPoint.children[1].bounds.width / 2 || 0.01)
     );
     let color = !elem.owner_id
       ? COLORS.NEUTRAL
@@ -639,8 +639,8 @@ function renderUnit(p, elem) {
         // extra fancy high-cost stuff
         new Path.RegularPolygon({
           center: midpt,
-          sides: Math.min(10, Math.floor(cost / 100000) + 4),
-          radius: cost > 100000 ? size : 1,
+          sides: Math.min(10, Math.floor(cost / 2500) + 4),
+          radius: cost > 2500 ? size : 1,
           rotation: 180,
         }),
       ],

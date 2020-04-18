@@ -20,6 +20,13 @@ To add a new action type:
 
 For hot reloading, see [this section](./README.md#Hot-reloading-everything).
 
+### thoughts on unit balance
+
+for a given range/speed/turn/rof invariant, let (d,h) represent a unit w/ d=damage, h=health, the cost efficiency rock-paper-scissors cycle is as follows:
+
+- suppose a base unit B = (10,10)
+- `B < (10,1) < (1,1) < (1,10) < B`
+
 ### known bugs
 
 ### main todos

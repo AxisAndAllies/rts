@@ -127,7 +127,7 @@ function newBlueprintCost() {
   if (!self || self.blueprints.length < 4) {
     return 0;
   }
-  return self.blueprints.length * 10000 + 10000;
+  return self.blueprints.length * 250 + 250;
 }
 
 function formatMoney(number) {
