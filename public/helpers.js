@@ -70,6 +70,9 @@ window.setAutoTarget = () => {
 };
 
 window.endTurn = () => {
+  if (window.gameState.cur_resolve_timespan < 5000) {
+    alert("Game is running, can't issue commands.");
+  }
   if (!window.self || !window.self.finished_setup) {
     alert("Has not finished setup yet");
     return;
@@ -137,19 +140,21 @@ function dispUnitStatText({ base_stats, cur_stats, autoTarget, owner_id }) {
   let disp = "";
   if (!base_stats || !cur_stats) return disp;
   Object.keys(cur_stats).forEach((k) => {
-    // else {
+    let SCALE = 0.3;
     // obfuscate enemy unit stats :)
     let rem = Math.round(base_stats[k] - cur_stats[k]);
     disp += `<div style="width: 5em; display: inline-block;">${k}</div>`;
-    disp += `<div class="statbarFilled" style="width: ${
-      cur_stats[k] / 2
-    }em; height: 1em; background-color: ${unitColor({ owner_id })}"></div>`;
-    disp += `<div class="statbarEmpty" style="width: ${
-      rem / 2
-    }em; height: 1em;"></div>`;
+    disp += `<div class="statbarFilled" style="width: ${roundAccurate(
+      cur_stats[k] * SCALE,
+      2
+    )}em; height: 1em; background-color: ${unitColor({ owner_id })}"></div>`;
+    disp += `<div class="statbarEmpty" style="width: ${roundAccurate(
+      rem * SCALE,
+      2
+    )}em; height: 1em;"></div>`;
 
     if (owner_id == window.self.id)
-      disp += `${cur_stats[k] != base_stats[k] ? cur_stats[k] + "/" : ""} ${
+      disp += ` ${cur_stats[k] != base_stats[k] ? cur_stats[k] + "/" : ""}${
         base_stats[k]
       }`;
     disp += `<br/>`;
@@ -238,6 +243,7 @@ function unitColor(e) {
 function refreshBlueprints(blueprints) {
   // disabled=${window.selected.fac}
   let unitSelect = document.getElementById("unitselection");
+  if (!unitSelect.innerHTML) unitSelect.innerHTML = "[ UNITS ]";
   let showButtons = () => {
     let st = "";
     blueprints
@@ -251,17 +257,21 @@ function refreshBlueprints(blueprints) {
       });
     unitSelect.innerHTML = st;
   };
-  unitSelect.innerHTML = ["[ UNITS ]"];
   // showButtons();
   document
     .getElementById("unitselection")
     .addEventListener("mouseleave", () => {
-      unitSelect.innerHTML = ["[ UNITS ]"];
+      unitSelect.innerHTML = "[ UNITS ]";
+      // document.getElementById("unitselection").visible = false;
     });
   document
     .getElementById("unitselection")
     .addEventListener("mouseenter", () => {
-      showButtons();
+      if (unitSelect.innerHTML.indexOf("[UNITS]")) {
+        console.log("foo");
+        showButtons();
+      }
+      // document.getElementById("unitselection").visible = true;
     });
 }
 
@@ -287,11 +297,11 @@ function showUnitHistory(unit) {
 
 function showUnitDetail(unit) {
   // TODO: show base stats also
-  document.getElementById("info").innerHTML = dispUnitStatText(unit);
+  document.getElementById("unitinfo").innerHTML = dispUnitStatText(unit);
 }
 function showBlueprintDetail(blueprint_id, player_id = window.self.id) {
   let stats = getBlueprint(blueprint_id, player_id).stats;
-  document.getElementById("info").innerHTML = dispStatText(stats);
+  document.getElementById("unitinfo").innerHTML = dispStatText(stats);
 }
 
 function buyUnit(blueprint_id) {
@@ -302,4 +312,9 @@ function buyUnit(blueprint_id) {
     blueprint_id,
     factory_id,
   });
+}
+
+function roundAccurate(value, decimals) {
+  // credit: https://www.jacklmoore.com/notes/rounding-in-javascript/
+  return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
 }

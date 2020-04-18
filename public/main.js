@@ -156,16 +156,16 @@ tool.onKeyDown = function ({ key }) {
     view.center = viewOriginalCenter;
     // view.center = Victor(background.size
   }
-  if (key == "w") {
+  if (key == "w" || key == "up") {
     addViewShift(Victor(0, -100));
   }
-  if (key == "a") {
+  if (key == "a" || key == "left") {
     addViewShift(Victor(-100, 0));
   }
-  if (key == "s") {
+  if (key == "s" || key == "down") {
     addViewShift(Victor(0, 100));
   }
-  if (key == "d") {
+  if (key == "d" || key == "right") {
     addViewShift(Victor(100, 0));
   }
   if (key == "shift") {
@@ -306,9 +306,9 @@ view.onFrame = function (event) {
   if (window.selected?.fac) {
     document.getElementById(
       "clearqueue"
-    ).innerText = `Clear Queue $${window.selected.fac.buildQueue
+    ).innerText = `Clear Queue (refunds $${window.selected.fac.buildQueue
       .map((e) => Number(e.remaining))
-      .reduce((a, v) => a + v, 0)}`;
+      .reduce((a, v) => a + v, 0)})`;
 
     document.getElementById(
       "upgradeFac"
@@ -334,7 +334,7 @@ view.onFrame = function (event) {
       let text = `Fac ${fac.id.split("_")[1]}:\n`;
       if (q.length) {
         text +=
-          `${q[0].remaining / fac.buildSpeed} secs...\n` +
+          `${roundAccurate(q[0].remaining / fac.buildSpeed, 2)} secs...\n` +
           q.map(
             ({ blueprint }) => `${blueprint.name} ($${blueprint.unit_cost})\n`
           );
