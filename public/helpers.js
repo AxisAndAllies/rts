@@ -251,7 +251,7 @@ function refreshBlueprints(blueprints) {
         onmouseover="showBlueprintDetail('${e.id}')" 
 
         onclick="buyUnit('${e.id}')"
-        >${e.name} (${formatMoney(e.unit_cost)})</button><br>`;
+        >${e.name} ($${e.unit_cost})</button><br>`;
       });
     unitSelect.innerHTML = st;
   };

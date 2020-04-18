@@ -30,7 +30,7 @@ class Player {
     if (this.blueprints.length < 4) {
       return 0;
     }
-    return this.blueprints.length * 10000 + 10000;
+    return this.blueprints.length * 250 + 250;
   }
   addMoney(amount) {
     this.money += amount;
