@@ -7,7 +7,7 @@ const animals = require("./lib/animals");
 
 function calcCost(obj) {
   let { dmg, health, range, speed, reload, turn, accuracy } = obj;
-  let coverage = Math.pow(speed * 5 + range * Math.sqrt(turn) * 2, 1.5); // b/c of kiting
+  let coverage = Math.pow(speed * 5 + range * Math.sqrt(turn) * 3, 1.5); // b/c of kiting
 
   // accuracy is more important as damage increases/reload increases
   let efficient_dps =

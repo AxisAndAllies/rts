@@ -40,7 +40,7 @@ const testunits = [
   },
 ];
 
-const costs = [100, 50, 47];
+const costs = [182, 65, 79];
 
 let testCalcCost = () => {
   [0, 1, 2].forEach((i) => {
