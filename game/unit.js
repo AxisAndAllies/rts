@@ -62,8 +62,9 @@ class Unit {
   shoot(targ, engageRange, cb) {
     // enemy take damage
     let { dmg, accuracy } = this.cur_stats;
-    let range = 0;
-    let rangeMultiplier = Math.min(1, -0.5 * engageRange + 1.25);
+    let rangeMultiplier =
+      engageRange < 30 ? 1 : Math.min(1, -0.5 * engageRange + 1.25);
+    console.log(engageRange);
     if (Math.random() * 100 < accuracy * rangeMultiplier) {
       cb(this.id, targ, dmg);
       console.log(`${this.id} hit ${targ} for ${dmg}!`);
