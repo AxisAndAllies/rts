@@ -112,7 +112,7 @@ function calcCost(obj) {
   let cost =
     coverage *
     efficient_dps *
-    (dmg + health * 1.4) *
+    (dmg / reload + health * 1.4 + 2) *
     (speed + 2) *
     Math.pow(health + 2, 0.4) *
     0.000005;

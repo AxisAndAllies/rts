@@ -128,7 +128,7 @@ class Unit {
       this.cur_stats.reload <= 0
     ) {
       // console.log(this.id, " fired a shot at ", targ);
-      this.shoot(targ, tmpvec.length(), dealDamageFn);
+      this.shoot(targ, tempvec.length(), dealDamageFn);
     }
   }
   turnTowards(ang, millis) {

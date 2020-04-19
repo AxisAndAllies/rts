@@ -12,7 +12,7 @@ const testunits = [
     range: 250,
     speed: 5,
 
-    reload: 1,
+    reload: 2,
     turn: 25,
     accuracy: 90,
   },
@@ -40,7 +40,7 @@ const testunits = [
   },
 ];
 
-const costs = [173, 48, 49];
+const costs = [100, 50, 47];
 
 let testCalcCost = () => {
   [0, 1, 2].forEach((i) => {
