@@ -59,10 +59,12 @@ class Unit {
     }
     this.autoTarget.algorithm = algorithm;
   }
-  shoot(targ, cb) {
+  shoot(targ, engageRange, cb) {
     // enemy take damage
     let { dmg, accuracy } = this.cur_stats;
-    if (Math.random() * 100 < accuracy) {
+    let range = 0;
+    let rangeMultiplier = Math.min(1, -0.5 * engageRange + 1.25);
+    if (Math.random() * 100 < accuracy * rangeMultiplier) {
       cb(this.id, targ, dmg);
       console.log(`${this.id} hit ${targ} for ${dmg}!`);
       this.history.shotsHit += 1;
@@ -123,7 +125,7 @@ class Unit {
       this.cur_stats.reload <= 0
     ) {
       // console.log(this.id, " fired a shot at ", targ);
-      this.shoot(targ, dealDamageFn);
+      this.shoot(targ, tmpvec.length(), dealDamageFn);
     }
   }
   turnTowards(ang, millis) {
