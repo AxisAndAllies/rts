@@ -63,7 +63,9 @@ class Unit {
     // enemy take damage
     let { dmg, accuracy } = this.cur_stats;
     let rangeMultiplier =
-      engageRange < 30 ? 1 : Math.min(1, -0.5 * engageRange + 1.25);
+      engageRange < 30
+        ? 1
+        : Math.min(1, -0.5 * (engageRange / this.cur_stats.range) + 1.25);
     console.log(engageRange);
     if (Math.random() * 100 < accuracy * rangeMultiplier) {
       cb(this.id, targ, dmg);
