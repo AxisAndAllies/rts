@@ -214,7 +214,7 @@ function updateMakerText() {
     .map((e) => JSON.stringify(e.stats))
     .includes(JSON.stringify(newobj));
 
-  document.getElementById("buy").disabled = hasBlueprint;
+  document.getElementById("buy").disabled = hasBlueprint || invalid;
   document.getElementById("buy").innerText = `$${newBlueprintCost()}`;
   if (hasBlueprint) {
     document.getElementById("unitcost").innerText = `Already have blueprint.`;
