@@ -83,7 +83,10 @@ for a given range/speed/turn/rof invariant, let (d,h) represent a unit w/ d=dama
 
 ### 2d engines compared:
 
+- perf-wise, https://github.com/slaylines/canvas-engines-comparison says most things are pretty decent at 5k moving entities.
+
 > - #### in hindsight, should've used Fabric.js http://fabricjs.com/fabric-intro-part-1#why_fabric which is much better maintained, also has scenegraph + collisions via intersection
+>   - docs are crappy though...
 
 - paper js - has vector lib, lots of demos, has scenegraph, has efficient sweep+Prune collision detection https://github.com/paperjs/paper.js/issues/1737
   - collisions - http://paperjs.org/reference/item/#intersects-item
@@ -91,6 +94,7 @@ for a given range/speed/turn/rof invariant, let (d,h) represent a unit w/ d=dama
 - pixi js - just rendering, not enough, has collision detect?
 - stage js - not actively developed, no vector lib, has scenegraph, bad docs
 - pencil js - bad docs
+- p5.js - ??
 
 
 ### vector engines compared:
