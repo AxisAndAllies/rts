@@ -122,6 +122,7 @@ class Unit {
     this.turnTowards(ang, millis);
 
     // shoot if aligned + in range + reloaded
+    // NOTE: ALL ANGLES IN DEGREES!!
     if (
       Math.abs(ang - this.orientation) % 360 < 0.1 &&
       tempvec.length() < this.cur_stats.range &&
@@ -132,6 +133,7 @@ class Unit {
     }
   }
   turnTowards(ang, millis) {
+    // NOTE: ALL ANGLES IN DEGREES!!
     // optimal turning algorithm
     // from https://math.stackexchange.com/questions/1366869/calculating-rotation-direction-between-two-angless
     let cur_ang = this.orientation;
